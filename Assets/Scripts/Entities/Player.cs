@@ -28,6 +28,12 @@ public class Player : Entity
     // Update is called once per frame
     void Update()
     {
+        PlayerMovement();
+        TouchDetection();
+    }
+
+    void PlayerMovement()
+    {
         myPlayer.transform.position = new Vector3(myXPos, 0, myZPos);
 
         if (Input.GetKeyDown("up"))
@@ -58,6 +64,22 @@ public class Player : Entity
             {
                 myZPos++;
             }
+        }
+    }
+
+    void TouchDetection()
+    {
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            //Converts ScrrenSpace to GameSpace.
+            Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
+
+            if (touchPosition.x > )
+            {
+
+            }
+
         }
     }
 }
