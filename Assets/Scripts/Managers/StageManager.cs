@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
-    // TODO: Remove
-    public class TestTileBase : MonoBehaviour
-    {
-        public void OnEnter(Entity anEntity) { }
-        public void OnExit(Entity anEntity) { }
-        public bool CanEnter(Entity anEntity) => true;
-    }
-
     public static StageManager ourInstance;
 
     [Header("Grid Configuration")]
@@ -28,8 +20,7 @@ public class StageManager : MonoBehaviour
     [Tooltip("The size of one tile in the grid")]
     private float myTileSize = 1.0f;
 
-    // TODO: Change to TileBase
-    private TestTileBase[,] myTileGrid;
+    private Tile[,] myTileGrid;
 
     private Entity[,] myEntityGrid;
 
@@ -48,14 +39,20 @@ public class StageManager : MonoBehaviour
         return new Vector2Int(Mathf.FloorToInt(aPosition.x / myTileSize), Mathf.FloorToInt(aPosition.z / myTileSize));
     }
 
+    /// <summary>
+    /// Moves the specified <paramref name="anEntity"/> to <paramref name="aNewPosition"/>.
+    /// Asserts if the move would be illegal by <see cref="CanEntityMoveToPosition(Entity, Vector2Int)"/>.
+    /// </summary>
     public void MoveEntity(Entity anEntity, Vector2Int aNewPosition)
     {
         Vector2Int gridPosition = GetTilePositionFromWorld(anEntity.transform.position);
 
         Debug.Assert(CanEntityMoveToPosition(anEntity, aNewPosition), "Entity tried invalid move!");
+
+        // TODO: Might need a separate field in Entity to keep track of current grid position if this is triggered while an entity is animating to its new location.
         Debug.Assert(myEntityGrid[gridPosition.x, gridPosition.y] == anEntity, "Entity position in grid and grid manager not in sync!");
 
-        TestTileBase oldTile = myTileGrid[gridPosition.x, gridPosition.y];
+        Tile oldTile = myTileGrid[gridPosition.x, gridPosition.y];
         if (oldTile != null)
         {
             oldTile.OnExit(anEntity);
@@ -64,18 +61,24 @@ public class StageManager : MonoBehaviour
         myEntityGrid[gridPosition.x, gridPosition.y] = null;
         myEntityGrid[aNewPosition.x, aNewPosition.y] = anEntity;
 
-        TestTileBase newTile = myTileGrid[aNewPosition.x, aNewPosition.y];
+        Tile newTile = myTileGrid[aNewPosition.x, aNewPosition.y];
         if (newTile != null)
         {
             newTile.OnEnter(anEntity);
         }
     }
 
+    /// <summary>
+    /// Check if the specified <paramref name="anEntity"/> can go to <paramref name="aNewPosition"/>.
+    /// </summary>
     public bool CanEntityMoveToPosition(Entity anEntity, Vector2Int aNewPosition)
     {
-        EnsurePositionInGrid(aNewPosition);
+        if (!IsPositionInGrid(aNewPosition))
+        {
+            return false;
+        }
 
-        TestTileBase tile = GetTile(aNewPosition);
+        Tile tile = GetTile(aNewPosition);
 
         if (tile == null)
         {
@@ -93,8 +96,7 @@ public class StageManager : MonoBehaviour
         return entity == null;
     }
 
-    // TODO: Change TileBase when available!
-    public void RegisterTile(TestTileBase aTile)
+    public void RegisterTile(Tile aTile)
     {
         Vector2Int gridPosition = GetTilePositionFromWorld(aTile.transform.position);
 
@@ -112,15 +114,28 @@ public class StageManager : MonoBehaviour
         myEntityGrid[gridPosition.x, gridPosition.y] = anEntity;
         myEntities.Add(anEntity);
 
-        // TODO: When Player derives from Entity
-        /*
         if (anEntity is Player)
         {
             myPlayer = anEntity as Player;
-        }*/
+        }
     }
 
-    public TestTileBase GetTile(Vector2Int aPosition)
+    public void UnregisterEntity(Entity anEntity)
+    {
+        Vector2Int gridPosition = GetTilePositionFromWorld(anEntity.transform.position);
+
+        Debug.Assert(myEntityGrid[gridPosition.x, gridPosition.y] == anEntity, "Entity location not in sync with grid!");
+
+        myEntityGrid[gridPosition.x, gridPosition.y] = null;
+        myEntities.Remove(anEntity); // O(1)
+
+        if (anEntity is Player)
+        {
+            myPlayer = null;
+        }
+    }
+
+    public Tile GetTile(Vector2Int aPosition)
     {
         EnsurePositionInGrid(aPosition);
 
@@ -147,8 +162,7 @@ public class StageManager : MonoBehaviour
         {
             incompleteNonPlayerTurnEvents.Clear();
 
-            // TODO: Uncomment when player derives from Entity
-            /*TurnEvent playerTurnEvent = turnCache.Next();
+            TurnEvent playerTurnEvent = turnCache.Next();
             myPlayer.Action(playerTurnEvent);
 
             if (!playerTurnEvent.myIsTurnDone)
@@ -156,7 +170,7 @@ public class StageManager : MonoBehaviour
                 yield return playerTurnEvent.myTurnYield;
             }
 
-            turnCache.Recycle(playerTurnEvent);*/
+            turnCache.Recycle(playerTurnEvent);
 
             foreach (Entity entity in myEntities)
             {
@@ -193,11 +207,15 @@ public class StageManager : MonoBehaviour
         } while (true);
     }
 
+    private bool IsPositionInGrid(Vector2Int aPosition)
+    {
+        return aPosition.x >= 0 && aPosition.x < myGridWidth && aPosition.y >= 0 && aPosition.y < myGridHeight;
+    }
+
     [System.Diagnostics.Conditional("UNITY_EDITOR")]
     private void EnsurePositionInGrid(Vector2Int aPosition)
     {
-        Debug.Assert(aPosition.x >= 0 && aPosition.x < myGridWidth, "Position not in grid!");
-        Debug.Assert(aPosition.y >= 0 && aPosition.y < myGridHeight, "Position not in grid!");
+        Debug.Assert(IsPositionInGrid(aPosition), "Position not in grid!");
     }
 
     [System.Diagnostics.Conditional("UNITY_EDITOR")]
@@ -216,7 +234,7 @@ public class StageManager : MonoBehaviour
     {
         Debug.Assert(myGridWidth > 0 && myGridHeight > 0, "Grid dimensions invalid!");
 
-        myTileGrid = new TestTileBase[myGridWidth, myGridHeight];
+        myTileGrid = new Tile[myGridWidth, myGridHeight];
         myEntityGrid = new Entity[myGridWidth, myGridHeight];
     }
 

@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
     [Header("Objects")]
     [Tooltip("The Player GameObject")]
@@ -18,8 +16,10 @@ public class Player : MonoBehaviour
     private int myZPos;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         myXPos = 0;
         myZPos = 0;
         myPositionArray = new int[myXSize, myZSize];

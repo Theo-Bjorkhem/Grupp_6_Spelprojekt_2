@@ -7,16 +7,17 @@ public class Tile : MonoBehaviour
     /// By Default this does nothing but can be used to trigger falling, spikes etc.
     /// </summary>
     /// <param name="steppedOnMe"></param>
-    public void OnEnter(Entity steppedOnMe)
+    public virtual void OnEnter(Entity steppedOnMe)
     {
         return;
     }
+
     /// <summary>
     /// Called when an entity leaves this tile.
     /// By Default this does nothing, but can be used to break ice etc.
     /// </summary>
     /// <param name="steppedOffMe"></param>
-    public void OnExit(Entity steppedOffMe)
+    public virtual void OnExit(Entity steppedOffMe)
     {
         return;
     }
@@ -27,10 +28,14 @@ public class Tile : MonoBehaviour
     /// </summary>
     /// <param name="wantsToEnter"></param>
     /// <returns></returns>
-    public bool CanEnter(Entity wantsToEnter)
+    public virtual bool CanEnter(Entity wantsToEnter)
     {
         return true;
     }
 
+    protected virtual void Start()
+    {
+        StageManager.ourInstance.RegisterTile(this);
+    }
 
 }
