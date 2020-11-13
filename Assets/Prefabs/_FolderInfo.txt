@@ -1,0 +1,8 @@
+Please place all prefabs here.
+Feel free to make more subfolders, as long as you have something to put there.
+Legend:
+* Canvas - UI objects, like the HUD
+* Entities - Things that go on top of tiles on the game board
+* Managers - Programmer objects, like the StageManager
+* Props - Decorative objects that are outside the game board
+* Tiles - Tiles that make up the floor of the game board

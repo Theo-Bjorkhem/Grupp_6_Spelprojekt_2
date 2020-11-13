@@ -1,0 +1,3 @@
+Please place various VolumeSettings assets here.
+They are auto-generated into a folder next to the scene when you create them in a scene for the first time.
+Arranging things like that is also okay.
