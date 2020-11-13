@@ -8,17 +8,14 @@ public class StageManager : MonoBehaviour
 
     [Header("Grid Configuration")]
 
-    [SerializeField]
     [Tooltip("The width of the grid where tiles & entities can be placed!")]
-    private int myGridWidth = 10;
+    public int myGridWidth = 10;
 
-    [SerializeField]
     [Tooltip("The height of the grid where tiles & entities can be placed!")]
-    private int myGridHeight = 10;
+    public int myGridHeight = 10;
 
-    [SerializeField]
     [Tooltip("The size of one tile in the grid")]
-    private float myTileSize = 1.0f;
+    public float myTileSize = 1.0f;
 
     private Tile[,] myTileGrid;
 
@@ -31,12 +28,12 @@ public class StageManager : MonoBehaviour
 
     public Vector3 GetTileCenterWorldPosition(Vector2Int aPosition)
     {
-        return new Vector3((aPosition.x + 0.5f) * myTileSize, 0.0f, (aPosition.y + 0.5f) * myTileSize);
+        return new Vector3(aPosition.x * myTileSize, 0.0f, aPosition.y * myTileSize);
     }
 
     public Vector2Int GetTilePositionFromWorld(Vector3 aPosition)
     {
-        return new Vector2Int(Mathf.FloorToInt(aPosition.x / myTileSize), Mathf.FloorToInt(aPosition.z / myTileSize));
+        return new Vector2Int(Mathf.FloorToInt((aPosition.x + myTileSize * 0.5f) / myTileSize), Mathf.FloorToInt((aPosition.z + myTileSize * 0.5f) / myTileSize));
     }
 
     /// <summary>
@@ -281,21 +278,23 @@ public class StageManager : MonoBehaviour
             return;
         }
 
+        Vector3 origin = new Vector3(-0.5f * myTileSize, 0.0f, -0.5f * myTileSize);
+
         for (int x = 0; x < myGridWidth; ++x)
         {
             for (int z = 0; z < myGridHeight; ++z)
             {
-                Vector3 start = new Vector3(x * myTileSize, 0.0f, z * myTileSize);
+                Vector3 start = new Vector3(x * myTileSize, 0.0f, z * myTileSize) + origin;
 
                 Gizmos.DrawLine(start, start + Vector3.right * myTileSize);
                 Gizmos.DrawLine(start, start + Vector3.forward * myTileSize);
             }
         }
 
-        Vector3 corner = new Vector3(myGridWidth * myTileSize, 0.0f, myGridHeight * myTileSize);
+        Vector3 corner = origin + new Vector3(myGridWidth * myTileSize, 0.0f, myGridHeight * myTileSize);
 
-        Gizmos.DrawLine(Vector3.right * corner.x, corner);
-        Gizmos.DrawLine(Vector3.forward * corner.z, corner);
+        Gizmos.DrawLine(new Vector3(corner.z, 0.0f, origin.z), corner);
+        Gizmos.DrawLine(new Vector3(origin.x, 0.0f, corner.z), corner);
     }
 
 #endif
