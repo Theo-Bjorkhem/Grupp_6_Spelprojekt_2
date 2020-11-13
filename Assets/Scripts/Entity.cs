@@ -3,12 +3,16 @@
 public class Entity : MonoBehaviour
 {
     /// <summary>
-    /// Default: Return. The entity does nothing.
+    /// Default: The entity does nothing.
     /// Otherwise: Moving entities attempt to Move(). Spikes toggle. Player waits for input.
     /// </summary>
-    public void Action()
+    /// <remarks>
+    /// Ensure to call <see cref="TurnEvent.SignalDone"/> on <paramref name="aTurnEvent"/> at some point to signal this entity has finished its turn!
+    /// </remarks>
+    /// <param name="aTurnEvent"></param>
+    public void Action(TurnEvent aTurnEvent)
     {
-        return;
+        aTurnEvent.SignalDone();
     }
 
     /// <summary>
@@ -28,5 +32,10 @@ public class Entity : MonoBehaviour
     public void Interact(Direction aDirection)
     {
 
+    }
+
+    private void Start()
+    {
+        StageManager.ourInstance.RegisterEntity(this);
     }
 }
