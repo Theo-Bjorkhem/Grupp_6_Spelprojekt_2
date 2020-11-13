@@ -1,0 +1,2 @@
+Official scenes go in here. When we build the game, we use scenes in this folder.
+These scenes should come from the Pending folder, where they should have been tested.
