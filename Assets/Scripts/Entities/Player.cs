@@ -75,7 +75,7 @@ public class Player : Entity
             //Converts ScrrenSpace to GameSpace.
             Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
 
-            if (touchPosition.x > )
+            if (touchPosition.x > 0)
             {
 
             }
