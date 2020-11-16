@@ -19,9 +19,10 @@ public class Entity : MonoBehaviour
     /// When "moved" into, by the player usually. This is where a box is pushed for example.
     /// </summary>
     /// <param name="aDirection"></param>
-    public virtual void Interact(Direction aDirection)
+    /// <param name="anEntity">The entity interacting with this entity.</param>
+    public virtual void Interact(Entity anEntity, Direction aDirection)
     {
-
+        
     }
 
     /// <summary>

@@ -56,4 +56,12 @@ public class EnemyPatrol : Entity
 
         Action(aTurnEvent);
     }
+
+    public override void Interact(Entity anEntity, Direction aDirection)
+    {
+        if (anEntity is Player)
+        {
+            //kill player
+        }
+    }
 }
