@@ -1,0 +1,1 @@
+Pending scenes go in here. When a Level Designer feels done with a scene, they should place it here to be tested and verified by others.

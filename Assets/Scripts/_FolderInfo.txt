@@ -1,0 +1,2 @@
+All Scripts go here.
+Editor Scripts should be in the Editor folder.

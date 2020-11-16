@@ -1,0 +1,2 @@
+Please put models (.FBX, .OBJ) here.
+Remember to adjust their import settings after adding them.

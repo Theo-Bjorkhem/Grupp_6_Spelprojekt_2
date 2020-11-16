@@ -31,7 +31,31 @@ public class Entity : MonoBehaviour
     /// <param name="aDirection"></param>
     protected virtual void Move(Direction aDirection)
     {
+        Vector2Int position = StageManager.ourInstance.GetTilePositionFromWorld(transform.position);
 
+        switch (aDirection)
+        {
+            case Direction.Up:
+                position += Vector2Int.up;
+                break;
+            case Direction.Right:
+                position += Vector2Int.right;
+                break;
+            case Direction.Down:
+                position += Vector2Int.down;
+                break;
+            case Direction.Left:
+                position += Vector2Int.left;
+                break;
+            default:
+                Debug.LogError(this + " has no direction, somehow.");
+                break;
+        }
+
+        if (StageManager.ourInstance.CanEntityMoveToPosition(this, position))
+        {
+            StageManager.ourInstance.MoveEntity(this, position);
+        }
     }
 
     protected virtual void Start()

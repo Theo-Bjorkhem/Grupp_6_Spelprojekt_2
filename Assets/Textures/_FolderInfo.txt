@@ -1,0 +1,2 @@
+All textures go in this folder.
+Please do create new subfolders, as long as you have something sensible to put in them!
