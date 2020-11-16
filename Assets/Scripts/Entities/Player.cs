@@ -18,32 +18,31 @@ public class Player : Entity
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                myMoveTilePos = myCurrentPosition + new Vector2Int(1, 0);
                 myPlayerInputted = true;
-
+                myMoveTilePos = myCurrentPosition + new Vector2Int(1, 0);
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                myMoveTilePos = myCurrentPosition + new Vector2Int(0, -1);
                 myPlayerInputted = true;
-
+                myMoveTilePos = myCurrentPosition + new Vector2Int(0, -1);
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                myMoveTilePos = myCurrentPosition + new Vector2Int(0, 1);
                 myPlayerInputted = true;
-
+                myMoveTilePos = myCurrentPosition + new Vector2Int(0, 1);
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                myMoveTilePos = myCurrentPosition + new Vector2Int(-1, 0);
                 myPlayerInputted = true;
-
+                myMoveTilePos = myCurrentPosition + new Vector2Int(-1, 0);
             }
             if (myPlayerInputted == true)
             {
                 StageManager.ourInstance.MoveEntity(this, myMoveTilePos);
+
+                //TODO: Replace with actual animation
                 transform.position = new Vector3(myMoveTilePos.x, 0.5f, myMoveTilePos.y);
+
                 myTurnEvent.SignalDone();
                 myTurnEvent = null;
                 myPlayerInputted = false;
