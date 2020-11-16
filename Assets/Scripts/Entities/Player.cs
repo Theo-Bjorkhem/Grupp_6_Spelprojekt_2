@@ -5,59 +5,53 @@ public class Player : Entity
     [Header("Objects")]
     [Tooltip("The Player GameObject")]
     [SerializeField] private GameObject myPlayer;
-    [Header("Settings")]
-    [Tooltip("The x-axis size of the array the player can move on.")]
-    [SerializeField] private int myXSize;
-    [Tooltip("The y-axis size of the array the player can move on.")]
-    [SerializeField] private int myZSize;
+    Direction myMoveDirection;
+    bool myPlayerInputted;
 
-    private int[,] myPositionArray;
-    private int myXPos;
-    private int myZPos;
 
-    // Start is called before the first frame update
-    protected override void Start()
+
+    public void Update()
     {
-        base.Start();
-
-        myXPos = 0;
-        myZPos = 0;
-        myPositionArray = new int[myXSize, myZSize];
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            myMoveDirection = Direction.Up;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Action(TurnEvent aTurnEvent)
     {
-        myPlayer.transform.position = new Vector3(myXPos, 0, myZPos);
+        if (myPlayerInputted)
+        {
+            Vector2Int myCurrentPosition = StageManager.ourInstance.GetTilePositionFromWorld(transform.position);
+            Vector2Int newPosition = Vector2Int.zero;
 
-        if (Input.GetKeyDown("up"))
-        {
-            if (myXPos < myXSize)
+            switch (myMoveDirection)
             {
-                myXPos++;
-            }
-        }
-        if (Input.GetKeyDown("down"))
-        {
-            if (myXPos > 0)
-            {
-                myXPos--;
-            }
-        }
-        if (Input.GetKeyDown("right"))
-        {
-            if (myZPos > 0)
-            {
-                myZPos--;
+                case Direction.Up:
+                    newPosition = new Vector2Int(myCurrentPosition.x + 1, myCurrentPosition.y);
 
+
+                    break;
+                case Direction.Right:
+                    newPosition = new Vector2Int(myCurrentPosition.x, myCurrentPosition.y + 1);
+
+                    break;
+                case Direction.Down:
+                    newPosition = new Vector2Int(myCurrentPosition.x - 1, myCurrentPosition.y);
+
+                    break;
+                case Direction.Left:
+                    newPosition = new Vector2Int(myCurrentPosition.x, myCurrentPosition.y - 1);
+                    break;
+                default:
+                    break;
             }
+
+            StageManager.ourInstance.MoveEntity(this, newPosition);
+
+
         }
-        if (Input.GetKeyDown("left"))
-        {
-            if (myZPos < myZSize)
-            {
-                myZPos++;
-            }
-        }
+
     }
+
 }
