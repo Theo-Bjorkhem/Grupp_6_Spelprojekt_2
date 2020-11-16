@@ -5,52 +5,55 @@ public class Player : Entity
     [Header("Objects")]
     [Tooltip("The Player GameObject")]
     [SerializeField] private GameObject myPlayer;
-    Direction myMoveDirection;
-    bool myPlayerInputted;
-
-
+    bool myPlayerInputted = false;
+    TurnEvent myTurnEvent = null;
+    Vector2Int myCurrentPosition;
+    Vector2Int myMoveTilePos;
 
     public void Update()
     {
-        if (Input.GetKey(KeyCode.UpArrow))
+        myCurrentPosition = StageManager.ourInstance.GetTilePositionFromWorld(transform.position);
+
+        if (myTurnEvent != null)
         {
-            myMoveDirection = Direction.Up;
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                myMoveTilePos = myCurrentPosition + new Vector2Int(1, 0);
+                myPlayerInputted = true;
+
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                myMoveTilePos = myCurrentPosition + new Vector2Int(0, -1);
+                myPlayerInputted = true;
+
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                myMoveTilePos = myCurrentPosition + new Vector2Int(0, 1);
+                myPlayerInputted = true;
+
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                myMoveTilePos = myCurrentPosition + new Vector2Int(-1, 0);
+                myPlayerInputted = true;
+
+            }
+            if (myPlayerInputted == true)
+            {
+                StageManager.ourInstance.MoveEntity(this, myMoveTilePos);
+                transform.position = new Vector3(myMoveTilePos.x, 0.5f, myMoveTilePos.y);
+                myTurnEvent.SignalDone();
+                myTurnEvent = null;
+                myPlayerInputted = false;
+            }
         }
     }
 
     public override void Action(TurnEvent aTurnEvent)
     {
-        if (myPlayerInputted)
-        {
-            Vector2Int myCurrentPosition = StageManager.ourInstance.GetTilePositionFromWorld(transform.position);
-            Vector2Int newPosition = Vector2Int.zero;
-
-            switch (myMoveDirection)
-            {
-                case Direction.Up:
-                    newPosition = new Vector2Int(myCurrentPosition.x + 1, myCurrentPosition.y);
-
-
-                    break;
-                case Direction.Right:
-                    newPosition = new Vector2Int(myCurrentPosition.x, myCurrentPosition.y + 1);
-
-                    break;
-                case Direction.Down:
-                    newPosition = new Vector2Int(myCurrentPosition.x - 1, myCurrentPosition.y);
-
-                    break;
-                case Direction.Left:
-                    newPosition = new Vector2Int(myCurrentPosition.x, myCurrentPosition.y - 1);
-                    break;
-                default:
-                    break;
-            }
-
-            StageManager.ourInstance.MoveEntity(this, newPosition);
-
-
-        }
+        myTurnEvent = aTurnEvent;
 
     }
 
