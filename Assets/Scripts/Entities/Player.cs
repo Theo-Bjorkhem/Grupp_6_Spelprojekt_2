@@ -38,11 +38,13 @@ public class Player : Entity
             }
             if (myPlayerInputted == true)
             {
-                StageManager.ourInstance.MoveEntity(this, myMoveTilePos);
+                if(StageManager.ourInstance.CanEntityMoveToPosition(this, myMoveTilePos))
+                {
+                    StageManager.ourInstance.MoveEntity(this, myMoveTilePos);
 
-                //TODO: Replace with actual animation
-                transform.position = new Vector3(myMoveTilePos.x, 0.5f, myMoveTilePos.y);
-
+                    //TODO: Replace with actual animation
+                    transform.position = new Vector3(myMoveTilePos.x, 0.5f, myMoveTilePos.y);
+                }
                 myTurnEvent.SignalDone();
                 myTurnEvent = null;
                 myPlayerInputted = false;
