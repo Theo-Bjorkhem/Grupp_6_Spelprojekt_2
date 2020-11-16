@@ -6,6 +6,9 @@ public class StageManager : MonoBehaviour
 {
     public static StageManager ourInstance;
 
+    public StageMesssages myStageMessages { get; private set; } = new StageMesssages();
+    private StageState myStageState { get; set; } = new StageState();
+
     [Header("Grid Configuration")]
 
     [Tooltip("The width of the grid where tiles & entities can be placed!")]
@@ -25,6 +28,36 @@ public class StageManager : MonoBehaviour
     private HashSet<Entity> myEntities = new HashSet<Entity>();
 
     private Player myPlayer;
+
+    /// <summary>
+    /// Called when the player wins the current stage. Will start the victory sequence.
+    /// </summary>
+    public void OnPlayerWon()
+    {
+        // Stop turn machine
+        StopAllCoroutines();
+
+        myStageState.myIsStageWon = true;
+
+        // TODO: Update stage score through GameManager
+        GameManager.ourInstance.UpdateStageScore();
+        
+        myStageMessages.TriggerPlayerWon();
+
+        // Rest will be handled by VictoryDefeatUI (signaled through event)
+    }
+
+    /// <summary>
+    /// Called when the player loses. Will start the defeated sequence.
+    /// </summary>
+    public void OnPlayerLoss()
+    {
+        // Stop turn machine
+        StopAllCoroutines();
+
+        myStageState.myIsPlayerAlive = false;
+        myStageMessages.TriggerPlayerDefeated();
+    }
 
     public Vector3 GetTileCenterWorldPosition(Vector2Int aPosition)
     {
@@ -151,6 +184,8 @@ public class StageManager : MonoBehaviour
         // Wait 1 frame to allow all tiles & entities to be registered
         yield return null;
 
+        Debug.Assert(myPlayer != null, "No player has registered itself with the StageManager in time!");
+
         // Allocate most (all if no reallocations are needed) memory needed by the turn machine at once before we start the main loop
         List<TurnEvent> incompleteNonPlayerTurnEvents = new List<TurnEvent>(myEntities.Count);
         TurnCache turnCache = new TurnCache(myEntities.Count);
@@ -199,9 +234,7 @@ public class StageManager : MonoBehaviour
             }
 
             yield return null;
-
-            // TODO: Check game should continue (player alive check possibly)
-        } while (true);
+        } while (myStageState.myIsRunning);
     }
 
     private bool IsPositionInGrid(Vector2Int aPosition)

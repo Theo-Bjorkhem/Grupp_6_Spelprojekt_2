@@ -6,7 +6,16 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager ourInstance;
 
+    public bool myIsInStage => myCurrentStageIndex >= 0;
+
     private int myCurrentStageIndex = -1; // -1 = not in stage
+
+    public void UpdateStageScore(/* TODO: Some stage information structure */)
+    {
+        Debug.Assert(myIsInStage, "UpdateStageScore called while not in stage!");
+
+        // TODO: Implement when we know how to score a stage etc.
+    }
 
     public void TransitionToMainMenu()
     {
@@ -25,7 +34,7 @@ public class GameManager : MonoBehaviour
     public void TransitionToNextStage()
     {
         // TODO: Check that the next stage exists.
-        if (myCurrentStageIndex >= 0)
+        if (myIsInStage)
         {
             TransitionToStage(myCurrentStageIndex + 1);
         }
@@ -44,7 +53,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator TransitionToStageCo(int aStageIndex)
     {
-        string stageSceneName = $"Stage{aStageIndex}";
+        // TODO: Use the correct stage scene format
+        // string stageSceneName = $"Stage{aStageIndex}";
+        string stageSceneName = $"SampleScene";
 
         yield return TransitionToScene(stageSceneName);
 
@@ -57,7 +68,8 @@ public class GameManager : MonoBehaviour
         }
 
         // TODO: Add UI scenes that need to be loaded on stage load here!
-        // SceneManager.LoadScene("UIBase", LoadSceneMode.Additive);
+        SceneManager.LoadScene("uiBase_scene", LoadSceneMode.Additive);
+        SceneManager.LoadScene("victoryDefeatUi_scene", LoadSceneMode.Additive);
 
         myCurrentStageIndex = aStageIndex;
 
