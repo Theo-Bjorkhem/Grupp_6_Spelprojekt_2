@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
+    private class EntityData
+    {
+        public Vector2Int myGridPosition;
+    }
+
     public static StageManager ourInstance;
 
     public StageMesssages myStageMessages { get; private set; } = new StageMesssages();
@@ -24,8 +29,10 @@ public class StageManager : MonoBehaviour
 
     private Entity[,] myEntityGrid;
 
-    // Use HashSet for fast iterate, remove and insert (assuming order is irrelevant)
-    private HashSet<Entity> myEntities = new HashSet<Entity>();
+    private Dictionary<Entity, EntityData> myEntities = new Dictionary<Entity, EntityData>();
+
+    // HashSet to ensure no double unregister
+    private HashSet<Entity> myQueuedEntityUnregisterOperations = new HashSet<Entity>();
 
     private CriticalRegion myEntityRegion = new CriticalRegion();
 
@@ -71,27 +78,34 @@ public class StageManager : MonoBehaviour
         return new Vector2Int(Mathf.FloorToInt((aPosition.x + myTileSize * 0.5f) / myTileSize), Mathf.FloorToInt((aPosition.z + myTileSize * 0.5f) / myTileSize));
     }
 
+    public Vector2Int GetEntityGridPosition(Entity anEntity)
+    {
+        return GetEntityData(anEntity).myGridPosition;
+    }
+
     /// <summary>
     /// Moves the specified <paramref name="anEntity"/> to <paramref name="aNewPosition"/>.
     /// Asserts if the move would be illegal by <see cref="CanEntityMoveToPosition(Entity, Vector2Int)"/>.
     /// </summary>
     public void MoveEntity(Entity anEntity, Vector2Int aNewPosition)
     {
-        Vector2Int gridPosition = GetTilePositionFromWorld(anEntity.transform.position);
+        EntityData entityData = GetEntityData(anEntity);
+
+        Vector2Int currentGridPosition = entityData.myGridPosition;
 
         Debug.Assert(CanEntityMoveToPosition(anEntity, aNewPosition), "Entity tried invalid move!");
 
-        // TODO: Might need a separate field in Entity to keep track of current grid position if this is triggered while an entity is animating to its new location.
-        Debug.Assert(myEntityGrid[gridPosition.x, gridPosition.y] == anEntity, "Entity position in grid and grid manager not in sync!");
+        Debug.Assert(myEntityGrid[currentGridPosition.x, currentGridPosition.y] == anEntity, "Entity position in grid and grid manager not in sync!");
 
-        Tile oldTile = myTileGrid[gridPosition.x, gridPosition.y];
+        Tile oldTile = myTileGrid[currentGridPosition.x, currentGridPosition.y];
         if (oldTile != null)
         {
             oldTile.OnExit(anEntity);
         }
 
-        myEntityGrid[gridPosition.x, gridPosition.y] = null;
+        myEntityGrid[currentGridPosition.x, currentGridPosition.y] = null;
         myEntityGrid[aNewPosition.x, aNewPosition.y] = anEntity;
+        entityData.myGridPosition = aNewPosition;
 
         Tile newTile = myTileGrid[aNewPosition.x, aNewPosition.y];
         if (newTile != null)
@@ -146,7 +160,7 @@ public class StageManager : MonoBehaviour
         myEntityRegion.Lock(); // Lock entity region
 
         myEntityGrid[gridPosition.x, gridPosition.y] = anEntity;
-        myEntities.Add(anEntity);
+        myEntities.Add(anEntity, new EntityData { myGridPosition = gridPosition });
 
         if (anEntity is Player)
         {
@@ -167,21 +181,15 @@ public class StageManager : MonoBehaviour
 
     public void UnregisterEntity(Entity anEntity)
     {
-        Vector2Int gridPosition = GetTilePositionFromWorld(anEntity.transform.position);
-
-        Debug.Assert(myEntityGrid[gridPosition.x, gridPosition.y] == anEntity, "Entity location not in sync with grid!");
-
-        myEntityRegion.Lock(); // Lock entity region
-
-        myEntityGrid[gridPosition.x, gridPosition.y] = null;
-        myEntities.Remove(anEntity); // O(1)
-
-        if (anEntity is Player)
+        // If we are inside a locked region we will queue the operation
+        if (myEntityRegion.myIsLocked)
         {
-            myPlayer = null;
+            myQueuedEntityUnregisterOperations.Add(anEntity);
         }
-
-        myEntityRegion.Unlock(); // Unlock entity region
+        else
+        {
+            ForceUnregisterEntity(anEntity);
+        }
     }
 
     public Tile GetTile(Vector2Int aPosition)
@@ -196,6 +204,41 @@ public class StageManager : MonoBehaviour
         EnsurePositionInGrid(aPosition);
 
         return myEntityGrid[aPosition.x, aPosition.y];
+    }
+
+    private EntityData GetEntityData(Entity anEntity)
+    {
+        Debug.Assert(myEntities.ContainsKey(anEntity), "Tried to get data from unregistered entity!");
+
+        return myEntities[anEntity];
+    }
+
+    private void ForceUnregisterEntity(Entity anEntity)
+    {
+        Vector2Int currentGridPosition = GetEntityGridPosition(anEntity);
+
+        Debug.Assert(myEntityGrid[currentGridPosition.x, currentGridPosition.y] == anEntity, "Entity location not in sync with grid!");
+
+        myEntityRegion.Lock(); // Lock entity region
+
+        myEntityGrid[currentGridPosition.x, currentGridPosition.y] = null;
+        myEntities.Remove(anEntity); // Close to O(1)
+
+        if (anEntity is Player)
+        {
+            myPlayer = null;
+        }
+
+        myEntityRegion.Unlock(); // Unlock entity region
+    }
+
+    private void RunQueuedOperations()
+    {
+        foreach(Entity entity in myQueuedEntityUnregisterOperations)
+        {
+            ForceUnregisterEntity(entity);
+        }
+        myQueuedEntityUnregisterOperations.Clear();
     }
 
     private IEnumerator TurnMachine()
@@ -215,6 +258,8 @@ public class StageManager : MonoBehaviour
         {
             incompleteNonPlayerTurnEvents.Clear();
 
+            myEntityRegion.Lock(); // Lock entity region
+
             TurnEvent playerTurnEvent = turnCache.Next();
             myPlayer.Action(playerTurnEvent);
 
@@ -225,9 +270,7 @@ public class StageManager : MonoBehaviour
 
             turnCache.Recycle(playerTurnEvent);
 
-            myEntityRegion.Lock(); // Lock entity region
-
-            foreach (Entity entity in myEntities)
+            foreach (Entity entity in myEntities.Keys)
             {
                 if (entity == myPlayer)
                     continue; // Skip the player (handled above)
@@ -258,15 +301,25 @@ public class StageManager : MonoBehaviour
 
             myEntityRegion.Unlock(); // Unlock entity region
 
+            RunQueuedOperations();
+
+            // TODO: Better place?
+
+            // If the current turn resulted in the player unregistering then the player has died => loss
+            if (myPlayer == null)
+            {
+                OnPlayerLoss();
+            }
+
             yield return null;
         } while (myStageState.myIsRunning);
     }
 
     private void DoEntityTileInitialEnter()
     {
-        foreach (Entity entity in myEntities)
+        foreach (Entity entity in myEntities.Keys)
         {
-            Vector2Int gridPosition = GetTilePositionFromWorld(entity.transform.position);
+            Vector2Int gridPosition = GetEntityGridPosition(entity);
 
             Tile tile = GetTile(gridPosition);
 
