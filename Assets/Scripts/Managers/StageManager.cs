@@ -353,6 +353,11 @@ public class StageManager : MonoBehaviour
     [System.Diagnostics.Conditional("UNITY_EDITOR")]
     private void EnsureEmptyTile(Vector2Int aPosition)
     {
+        if (GetTile(aPosition) != null)
+        {
+            Debug.LogWarning("Non empty tile: " + aPosition);
+        }
+
         Debug.Assert(GetTile(aPosition) == null, "Tried registering tile at occupied position!");
     }
 
