@@ -27,6 +27,8 @@ public class StageManager : MonoBehaviour
     // Use HashSet for fast iterate, remove and insert (assuming order is irrelevant)
     private HashSet<Entity> myEntities = new HashSet<Entity>();
 
+    private CriticalRegion myEntityRegion = new CriticalRegion();
+
     private Player myPlayer;
 
     /// <summary>
@@ -141,6 +143,8 @@ public class StageManager : MonoBehaviour
 
         EnsureNoEntity(gridPosition);
 
+        myEntityRegion.Lock(); // Lock entity region
+
         myEntityGrid[gridPosition.x, gridPosition.y] = anEntity;
         myEntities.Add(anEntity);
 
@@ -148,6 +152,17 @@ public class StageManager : MonoBehaviour
         {
             myPlayer = anEntity as Player;
         }
+
+        myEntityRegion.Unlock(); // Unlock entity region
+    }
+
+    public void UnregisterTile(Tile aTile)
+    {
+        Vector2Int gridPosition = GetTilePositionFromWorld(aTile.transform.position);
+
+        EnsureNoEntity(gridPosition);
+
+        myTileGrid[gridPosition.x, gridPosition.y] = null;
     }
 
     public void UnregisterEntity(Entity anEntity)
@@ -156,6 +171,8 @@ public class StageManager : MonoBehaviour
 
         Debug.Assert(myEntityGrid[gridPosition.x, gridPosition.y] == anEntity, "Entity location not in sync with grid!");
 
+        myEntityRegion.Lock(); // Lock entity region
+
         myEntityGrid[gridPosition.x, gridPosition.y] = null;
         myEntities.Remove(anEntity); // O(1)
 
@@ -163,6 +180,8 @@ public class StageManager : MonoBehaviour
         {
             myPlayer = null;
         }
+
+        myEntityRegion.Unlock(); // Unlock entity region
     }
 
     public Tile GetTile(Vector2Int aPosition)
@@ -186,6 +205,8 @@ public class StageManager : MonoBehaviour
 
         Debug.Assert(myPlayer != null, "No player has registered itself with the StageManager in time!");
 
+        DoEntityTileInitialEnter();
+
         // Allocate most (all if no reallocations are needed) memory needed by the turn machine at once before we start the main loop
         List<TurnEvent> incompleteNonPlayerTurnEvents = new List<TurnEvent>(myEntities.Count);
         TurnCache turnCache = new TurnCache(myEntities.Count);
@@ -203,6 +224,8 @@ public class StageManager : MonoBehaviour
             }
 
             turnCache.Recycle(playerTurnEvent);
+
+            myEntityRegion.Lock(); // Lock entity region
 
             foreach (Entity entity in myEntities)
             {
@@ -233,8 +256,27 @@ public class StageManager : MonoBehaviour
                 turnCache.Recycle(turnEvent);
             }
 
+            myEntityRegion.Unlock(); // Unlock entity region
+
             yield return null;
         } while (myStageState.myIsRunning);
+    }
+
+    private void DoEntityTileInitialEnter()
+    {
+        foreach (Entity entity in myEntities)
+        {
+            Vector2Int gridPosition = GetTilePositionFromWorld(entity.transform.position);
+
+            Tile tile = GetTile(gridPosition);
+
+            if (tile != null)
+            {
+                Debug.Assert(tile.CanEnter(entity), "Initial entity location is on tile disallowing enter!");
+
+                tile.OnEnter(entity);
+            }
+        }
     }
 
     private bool IsPositionInGrid(Vector2Int aPosition)

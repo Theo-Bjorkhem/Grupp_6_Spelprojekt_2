@@ -2,6 +2,10 @@
 
 public class Entity : MonoBehaviour
 {
+    private EntityState myEntityState = EntityState.Normal;
+
+    public virtual bool IsDead() => myEntityState.HasFlag(EntityState.Dead);
+
     /// <summary>
     /// Default: The entity does nothing.
     /// Otherwise: Moving entities attempt to Move(). Spikes toggle. Player waits for input.
@@ -23,6 +27,18 @@ public class Entity : MonoBehaviour
     public virtual void Interact(Entity anEntity, Direction aDirection)
     {
         
+    }
+
+    /// <summary>
+    /// Remove the entity from the <see cref="StageManager"/> immediately.
+    /// Might start any death animations required.
+    /// </summary>
+    /// <param name="aReason">Reason the entity was killed</param>
+    public virtual void Kill(DeathReason aReason)
+    {
+        StageManager.ourInstance.UnregisterEntity(this);
+
+        myEntityState |= EntityState.Dead;
     }
 
     /// <summary>
