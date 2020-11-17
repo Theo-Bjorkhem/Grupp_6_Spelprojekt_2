@@ -5,59 +5,57 @@ public class Player : Entity
     [Header("Objects")]
     [Tooltip("The Player GameObject")]
     [SerializeField] private GameObject myPlayer;
-    [Header("Settings")]
-    [Tooltip("The x-axis size of the array the player can move on.")]
-    [SerializeField] private int myXSize;
-    [Tooltip("The y-axis size of the array the player can move on.")]
-    [SerializeField] private int myZSize;
+    bool myPlayerInputted = false;
+    TurnEvent myTurnEvent = null;
+    Vector2Int myCurrentPosition;
+    Vector2Int myMoveTilePos;
 
-    private int[,] myPositionArray;
-    private int myXPos;
-    private int myZPos;
-
-    // Start is called before the first frame update
-    protected override void Start()
+    public void Update()
     {
-        base.Start();
+        myCurrentPosition = StageManager.ourInstance.GetTilePositionFromWorld(transform.position);
 
-        myXPos = 0;
-        myZPos = 0;
-        myPositionArray = new int[myXSize, myZSize];
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        myPlayer.transform.position = new Vector3(myXPos, 0, myZPos);
-
-        if (Input.GetKeyDown("up"))
+        if (myTurnEvent != null)
         {
-            if (myXPos < myXSize)
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                myXPos++;
+                myPlayerInputted = true;
+                myMoveTilePos = myCurrentPosition + new Vector2Int(1, 0);
             }
-        }
-        if (Input.GetKeyDown("down"))
-        {
-            if (myXPos > 0)
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                myXPos--;
+                myPlayerInputted = true;
+                myMoveTilePos = myCurrentPosition + new Vector2Int(0, -1);
             }
-        }
-        if (Input.GetKeyDown("right"))
-        {
-            if (myZPos > 0)
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                myZPos--;
+                myPlayerInputted = true;
+                myMoveTilePos = myCurrentPosition + new Vector2Int(0, 1);
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                myPlayerInputted = true;
+                myMoveTilePos = myCurrentPosition + new Vector2Int(-1, 0);
+            }
+            if (myPlayerInputted == true)
+            {
+                if(StageManager.ourInstance.CanEntityMoveToPosition(this, myMoveTilePos))
+                {
+                    StageManager.ourInstance.MoveEntity(this, myMoveTilePos);
 
-            }
-        }
-        if (Input.GetKeyDown("left"))
-        {
-            if (myZPos < myZSize)
-            {
-                myZPos++;
+                    //TODO: Replace with actual animation
+                    transform.position = new Vector3(myMoveTilePos.x, 0.5f, myMoveTilePos.y);
+                }
+                myTurnEvent.SignalDone();
+                myTurnEvent = null;
+                myPlayerInputted = false;
             }
         }
     }
+
+    public override void Action(TurnEvent aTurnEvent)
+    {
+        myTurnEvent = aTurnEvent;
+
+    }
+
 }
