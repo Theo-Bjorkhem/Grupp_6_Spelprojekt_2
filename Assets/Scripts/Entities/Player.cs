@@ -2,52 +2,46 @@
 
 public class Player : Entity
 {
-    [Header("Objects")]
-    [Tooltip("The Player GameObject")]
-    [SerializeField] private GameObject myPlayer;
-    bool myPlayerInputted = false;
-    TurnEvent myTurnEvent = null;
-    Vector2Int myCurrentPosition;
-    Vector2Int myMoveTilePos;
+    private TurnEvent myTurnEvent = null;
 
     public void Update()
     {
-        myCurrentPosition = StageManager.ourInstance.GetTilePositionFromWorld(transform.position);
-
         if (myTurnEvent != null)
         {
+            Direction moveDirection = Direction.Up;
+            bool gotInput = false;
+
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                myPlayerInputted = true;
-                myMoveTilePos = myCurrentPosition + new Vector2Int(1, 0);
+                gotInput = true;
+
+                moveDirection = Direction.Right;
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                myPlayerInputted = true;
-                myMoveTilePos = myCurrentPosition + new Vector2Int(0, -1);
+                gotInput = true;
+
+                moveDirection = Direction.Down;
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                myPlayerInputted = true;
-                myMoveTilePos = myCurrentPosition + new Vector2Int(0, 1);
+                gotInput = true;
+
+                moveDirection = Direction.Up;
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                myPlayerInputted = true;
-                myMoveTilePos = myCurrentPosition + new Vector2Int(-1, 0);
-            }
-            if (myPlayerInputted == true)
-            {
-                if(StageManager.ourInstance.CanEntityMoveToPosition(this, myMoveTilePos))
-                {
-                    StageManager.ourInstance.MoveEntity(this, myMoveTilePos);
+                gotInput = true;
 
-                    //TODO: Replace with actual animation
-                    transform.position = new Vector3(myMoveTilePos.x, 0.5f, myMoveTilePos.y);
-                }
+                moveDirection = Direction.Left;
+            }
+
+            if (gotInput)
+            {
+                Move(moveDirection);
+                
                 myTurnEvent.SignalDone();
                 myTurnEvent = null;
-                myPlayerInputted = false;
             }
         }
     }
@@ -55,7 +49,5 @@ public class Player : Entity
     public override void Action(TurnEvent aTurnEvent)
     {
         myTurnEvent = aTurnEvent;
-
     }
-
 }
