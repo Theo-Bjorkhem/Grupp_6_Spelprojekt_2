@@ -55,6 +55,8 @@ public class Entity : MonoBehaviour
 
         if (StageManager.ourInstance.CanEntityMoveToPosition(this, position))
         {
+            transform.position = new Vector3(position.x, 0, position.y);
+
             StageManager.ourInstance.MoveEntity(this, position);
         }
     }
