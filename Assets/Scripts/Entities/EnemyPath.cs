@@ -37,24 +37,27 @@ public class EnemyPath : Entity
 
         for (int i = mySteps.Length - 1; i >= 0; i--)
         {
+            Direction direction = Direction.Up;
             switch (mySteps[i])
             {
                 case Direction.Up:
-                    newSteps[i] = Direction.Down;
+                    direction = Direction.Down;
                     break;
                 case Direction.Right:
-                    newSteps[i] = Direction.Left;
+                    direction = Direction.Left;
                     break;
                 case Direction.Down:
-                    newSteps[i] = Direction.Up;
+                    direction = Direction.Up;
                     break;
                 case Direction.Left:
-                    newSteps[i] = Direction.Right;
+                    direction = Direction.Right;
                     break;
                 default:
                     Debug.LogError(this + " has a directionless step, somehow.");
                     break;
             }
+
+            newSteps[mySteps.Length - 1 - i] = direction;
         }
 
         mySteps = newSteps;
