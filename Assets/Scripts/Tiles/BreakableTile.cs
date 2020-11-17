@@ -20,7 +20,7 @@ public class BreakableTile : Tile
             // TODO: Animation etc..
             gameObject.SetActive(false);
 
-            Entity entity = StageManager.ourInstance.GetEntity(StageManager.ourInstance.GetTilePositionFromWorld(transform.position));
+            Entity entity = StageManager.ourInstance.GetEntity(StageManager.ourInstance.GetTilePositionFromWorldTile(transform.position));
 
             if (entity != null)
             {

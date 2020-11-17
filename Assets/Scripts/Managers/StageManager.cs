@@ -25,6 +25,8 @@ public class StageManager : MonoBehaviour
     [Tooltip("The size of one tile in the grid")]
     public float myTileSize = 1.0f;
 
+    private float myTileShift = -0.5f;
+
     private Tile[,] myTileGrid;
 
     private Entity[,] myEntityGrid;
@@ -70,12 +72,17 @@ public class StageManager : MonoBehaviour
 
     public Vector3 GetTileCenterWorldPosition(Vector2Int aPosition)
     {
-        return new Vector3(aPosition.x * myTileSize, 0.0f, aPosition.y * myTileSize);
+        return new Vector3((aPosition.x + myTileShift) * myTileSize, 0.0f, (aPosition.y + myTileShift) * myTileSize);
     }
 
-    public Vector2Int GetTilePositionFromWorld(Vector3 aPosition)
+    public Vector2Int GetTilePositionFromWorldTile(Vector3 aPosition)
     {
-        return new Vector2Int(Mathf.FloorToInt((aPosition.x + myTileSize * 0.5f) / myTileSize), Mathf.FloorToInt((aPosition.z + myTileSize * 0.5f) / myTileSize));
+        return new Vector2Int(Mathf.FloorToInt(aPosition.x / myTileSize), Mathf.FloorToInt(aPosition.z / myTileSize));
+    }
+
+    public Vector2Int GetTilePositionFromWorldEntity(Vector3 aPosition)
+    {
+        return new Vector2Int(Mathf.FloorToInt((aPosition.x - myTileShift * myTileSize * 2.0f) / myTileSize), Mathf.FloorToInt((aPosition.z - myTileShift * myTileSize * 2.0f) / myTileSize));
     }
 
     public Vector2Int GetEntityGridPosition(Entity anEntity)
@@ -144,7 +151,7 @@ public class StageManager : MonoBehaviour
 
     public void RegisterTile(Tile aTile)
     {
-        Vector2Int gridPosition = GetTilePositionFromWorld(aTile.transform.position);
+        Vector2Int gridPosition = GetTilePositionFromWorldTile(aTile.transform.position);
 
         EnsureEmptyTile(gridPosition);
 
@@ -153,7 +160,7 @@ public class StageManager : MonoBehaviour
 
     public void RegisterEntity(Entity anEntity)
     {
-        Vector2Int gridPosition = GetTilePositionFromWorld(anEntity.transform.position);
+        Vector2Int gridPosition = GetTilePositionFromWorldEntity(anEntity.transform.position);
 
         EnsureNoEntity(gridPosition);
 
@@ -172,7 +179,7 @@ public class StageManager : MonoBehaviour
 
     public void UnregisterTile(Tile aTile)
     {
-        Vector2Int gridPosition = GetTilePositionFromWorld(aTile.transform.position);
+        Vector2Int gridPosition = GetTilePositionFromWorldTile(aTile.transform.position);
 
         EnsureNoEntity(gridPosition);
 
@@ -406,23 +413,24 @@ public class StageManager : MonoBehaviour
             return;
         }
 
-        Vector3 origin = new Vector3(-0.5f * myTileSize, 0.0f, -0.5f * myTileSize);
-
         for (int x = 0; x < myGridWidth; ++x)
         {
             for (int z = 0; z < myGridHeight; ++z)
             {
-                Vector3 start = new Vector3(x * myTileSize, 0.0f, z * myTileSize) + origin;
+                Vector3 center = GetTileCenterWorldPosition(new Vector2Int(x, z));
+                Vector3 start = center - new Vector3(myTileSize * 0.5f, 0.0f, myTileSize * 0.5f);
 
                 Gizmos.DrawLine(start, start + Vector3.right * myTileSize);
                 Gizmos.DrawLine(start, start + Vector3.forward * myTileSize);
             }
         }
 
-        Vector3 corner = origin + new Vector3(myGridWidth * myTileSize, 0.0f, myGridHeight * myTileSize);
+        Vector3 shift = new Vector3(myTileSize * 0.5f, 0.0f, myTileSize * 0.5f);
+        Vector3 startCorner = GetTileCenterWorldPosition(Vector2Int.zero) - shift;
+        Vector3 endCorner = GetTileCenterWorldPosition(new Vector2Int(myGridWidth - 1, myGridHeight - 1)) + shift;
 
-        Gizmos.DrawLine(new Vector3(corner.z, 0.0f, origin.z), corner);
-        Gizmos.DrawLine(new Vector3(origin.x, 0.0f, corner.z), corner);
+        Gizmos.DrawLine(new Vector3(startCorner.x, 0.0f, endCorner.z), endCorner);
+        Gizmos.DrawLine(new Vector3(endCorner.x, 0.0f, startCorner.z), endCorner);
     }
 
 #endif
