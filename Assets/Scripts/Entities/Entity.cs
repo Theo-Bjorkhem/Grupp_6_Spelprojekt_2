@@ -2,6 +2,10 @@
 
 public class Entity : MonoBehaviour
 {
+    private EntityState myEntityState = EntityState.Normal;
+
+    public virtual bool IsDead() => myEntityState.HasFlag(EntityState.Dead);
+
     /// <summary>
     /// Default: The entity does nothing.
     /// Otherwise: Moving entities attempt to Move(). Spikes toggle. Player waits for input.
@@ -26,38 +30,50 @@ public class Entity : MonoBehaviour
     }
 
     /// <summary>
+    /// Remove the entity from the <see cref="StageManager"/> immediately.
+    /// Might start any death animations required.
+    /// </summary>
+    /// <param name="aReason">Reason the entity was killed</param>
+    public virtual void Kill(DeathReason aReason)
+    {
+        StageManager.ourInstance.UnregisterEntity(this);
+
+        myEntityState |= EntityState.Dead;
+    }
+
+    /// <summary>
     /// Ask stageManager what is in the adjacent space in the arguments direction.
     /// Move there is possible, otherwise interact with it.
     /// </summary>
     /// <param name="aDirection"></param>
     protected virtual void Move(Direction aDirection)
     {
-        Vector2Int position = StageManager.ourInstance.GetTilePositionFromWorld(transform.position);
+        Vector2Int gridPosition = StageManager.ourInstance.GetEntityGridPosition(this);
 
         switch (aDirection)
         {
             case Direction.Up:
-                position += Vector2Int.up;
+                gridPosition += Vector2Int.up;
                 break;
             case Direction.Right:
-                position += Vector2Int.right;
+                gridPosition += Vector2Int.right;
                 break;
             case Direction.Down:
-                position += Vector2Int.down;
+                gridPosition += Vector2Int.down;
                 break;
             case Direction.Left:
-                position += Vector2Int.left;
+                gridPosition += Vector2Int.left;
                 break;
             default:
                 Debug.LogError(this + " has no direction, somehow.");
                 break;
         }
 
-        if (StageManager.ourInstance.CanEntityMoveToPosition(this, position))
+        if (StageManager.ourInstance.CanEntityMoveToPosition(this, gridPosition))
         {
-            transform.position = new Vector3(position.x, 0, position.y);
+            StageManager.ourInstance.MoveEntity(this, gridPosition);
 
-            StageManager.ourInstance.MoveEntity(this, position);
+            transform.position = StageManager.ourInstance.GetTileCenterWorldPosition(gridPosition);
         }
     }
 

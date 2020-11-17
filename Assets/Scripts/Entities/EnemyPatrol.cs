@@ -7,8 +7,9 @@ public class EnemyPatrol : Entity
 
     public override void Action(TurnEvent aTurnEvent)
     {
-        Vector2Int currentPosition = StageManager.ourInstance.GetTilePositionFromWorld(transform.position);
+        Vector2Int currentPosition = StageManager.ourInstance.GetEntityGridPosition(this);
         Vector2Int newPosition = currentPosition;
+
         switch (myDirection)
         {
             case Direction.Up:
