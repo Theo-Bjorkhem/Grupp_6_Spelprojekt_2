@@ -113,10 +113,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: cda9410ab70a00f4191584ed93ce330a, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 124028b57f851614aa5f3346678d4264,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4950181762856155394, guid: 47851542aa125a24daa3fcb5017978fc,
+        type: 3}
     - target: {fileID: 919132149155446097, guid: 124028b57f851614aa5f3346678d4264,
         type: 3}
       propertyPath: m_Name
-      value: BlenderCube
+      value: TreeMesh
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 124028b57f851614aa5f3346678d4264, type: 3}
