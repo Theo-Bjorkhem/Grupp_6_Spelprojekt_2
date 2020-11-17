@@ -181,14 +181,25 @@ public class StageManager : MonoBehaviour
 
     public void UnregisterEntity(Entity anEntity)
     {
-        // If we are inside a locked region we will queue the operation
+        Vector2Int currentGridPosition = GetEntityGridPosition(anEntity);
+
+        Debug.Assert(myEntityGrid[currentGridPosition.x, currentGridPosition.y] == anEntity, "Entity location not in sync with grid!");
+
+        myEntityGrid[currentGridPosition.x, currentGridPosition.y] = null;
+
         if (myEntityRegion.myIsLocked)
         {
+            // If we are currently iterating the myEntities list we'll queue the removal from that list at the end of the current turn.
             myQueuedEntityUnregisterOperations.Add(anEntity);
         }
         else
         {
-            ForceUnregisterEntity(anEntity);
+            myEntities.Remove(anEntity); // Close to O(1)
+
+            if (anEntity is Player)
+            {
+                myPlayer = null;
+            }
         }
     }
 
@@ -213,31 +224,20 @@ public class StageManager : MonoBehaviour
         return myEntities[anEntity];
     }
 
-    private void ForceUnregisterEntity(Entity anEntity)
-    {
-        Vector2Int currentGridPosition = GetEntityGridPosition(anEntity);
-
-        Debug.Assert(myEntityGrid[currentGridPosition.x, currentGridPosition.y] == anEntity, "Entity location not in sync with grid!");
-
-        myEntityRegion.Lock(); // Lock entity region
-
-        myEntityGrid[currentGridPosition.x, currentGridPosition.y] = null;
-        myEntities.Remove(anEntity); // Close to O(1)
-
-        if (anEntity is Player)
-        {
-            myPlayer = null;
-        }
-
-        myEntityRegion.Unlock(); // Unlock entity region
-    }
-
     private void RunQueuedOperations()
     {
+        Debug.Assert(!myEntityRegion.myIsLocked, "Tried running queued operations while entity region is locked!");
+
         foreach(Entity entity in myQueuedEntityUnregisterOperations)
         {
-            ForceUnregisterEntity(entity);
+            myEntities.Remove(entity); // Close to O(1)
+
+            if (entity is Player)
+            {
+                myPlayer = null;
+            }
         }
+
         myQueuedEntityUnregisterOperations.Clear();
     }
 
