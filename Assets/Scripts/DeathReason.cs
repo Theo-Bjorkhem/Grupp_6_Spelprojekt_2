@@ -6,4 +6,5 @@
     Fall,
 
     Spike,
+    Enemy
 }

@@ -371,7 +371,7 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    private bool IsPositionInGrid(Vector2Int aPosition)
+    public bool IsPositionInGrid(Vector2Int aPosition)
     {
         return aPosition.x >= 0 && aPosition.x < myGridWidth && aPosition.y >= 0 && aPosition.y < myGridHeight;
     }

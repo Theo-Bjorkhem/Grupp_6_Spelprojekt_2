@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyPath : Entity
 {
@@ -11,8 +9,23 @@ public class EnemyPath : Entity
 
     public override void Action(TurnEvent aTurnEvent)
     {
-        if (!StageManager.ourInstance.CanEntityMoveToPosition(this, StageManager.ourInstance.GetEntityGridPosition(this) + DirectionToVec(mySteps[myStepsIndex])))
+        Vector2Int newPosition = StageManager.ourInstance.GetEntityGridPosition(this) + DirectionToVec(mySteps[myStepsIndex]);
+
+        if (!StageManager.ourInstance.IsPositionInGrid(newPosition))
         {
+            aTurnEvent.SignalDone();
+            return;
+        }
+
+        if (!StageManager.ourInstance.CanEntityMoveToPosition(this, newPosition))
+        {
+            Entity entity = StageManager.ourInstance.GetEntity(newPosition);
+
+            if (entity is Player)
+            {
+                entity.Kill(DeathReason.Enemy);
+            }
+
             aTurnEvent.SignalDone();
             return;
         }
@@ -27,14 +40,6 @@ public class EnemyPath : Entity
         }
 
         aTurnEvent.SignalDone();
-    }    
-
-    public override void Interact(Entity anEntity, Direction aDirection)
-    {
-        if (anEntity is Player)
-        {
-            //kill player
-        }
     }
 
     private void ReverseSteps()

@@ -13,30 +13,35 @@ public class EnemyPatrol : Entity
         Vector2Int newPosition = currentPosition;
         newPosition += DirectionToVec(myDirection);
 
-        if (StageManager.ourInstance.CanEntityMoveToPosition(this, newPosition))
+        if (!StageManager.ourInstance.IsPositionInGrid(newPosition))
         {
-            Move(myDirection);
+            myDirection = ReverseDirection(myDirection);
+            if (!hasPerformedAction)
+            {
+                hasPerformedAction = true;
+                Action(aTurnEvent);
+            }
             hasPerformedAction = false;
             aTurnEvent.SignalDone();
             return;
         }
 
-        myDirection = ReverseDirection(myDirection);
-
-        if (!hasPerformedAction)
+        if (!StageManager.ourInstance.CanEntityMoveToPosition(this, newPosition))
         {
-            hasPerformedAction = true;
-            Action(aTurnEvent);
+            Entity entity = StageManager.ourInstance.GetEntity(newPosition);
+            if (entity is Player)
+            {
+                entity.Kill(DeathReason.Enemy);
+            }
+
+            hasPerformedAction = false;
+            aTurnEvent.SignalDone();
+            return;
         }
 
+        Move(myDirection);
+        hasPerformedAction = false;
         aTurnEvent.SignalDone();
-    }
-
-    public override void Interact(Entity anEntity, Direction aDirection)
-    {
-        if (anEntity is Player)
-        {
-            //kill player
-        }
+        return;
     }
 }
