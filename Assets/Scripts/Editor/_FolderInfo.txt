@@ -1,0 +1,2 @@
+Any scripts that use the "UnityEditor"-namespace should go in here.
+Otherwise, the game will not build.

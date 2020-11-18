@@ -1,0 +1,3 @@
+All scenes should be in this folder.
+Remember to lock your scene in the Trello before editing.
+Feel free to make private copies that you name with your own name, for private use.
