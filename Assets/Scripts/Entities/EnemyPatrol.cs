@@ -5,64 +5,43 @@ public class EnemyPatrol : Entity
     [SerializeField]
     private Direction myDirection;
 
+    private bool hasPerformedAction = false;
+
     public override void Action(TurnEvent aTurnEvent)
     {
         Vector2Int currentPosition = StageManager.ourInstance.GetEntityGridPosition(this);
         Vector2Int newPosition = currentPosition;
+        newPosition += DirectionToVec(myDirection);
 
-        switch (myDirection)
+        if (!StageManager.ourInstance.IsPositionInGrid(newPosition))
         {
-            case Direction.Up:
-                newPosition += Vector2Int.up;
-                break;
-            case Direction.Right:
-                newPosition += Vector2Int.right;
-                break;
-            case Direction.Down:
-                newPosition += Vector2Int.down;
-                break;
-            case Direction.Left:
-                newPosition += Vector2Int.left;
-                break;
-            default:
-                Debug.LogError(this + "lacks a direction.");
-                break;
-        }
-
-        if (StageManager.ourInstance.CanEntityMoveToPosition(this, newPosition))
-        {
-            Move(myDirection);
+            myDirection = ReverseDirection(myDirection);
+            if (!hasPerformedAction)
+            {
+                hasPerformedAction = true;
+                Action(aTurnEvent);
+            }
+            hasPerformedAction = false;
             aTurnEvent.SignalDone();
             return;
         }
 
-        switch (myDirection)
+        if (!StageManager.ourInstance.CanEntityMoveToPosition(this, newPosition))
         {
-            case Direction.Up:
-                myDirection = Direction.Down;
-                break;
-            case Direction.Right:
-                myDirection = Direction.Left;
-                break;
-            case Direction.Down:
-                myDirection = Direction.Up;
-                break;
-            case Direction.Left:
-                myDirection = Direction.Right;
-                break;
-            default:
-                Debug.LogError(this + "lacks a direction.");
-                break;
+            Entity entity = StageManager.ourInstance.GetEntity(newPosition);
+            if (entity is Player)
+            {
+                entity.Kill(DeathReason.Enemy);
+            }
+
+            hasPerformedAction = false;
+            aTurnEvent.SignalDone();
+            return;
         }
 
-        Action(aTurnEvent);
-    }
-
-    public override void Interact(Entity anEntity, Direction aDirection)
-    {
-        if (anEntity is Player)
-        {
-            //kill player
-        }
+        Move(myDirection);
+        hasPerformedAction = false;
+        aTurnEvent.SignalDone();
+        return;
     }
 }
