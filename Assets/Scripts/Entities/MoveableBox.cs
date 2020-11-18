@@ -10,8 +10,10 @@ public class MoveableBox : Entity
 
     }
 
-    public void Push(Direction aDirection)
+    public override void Interact(Entity anEntity, Direction aDirection)
     {
+        base.Interact(anEntity, aDirection);       
         Move(aDirection);
     }
+
 }

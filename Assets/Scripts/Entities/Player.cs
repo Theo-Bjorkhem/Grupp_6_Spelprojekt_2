@@ -38,8 +38,17 @@ public class Player : Entity
 
             if (gotInput)
             {
-                Move(moveDirection);
-                
+                Entity interactingEntity = GetEntityInDirection(moveDirection);
+
+                if (interactingEntity != null)
+                {
+                    interactingEntity.Interact(this, moveDirection);
+                }
+                else
+                {
+                    Move(moveDirection);
+
+                }
                 myTurnEvent.SignalDone();
                 myTurnEvent = null;
             }
@@ -49,5 +58,38 @@ public class Player : Entity
     public override void Action(TurnEvent aTurnEvent)
     {
         myTurnEvent = aTurnEvent;
+    }
+    private Entity GetEntityInDirection(Direction aDirection)
+    {
+        Vector2Int myPosition = StageManager.ourInstance.GetTilePositionFromWorldEntity(transform.position);
+        Vector2Int checkPosition;
+
+        switch (aDirection)
+        {
+            case Direction.Up:
+               checkPosition = (myPosition + new Vector2Int(0, 1));
+                break;
+            case Direction.Right:
+                checkPosition = (myPosition + new Vector2Int(1, 0));
+                break;
+            case Direction.Down:
+                checkPosition = (myPosition + new Vector2Int(0, -1));
+                break;
+            case Direction.Left:
+                checkPosition = (myPosition + new Vector2Int(-1, 0));
+                break;
+            default:
+                return null;
+        }
+
+        if(checkPosition.x >= 0 && checkPosition.x < StageManager.ourInstance.myGridWidth && checkPosition.y >= 0 && checkPosition.y < StageManager.ourInstance.myGridHeight)
+        {
+            return StageManager.ourInstance.GetEntity(checkPosition);
+
+        }
+        else
+        {
+            return null;
+        }
     }
 }
