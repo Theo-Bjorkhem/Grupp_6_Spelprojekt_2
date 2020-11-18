@@ -2,62 +2,52 @@
 
 public class Player : Entity
 {
-    [Header("Objects")]
-    [Tooltip("The Player GameObject")]
-    [SerializeField] private GameObject myPlayer;
-    [Header("Settings")]
-    [Tooltip("The x-axis size of the array the player can move on.")]
-    [SerializeField] private int myXSize;
-    [Tooltip("The y-axis size of the array the player can move on.")]
-    [SerializeField] private int myZSize;
+    private TurnEvent myTurnEvent = null;
 
-    private int[,] myPositionArray;
-    private int myXPos;
-    private int myZPos;
-
-    // Start is called before the first frame update
-    protected override void Start()
+    public void Update()
     {
-        base.Start();
+        if (myTurnEvent != null)
+        {
+            Direction moveDirection = Direction.Up;
+            bool gotInput = false;
 
-        myXPos = 0;
-        myZPos = 0;
-        myPositionArray = new int[myXSize, myZSize];
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                gotInput = true;
+
+                moveDirection = Direction.Right;
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                gotInput = true;
+
+                moveDirection = Direction.Down;
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                gotInput = true;
+
+                moveDirection = Direction.Up;
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                gotInput = true;
+
+                moveDirection = Direction.Left;
+            }
+
+            if (gotInput)
+            {
+                Move(moveDirection);
+                
+                myTurnEvent.SignalDone();
+                myTurnEvent = null;
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Action(TurnEvent aTurnEvent)
     {
-        myPlayer.transform.position = new Vector3(myXPos, 0, myZPos);
-
-        if (Input.GetKeyDown("up"))
-        {
-            if (myXPos < myXSize)
-            {
-                myXPos++;
-            }
-        }
-        if (Input.GetKeyDown("down"))
-        {
-            if (myXPos > 0)
-            {
-                myXPos--;
-            }
-        }
-        if (Input.GetKeyDown("right"))
-        {
-            if (myZPos > 0)
-            {
-                myZPos--;
-
-            }
-        }
-        if (Input.GetKeyDown("left"))
-        {
-            if (myZPos < myZSize)
-            {
-                myZPos++;
-            }
-        }
+        myTurnEvent = aTurnEvent;
     }
 }

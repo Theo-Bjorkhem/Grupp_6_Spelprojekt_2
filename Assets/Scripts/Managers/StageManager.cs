@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
+    private class EntityData
+    {
+        public Vector2Int myGridPosition;
+    }
+
     public static StageManager ourInstance;
 
     public StageMesssages myStageMessages { get; private set; } = new StageMesssages();
@@ -20,12 +25,18 @@ public class StageManager : MonoBehaviour
     [Tooltip("The size of one tile in the grid")]
     public float myTileSize = 1.0f;
 
+    private float myTileShift = -0.5f;
+
     private Tile[,] myTileGrid;
 
     private Entity[,] myEntityGrid;
 
-    // Use HashSet for fast iterate, remove and insert (assuming order is irrelevant)
-    private HashSet<Entity> myEntities = new HashSet<Entity>();
+    private Dictionary<Entity, EntityData> myEntities = new Dictionary<Entity, EntityData>();
+
+    // HashSet to ensure no double unregister
+    private HashSet<Entity> myQueuedEntityUnregisterOperations = new HashSet<Entity>();
+
+    private CriticalRegion myEntityRegion = new CriticalRegion();
 
     private Player myPlayer;
 
@@ -61,12 +72,22 @@ public class StageManager : MonoBehaviour
 
     public Vector3 GetTileCenterWorldPosition(Vector2Int aPosition)
     {
-        return new Vector3(aPosition.x * myTileSize, 0.0f, aPosition.y * myTileSize);
+        return new Vector3((aPosition.x + myTileShift) * myTileSize, 0.0f, (aPosition.y + myTileShift) * myTileSize);
     }
 
-    public Vector2Int GetTilePositionFromWorld(Vector3 aPosition)
+    public Vector2Int GetTilePositionFromWorldTile(Vector3 aPosition)
     {
-        return new Vector2Int(Mathf.FloorToInt((aPosition.x + myTileSize * 0.5f) / myTileSize), Mathf.FloorToInt((aPosition.z + myTileSize * 0.5f) / myTileSize));
+        return new Vector2Int(Mathf.FloorToInt(aPosition.x / myTileSize), Mathf.FloorToInt(aPosition.z / myTileSize));
+    }
+
+    public Vector2Int GetTilePositionFromWorldEntity(Vector3 aPosition)
+    {
+        return new Vector2Int(Mathf.FloorToInt((aPosition.x - myTileShift * myTileSize * 2.0f) / myTileSize), Mathf.FloorToInt((aPosition.z - myTileShift * myTileSize * 2.0f) / myTileSize));
+    }
+
+    public Vector2Int GetEntityGridPosition(Entity anEntity)
+    {
+        return GetEntityData(anEntity).myGridPosition;
     }
 
     /// <summary>
@@ -75,21 +96,23 @@ public class StageManager : MonoBehaviour
     /// </summary>
     public void MoveEntity(Entity anEntity, Vector2Int aNewPosition)
     {
-        Vector2Int gridPosition = GetTilePositionFromWorld(anEntity.transform.position);
+        EntityData entityData = GetEntityData(anEntity);
+
+        Vector2Int currentGridPosition = entityData.myGridPosition;
 
         Debug.Assert(CanEntityMoveToPosition(anEntity, aNewPosition), "Entity tried invalid move!");
 
-        // TODO: Might need a separate field in Entity to keep track of current grid position if this is triggered while an entity is animating to its new location.
-        Debug.Assert(myEntityGrid[gridPosition.x, gridPosition.y] == anEntity, "Entity position in grid and grid manager not in sync!");
+        Debug.Assert(myEntityGrid[currentGridPosition.x, currentGridPosition.y] == anEntity, "Entity position in grid and grid manager not in sync!");
 
-        Tile oldTile = myTileGrid[gridPosition.x, gridPosition.y];
+        Tile oldTile = myTileGrid[currentGridPosition.x, currentGridPosition.y];
         if (oldTile != null)
         {
             oldTile.OnExit(anEntity);
         }
 
-        myEntityGrid[gridPosition.x, gridPosition.y] = null;
+        myEntityGrid[currentGridPosition.x, currentGridPosition.y] = null;
         myEntityGrid[aNewPosition.x, aNewPosition.y] = anEntity;
+        entityData.myGridPosition = aNewPosition;
 
         Tile newTile = myTileGrid[aNewPosition.x, aNewPosition.y];
         if (newTile != null)
@@ -128,7 +151,7 @@ public class StageManager : MonoBehaviour
 
     public void RegisterTile(Tile aTile)
     {
-        Vector2Int gridPosition = GetTilePositionFromWorld(aTile.transform.position);
+        Vector2Int gridPosition = GetTilePositionFromWorldTile(aTile.transform.position);
 
         EnsureEmptyTile(gridPosition);
 
@@ -137,31 +160,53 @@ public class StageManager : MonoBehaviour
 
     public void RegisterEntity(Entity anEntity)
     {
-        Vector2Int gridPosition = GetTilePositionFromWorld(anEntity.transform.position);
+        Vector2Int gridPosition = GetTilePositionFromWorldEntity(anEntity.transform.position);
 
         EnsureNoEntity(gridPosition);
 
+        myEntityRegion.Lock(); // Lock entity region
+
         myEntityGrid[gridPosition.x, gridPosition.y] = anEntity;
-        myEntities.Add(anEntity);
+        myEntities.Add(anEntity, new EntityData { myGridPosition = gridPosition });
 
         if (anEntity is Player)
         {
             myPlayer = anEntity as Player;
         }
+
+        myEntityRegion.Unlock(); // Unlock entity region
+    }
+
+    public void UnregisterTile(Tile aTile)
+    {
+        Vector2Int gridPosition = GetTilePositionFromWorldTile(aTile.transform.position);
+
+        EnsureNoEntity(gridPosition);
+
+        myTileGrid[gridPosition.x, gridPosition.y] = null;
     }
 
     public void UnregisterEntity(Entity anEntity)
     {
-        Vector2Int gridPosition = GetTilePositionFromWorld(anEntity.transform.position);
+        Vector2Int currentGridPosition = GetEntityGridPosition(anEntity);
 
-        Debug.Assert(myEntityGrid[gridPosition.x, gridPosition.y] == anEntity, "Entity location not in sync with grid!");
+        Debug.Assert(myEntityGrid[currentGridPosition.x, currentGridPosition.y] == anEntity, "Entity location not in sync with grid!");
 
-        myEntityGrid[gridPosition.x, gridPosition.y] = null;
-        myEntities.Remove(anEntity); // O(1)
+        myEntityGrid[currentGridPosition.x, currentGridPosition.y] = null;
 
-        if (anEntity is Player)
+        if (myEntityRegion.myIsLocked)
         {
-            myPlayer = null;
+            // If we are currently iterating the myEntities list we'll queue the removal from that list at the end of the current turn.
+            myQueuedEntityUnregisterOperations.Add(anEntity);
+        }
+        else
+        {
+            myEntities.Remove(anEntity); // Close to O(1)
+
+            if (anEntity is Player)
+            {
+                myPlayer = null;
+            }
         }
     }
 
@@ -179,12 +224,38 @@ public class StageManager : MonoBehaviour
         return myEntityGrid[aPosition.x, aPosition.y];
     }
 
+    private EntityData GetEntityData(Entity anEntity)
+    {
+        Debug.Assert(myEntities.ContainsKey(anEntity), "Tried to get data from unregistered entity!");
+
+        return myEntities[anEntity];
+    }
+
+    private void RunQueuedOperations()
+    {
+        Debug.Assert(!myEntityRegion.myIsLocked, "Tried running queued operations while entity region is locked!");
+
+        foreach(Entity entity in myQueuedEntityUnregisterOperations)
+        {
+            myEntities.Remove(entity); // Close to O(1)
+
+            if (entity is Player)
+            {
+                myPlayer = null;
+            }
+        }
+
+        myQueuedEntityUnregisterOperations.Clear();
+    }
+
     private IEnumerator TurnMachine()
     {
         // Wait 1 frame to allow all tiles & entities to be registered
         yield return null;
 
         Debug.Assert(myPlayer != null, "No player has registered itself with the StageManager in time!");
+
+        DoEntityTileInitialEnter();
 
         // Allocate most (all if no reallocations are needed) memory needed by the turn machine at once before we start the main loop
         List<TurnEvent> incompleteNonPlayerTurnEvents = new List<TurnEvent>(myEntities.Count);
@@ -193,6 +264,8 @@ public class StageManager : MonoBehaviour
         do
         {
             incompleteNonPlayerTurnEvents.Clear();
+
+            myEntityRegion.Lock(); // Lock entity region
 
             TurnEvent playerTurnEvent = turnCache.Next();
             myPlayer.Action(playerTurnEvent);
@@ -204,7 +277,7 @@ public class StageManager : MonoBehaviour
 
             turnCache.Recycle(playerTurnEvent);
 
-            foreach (Entity entity in myEntities)
+            foreach (Entity entity in myEntities.Keys)
             {
                 if (entity == myPlayer)
                     continue; // Skip the player (handled above)
@@ -233,8 +306,37 @@ public class StageManager : MonoBehaviour
                 turnCache.Recycle(turnEvent);
             }
 
+            myEntityRegion.Unlock(); // Unlock entity region
+
+            RunQueuedOperations();
+
+            // TODO: Better place?
+
+            // If the current turn resulted in the player unregistering then the player has died => loss
+            if (myPlayer == null)
+            {
+                OnPlayerLoss();
+            }
+
             yield return null;
         } while (myStageState.myIsRunning);
+    }
+
+    private void DoEntityTileInitialEnter()
+    {
+        foreach (Entity entity in myEntities.Keys)
+        {
+            Vector2Int gridPosition = GetEntityGridPosition(entity);
+
+            Tile tile = GetTile(gridPosition);
+
+            if (tile != null)
+            {
+                Debug.Assert(tile.CanEnter(entity), "Initial entity location is on tile disallowing enter!");
+
+                tile.OnEnter(entity);
+            }
+        }
     }
 
     private bool IsPositionInGrid(Vector2Int aPosition)
@@ -251,6 +353,11 @@ public class StageManager : MonoBehaviour
     [System.Diagnostics.Conditional("UNITY_EDITOR")]
     private void EnsureEmptyTile(Vector2Int aPosition)
     {
+        if (GetTile(aPosition) != null)
+        {
+            Debug.LogWarning("Non empty tile: " + aPosition);
+        }
+
         Debug.Assert(GetTile(aPosition) == null, "Tried registering tile at occupied position!");
     }
 
@@ -311,23 +418,24 @@ public class StageManager : MonoBehaviour
             return;
         }
 
-        Vector3 origin = new Vector3(-0.5f * myTileSize, 0.0f, -0.5f * myTileSize);
-
         for (int x = 0; x < myGridWidth; ++x)
         {
             for (int z = 0; z < myGridHeight; ++z)
             {
-                Vector3 start = new Vector3(x * myTileSize, 0.0f, z * myTileSize) + origin;
+                Vector3 center = GetTileCenterWorldPosition(new Vector2Int(x, z));
+                Vector3 start = center - new Vector3(myTileSize * 0.5f, 0.0f, myTileSize * 0.5f);
 
                 Gizmos.DrawLine(start, start + Vector3.right * myTileSize);
                 Gizmos.DrawLine(start, start + Vector3.forward * myTileSize);
             }
         }
 
-        Vector3 corner = origin + new Vector3(myGridWidth * myTileSize, 0.0f, myGridHeight * myTileSize);
+        Vector3 shift = new Vector3(myTileSize * 0.5f, 0.0f, myTileSize * 0.5f);
+        Vector3 startCorner = GetTileCenterWorldPosition(Vector2Int.zero) - shift;
+        Vector3 endCorner = GetTileCenterWorldPosition(new Vector2Int(myGridWidth - 1, myGridHeight - 1)) + shift;
 
-        Gizmos.DrawLine(new Vector3(corner.z, 0.0f, origin.z), corner);
-        Gizmos.DrawLine(new Vector3(origin.x, 0.0f, corner.z), corner);
+        Gizmos.DrawLine(new Vector3(startCorner.x, 0.0f, endCorner.z), endCorner);
+        Gizmos.DrawLine(new Vector3(endCorner.x, 0.0f, startCorner.z), endCorner);
     }
 
 #endif
