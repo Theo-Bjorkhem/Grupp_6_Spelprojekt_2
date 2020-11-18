@@ -11,6 +11,8 @@ public class StageManager : MonoBehaviour
 
     public static StageManager ourInstance;
 
+    public int myCurrentTurnIndex { get; private set; } = 0;
+
     public StageMesssages myStageMessages { get; private set; } = new StageMesssages();
     private StageState myStageState { get; set; } = new StageState();
 
@@ -31,14 +33,13 @@ public class StageManager : MonoBehaviour
 
     private Entity[,] myEntityGrid;
 
-    private Dictionary<Entity, EntityData> myEntities = new Dictionary<Entity, EntityData>();
+    private FreezableDictionaryWrapper<Entity, EntityData> myEntities = new FreezableDictionaryWrapper<Entity, EntityData>();
 
-    // HashSet to ensure no double unregister
-    private HashSet<Entity> myQueuedEntityUnregisterOperations = new HashSet<Entity>();
+    private FreezableHashSetWrapper<Tile> myTurnEventSubscribedTiles = new FreezableHashSetWrapper<Tile>();
 
-    private CriticalRegion myEntityRegion = new CriticalRegion();
+    private FreezableValue<Player> myPlayer = new FreezableValue<Player>(null);
 
-    private Player myPlayer;
+    private CriticalRegion myProtectedTurnRegion = new CriticalRegion();
 
     /// <summary>
     /// Called when the player wins the current stage. Will start the victory sequence.
@@ -149,6 +150,16 @@ public class StageManager : MonoBehaviour
         return entity == null;
     }
 
+    public void RegisterTileForTurnEvents(Tile aTile)
+    {
+        myTurnEventSubscribedTiles.Add(aTile);
+    }
+
+    public void UnregisterTileForTurnEvents(Tile aTile)
+    {
+        myTurnEventSubscribedTiles.Remove(aTile);
+    }
+
     public void RegisterTile(Tile aTile)
     {
         Vector2Int gridPosition = GetTilePositionFromWorldTile(aTile.transform.position);
@@ -164,17 +175,13 @@ public class StageManager : MonoBehaviour
 
         EnsureNoEntity(gridPosition);
 
-        myEntityRegion.Lock(); // Lock entity region
-
         myEntityGrid[gridPosition.x, gridPosition.y] = anEntity;
         myEntities.Add(anEntity, new EntityData { myGridPosition = gridPosition });
 
         if (anEntity is Player)
         {
-            myPlayer = anEntity as Player;
+            myPlayer.Set(anEntity as Player);
         }
-
-        myEntityRegion.Unlock(); // Unlock entity region
     }
 
     public void UnregisterTile(Tile aTile)
@@ -184,6 +191,8 @@ public class StageManager : MonoBehaviour
         EnsureNoEntity(gridPosition);
 
         myTileGrid[gridPosition.x, gridPosition.y] = null;
+
+        UnregisterTileForTurnEvents(aTile);
     }
 
     public void UnregisterEntity(Entity anEntity)
@@ -194,19 +203,11 @@ public class StageManager : MonoBehaviour
 
         myEntityGrid[currentGridPosition.x, currentGridPosition.y] = null;
 
-        if (myEntityRegion.myIsLocked)
-        {
-            // If we are currently iterating the myEntities list we'll queue the removal from that list at the end of the current turn.
-            myQueuedEntityUnregisterOperations.Add(anEntity);
-        }
-        else
-        {
-            myEntities.Remove(anEntity); // Close to O(1)
+        myEntities.Remove(anEntity);
 
-            if (anEntity is Player)
-            {
-                myPlayer = null;
-            }
+        if (anEntity is Player)
+        {
+            myPlayer.Set(null);
         }
     }
 
@@ -226,26 +227,14 @@ public class StageManager : MonoBehaviour
 
     private EntityData GetEntityData(Entity anEntity)
     {
-        Debug.Assert(myEntities.ContainsKey(anEntity), "Tried to get data from unregistered entity!");
+        Debug.Assert(myEntities.myValue.ContainsKey(anEntity), "Tried to get data from unregistered entity!");
 
-        return myEntities[anEntity];
+        return myEntities.myValue[anEntity];
     }
 
     private void RunQueuedOperations()
     {
-        Debug.Assert(!myEntityRegion.myIsLocked, "Tried running queued operations while entity region is locked!");
-
-        foreach(Entity entity in myQueuedEntityUnregisterOperations)
-        {
-            myEntities.Remove(entity); // Close to O(1)
-
-            if (entity is Player)
-            {
-                myPlayer = null;
-            }
-        }
-
-        myQueuedEntityUnregisterOperations.Clear();
+        Debug.Assert(!myProtectedTurnRegion.myIsLocked, "Tried running queued operations while entity region is locked!");
     }
 
     private IEnumerator TurnMachine()
@@ -253,22 +242,36 @@ public class StageManager : MonoBehaviour
         // Wait 1 frame to allow all tiles & entities to be registered
         yield return null;
 
-        Debug.Assert(myPlayer != null, "No player has registered itself with the StageManager in time!");
+#if UNITY_EDITOR
+        if (myPlayer.myValue == null)
+        {
+            Debug.LogWarning("No player registered when turn machine started!");
+
+            yield break;
+        }
+#endif
 
         DoEntityTileInitialEnter();
 
         // Allocate most (all if no reallocations are needed) memory needed by the turn machine at once before we start the main loop
-        List<TurnEvent> incompleteNonPlayerTurnEvents = new List<TurnEvent>(myEntities.Count);
-        TurnCache turnCache = new TurnCache(myEntities.Count);
+        List<TurnEvent> incompleteNonPlayerTurnEvents = new List<TurnEvent>(myEntities.myValue.Count + myTurnEventSubscribedTiles.myValue.Count);
+        TurnCache turnCache = new TurnCache(myEntities.myValue.Count + myTurnEventSubscribedTiles.myValue.Count);
 
         do
         {
             incompleteNonPlayerTurnEvents.Clear();
 
-            myEntityRegion.Lock(); // Lock entity region
+            // Freeze values used in loops etc.
+            myEntities.Freeze();
+            myTurnEventSubscribedTiles.Freeze();
+            myPlayer.Freeze();
+
+            myProtectedTurnRegion.Lock(); // Lock entity region
+
+            // 1. Update player
 
             TurnEvent playerTurnEvent = turnCache.Next();
-            myPlayer.Action(playerTurnEvent);
+            myPlayer.myValue.Action(playerTurnEvent);
 
             if (!playerTurnEvent.myIsTurnDone)
             {
@@ -277,9 +280,11 @@ public class StageManager : MonoBehaviour
 
             turnCache.Recycle(playerTurnEvent);
 
-            foreach (Entity entity in myEntities.Keys)
+            // 2. Update all entities
+
+            foreach (Entity entity in myEntities.myValue.Keys)
             {
-                if (entity == myPlayer)
+                if (entity == myPlayer.myValue)
                     continue; // Skip the player (handled above)
 
                 TurnEvent turnEvent = turnCache.Next();
@@ -296,6 +301,26 @@ public class StageManager : MonoBehaviour
                 }
             }
 
+            // 3. Update any tiles that have subscribed for turn events
+
+            foreach (Tile tile in myTurnEventSubscribedTiles.myValue)
+            {
+                TurnEvent turnEvent = turnCache.Next();
+                tile.OnTurnEvent(turnEvent);
+
+                // Optimization
+                if (!turnEvent.myIsTurnDone)
+                {
+                    incompleteNonPlayerTurnEvents.Add(turnEvent);
+                }
+                else
+                {
+                    turnCache.Recycle(turnEvent);
+                }
+            }
+
+            // 4. Wait for all incomplete non player turn events to finish
+
             foreach (TurnEvent turnEvent in incompleteNonPlayerTurnEvents)
             {
                 if (!turnEvent.myIsTurnDone)
@@ -306,25 +331,32 @@ public class StageManager : MonoBehaviour
                 turnCache.Recycle(turnEvent);
             }
 
-            myEntityRegion.Unlock(); // Unlock entity region
+            myProtectedTurnRegion.Unlock(); // Unlock entity region
+
+            // Unfreeze frozen values
+            myPlayer.Unfreeze();
+            myTurnEventSubscribedTiles.Unfreeze();
+            myEntities.Unfreeze();
 
             RunQueuedOperations();
 
             // TODO: Better place?
 
             // If the current turn resulted in the player unregistering then the player has died => loss
-            if (myPlayer == null)
+            if (myPlayer.myValue == null)
             {
                 OnPlayerLoss();
             }
 
             yield return null;
+
+            ++myCurrentTurnIndex;
         } while (myStageState.myIsRunning);
     }
 
     private void DoEntityTileInitialEnter()
     {
-        foreach (Entity entity in myEntities.Keys)
+        foreach (Entity entity in myEntities.myValue.Keys)
         {
             Vector2Int gridPosition = GetEntityGridPosition(entity);
 

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1106274027831399570}
-  - component: {fileID: 4873918943621289724}
+  - component: {fileID: 8721854927892713555}
   m_Layer: 0
   m_Name: SpikesTile
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4873918943621289724
+--- !u!114 &8721854927892713555
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,9 +41,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1804268520042609918}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c87bd551f35a5b64dad89ab894efadd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 09574b94745c8bc4a8af48b8c2d7620c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myForceDisallowEnter: 0
+  mySpikeOnEven: 1
 --- !u!1001 &2696121400920939513
 PrefabInstance:
   m_ObjectHideFlags: 0
