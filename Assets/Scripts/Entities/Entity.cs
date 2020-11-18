@@ -81,4 +81,42 @@ public class Entity : MonoBehaviour
     {
         StageManager.ourInstance.RegisterEntity(this);
     }
+
+    protected Vector2Int DirectionToVec(Direction aDirection)
+    {
+        switch (aDirection)
+        {
+            case Direction.Up:
+                return Vector2Int.up;
+            case Direction.Right:
+                return Vector2Int.right;
+            case Direction.Down:
+                return Vector2Int.down;
+            case Direction.Left:
+                return Vector2Int.left;
+            default:
+                Debug.LogError(this + " has no direction somehow.");
+                break;
+        }
+        return Vector2Int.up;
+    }
+
+    protected Direction ReverseDirection (Direction aDirection)
+    {
+        switch (aDirection)
+        {
+            case Direction.Up:
+                return Direction.Down;
+            case Direction.Right:
+                return Direction.Left;
+            case Direction.Down:
+                return Direction.Up;
+            case Direction.Left:
+                return Direction.Right;
+            default:
+                Debug.LogError(this + " has no direction somehow.");
+                break;
+        }
+        return Direction.Up;
+    }
 }

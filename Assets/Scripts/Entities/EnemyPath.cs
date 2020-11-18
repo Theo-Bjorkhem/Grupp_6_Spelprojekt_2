@@ -11,6 +11,12 @@ public class EnemyPath : Entity
 
     public override void Action(TurnEvent aTurnEvent)
     {
+        if (!StageManager.ourInstance.CanEntityMoveToPosition(this, StageManager.ourInstance.GetEntityGridPosition(this) + DirectionToVec(mySteps[myStepsIndex])))
+        {
+            aTurnEvent.SignalDone();
+            return;
+        }
+
         Move(mySteps[myStepsIndex]);
         myStepsIndex++;
 
@@ -21,7 +27,7 @@ public class EnemyPath : Entity
         }
 
         aTurnEvent.SignalDone();
-    }
+    }    
 
     public override void Interact(Entity anEntity, Direction aDirection)
     {
@@ -37,26 +43,7 @@ public class EnemyPath : Entity
 
         for (int i = mySteps.Length - 1; i >= 0; i--)
         {
-            Direction direction = Direction.Up;
-            switch (mySteps[i])
-            {
-                case Direction.Up:
-                    direction = Direction.Down;
-                    break;
-                case Direction.Right:
-                    direction = Direction.Left;
-                    break;
-                case Direction.Down:
-                    direction = Direction.Up;
-                    break;
-                case Direction.Left:
-                    direction = Direction.Right;
-                    break;
-                default:
-                    Debug.LogError(this + " has a directionless step, somehow.");
-                    break;
-            }
-
+            Direction direction = ReverseDirection(mySteps[i]);
             newSteps[mySteps.Length - 1 - i] = direction;
         }
 
