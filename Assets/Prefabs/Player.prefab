@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myPlayer: {fileID: 5811035199643741324}
-  myDragDistance: 1
+  myDragDistance: 10
+  myMaxSwipeTime: 0.5
+  myMinSwipeLength: 100
 --- !u!1 &7119037267659140975
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-
 public class Player : Entity
 {
     private TurnEvent myTurnEvent = null;
@@ -11,8 +10,17 @@ public class Player : Entity
     [Header("Touch Settings")]
     [Tooltip("Length you must drag you finger accros the screen before the PLayer moves.")]
     [SerializeField] private float myDragDistance;
-
-    private Vector2 myOldTouchPos;
+	
+    [Tooltip("Longest time the player can swipe before the swipe becomes null (in seconds).")]
+    [SerializeField] private float myMaxSwipeTime;
+    [Tooltip("Minimum length of Swipe for it not to become null (in pixels).")]
+    [SerializeField] private float myMinSwipeLength;
+	
+    //Touch Related
+    private float mySwipeStartTime;
+    private float mySwipeEndTime;
+    private Vector2 mySwipeStartPos;
+    private Vector2 mySwipeEndPos;
 
     public void Update()
     {
@@ -82,7 +90,6 @@ public class Player : Entity
                 else
                 {
                     Move(moveDirection);
-
                 }
                 myTurnEvent.SignalDone();
                 myTurnEvent = null;
@@ -95,44 +102,41 @@ public class Player : Entity
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
-            switch (touch.phase)
+            if (touch.phase == TouchPhase.Began)
             {
-                case TouchPhase.Began:
-                    Debug.Log("Touch Began");
-                    myOldTouchPos = touch.position;
-                    break;
-                case TouchPhase.Moved:
-                    Debug.Log("Touch Moved");
-                    Vector2 newTouchPos = touch.position;
+                mySwipeStartTime = Time.time;
+                mySwipeStartPos = touch.position;
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                mySwipeEndTime = Time.time;
+                mySwipeEndPos = touch.position;
 
-                    if ((newTouchPos.x - myOldTouchPos.x) > myDragDistance)
-                    {
-                        Debug.Log("Returned 3");
-                        return 3;
-                    }
-                    else if (( myOldTouchPos.x - newTouchPos.x) > -myDragDistance)
-                    {
-                        Debug.Log("Returned 4");
-                        return 4;
-                    }
+            }
 
-                    if ((newTouchPos.y - myOldTouchPos.y) > myDragDistance)
-                    {
-                        Debug.Log("Returned 1");
-                        return 1;
-                    }
-                    else if ((myOldTouchPos.y - newTouchPos.y) > -myDragDistance)
-                    {
-                        Debug.Log("Returned 2");
-                        return 2;
-                    }
-
-                    break;
-                case TouchPhase.Ended:
-                    Debug.Log("Touch Ended");
-                    break;
-                default:
-                    break;
+            float swipeTime = mySwipeEndTime - mySwipeStartTime;
+            float swipeLength = (mySwipeEndPos - mySwipeStartPos).magnitude;
+            if (swipeTime < myMaxSwipeTime && swipeLength > myMinSwipeLength)
+            {
+                Vector2 distance = mySwipeEndPos - mySwipeStartPos;
+                float xDistance = Mathf.Abs(distance.x);
+                float yDistance = Mathf.Abs(distance.y);
+                if ((xDistance > yDistance) && (touch.position.x > mySwipeStartPos.x))
+                {
+                    return 3;
+                }
+                else if ((xDistance > yDistance) && (touch.position.x < mySwipeStartPos.x))
+                {
+                    return 4;
+                }
+                else if ((yDistance > xDistance) && (touch.position.y > mySwipeStartPos.y))
+                {
+                    return 1;
+                }
+                else if ((yDistance > xDistance) && (touch.position.y < mySwipeStartPos.y))
+                {
+                    return 2;
+                }
             }
         }
         return 0;
@@ -141,6 +145,7 @@ public class Player : Entity
     public override void Action(TurnEvent aTurnEvent)
     {
         myTurnEvent = aTurnEvent;
+
     }
 	
     private Entity GetEntityInDirection(Direction aDirection)
