@@ -4,6 +4,8 @@ public class EnemyPath : Entity
 {
     [SerializeField]
     private Direction[] mySteps;
+    [SerializeField]
+    private bool myWillReverse = true;
 
     private int myStepsIndex;
 
@@ -36,7 +38,10 @@ public class EnemyPath : Entity
         if (myStepsIndex >= mySteps.Length)
         {
             myStepsIndex = 0;
-            ReverseSteps();
+            if (myWillReverse)
+            {
+                ReverseSteps();
+            }
         }
 
         aTurnEvent.SignalDone();
