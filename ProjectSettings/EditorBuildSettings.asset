@@ -15,6 +15,12 @@ EditorBuildSettings:
     path: Assets/Scenes/UI/victoryDefeatUi_scene.unity
     guid: 802735bb488fc684ba4d369fd9ad4d59
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/Pending/MartinScene1_scene.unity
+    guid: e8c87b9ead40c5747b48a9eefe976330
+  - enabled: 1
+    path: Assets/Scenes/Pending/MartinScene2_scene.unity
+    guid: 9cb1420ba83a1a245a7220c2c14b08b9
+  - enabled: 1
+    path: Assets/Scenes/Pending/MartinScene3_scene.unity
+    guid: 68da88d50b0c23e4b889a8781553e220
   m_configObjects: {}
