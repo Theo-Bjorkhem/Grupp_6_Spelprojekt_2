@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class Player : Entity
 {
     private TurnEvent myTurnEvent = null;
@@ -24,6 +26,13 @@ public class Player : Entity
 
     public void Update()
     {
+        if (base.IsDead())
+        {
+            StageManager.ourInstance.OnPlayerLoss();
+
+            // Temporary while VictoryDefeatUI is not implemented
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
         PlayerAction();
     }
 	
