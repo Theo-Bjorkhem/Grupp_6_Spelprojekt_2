@@ -111,33 +111,33 @@ public class Player : Entity
             {
                 mySwipeEndTime = Time.time;
                 mySwipeEndPos = touch.position;
-
-            }
-
-            float swipeTime = mySwipeEndTime - mySwipeStartTime;
-            float swipeLength = (mySwipeEndPos - mySwipeStartPos).magnitude;
-            if (swipeTime < myMaxSwipeTime && swipeLength > myMinSwipeLength)
-            {
-                Vector2 distance = mySwipeEndPos - mySwipeStartPos;
-                float xDistance = Mathf.Abs(distance.x);
-                float yDistance = Mathf.Abs(distance.y);
-                if ((xDistance > yDistance) && (touch.position.x > mySwipeStartPos.x))
+                float swipeTime = mySwipeEndTime - mySwipeStartTime;
+                float swipeLength = (mySwipeEndPos - mySwipeStartPos).magnitude;
+                if (swipeTime < myMaxSwipeTime && swipeLength > myMinSwipeLength)
                 {
-                    return 3;
-                }
-                else if ((xDistance > yDistance) && (touch.position.x < mySwipeStartPos.x))
-                {
-                    return 4;
-                }
-                else if ((yDistance > xDistance) && (touch.position.y > mySwipeStartPos.y))
-                {
-                    return 1;
-                }
-                else if ((yDistance > xDistance) && (touch.position.y < mySwipeStartPos.y))
-                {
-                    return 2;
+                    Vector2 distance = mySwipeEndPos - mySwipeStartPos;
+                    float xDistance = Mathf.Abs(distance.x);
+                    float yDistance = Mathf.Abs(distance.y);
+                    if ((xDistance > yDistance) && (touch.position.x > mySwipeStartPos.x))
+                    {
+                        return 3;
+                    }
+                    else if ((xDistance > yDistance) && (touch.position.x < mySwipeStartPos.x))
+                    {
+                        return 4;
+                    }
+                    else if ((yDistance > xDistance) && (touch.position.y > mySwipeStartPos.y))
+                    {
+                        return 1;
+                    }
+                    else if ((yDistance > xDistance) && (touch.position.y < mySwipeStartPos.y))
+                    {
+                        return 2;
+                    }
                 }
             }
+
+
         }
         return 0;
     }
