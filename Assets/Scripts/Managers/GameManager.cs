@@ -55,7 +55,9 @@ public class GameManager : MonoBehaviour
     {
         // TODO: Use the correct stage scene format
         // string stageSceneName = $"Stage{aStageIndex}";
-        string stageSceneName = $"SampleScene";
+
+        // Temporary for pre-alpha build
+        string stageSceneName = $"MartinScene{aStageIndex + 1}_scene";
 
         yield return TransitionToScene(stageSceneName);
 
