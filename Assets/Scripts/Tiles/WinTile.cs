@@ -13,13 +13,15 @@ public class WinTile : Tile
     {
         if (steppedOnMe as Player != null)
         {
+            StageManager.ourInstance.OnPlayerWon();
+
+            // Temporary while VictoryDefeatUI is not implemented
             if (GameManager.ourInstance == null)
             {
                 Debug.LogWarning("Cannot transition to next stage because GameManager is null. Did you start the game from the main menu?", this);
             }
             else
             {
-                StageManager.ourInstance.OnPlayerWon();
                 GameManager.ourInstance.TransitionToNextStage();
             }
         }
