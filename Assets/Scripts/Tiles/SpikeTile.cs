@@ -46,10 +46,10 @@ public class SpikeTile : Tile
         // TODO: Extend spikes visually when spike model has spikes and main body separate
         transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z); // Test visuals
 
-        // Kill any entity above this tile
+        // If the player is standing on this tile we'll kill it
         Entity entity = StageManager.ourInstance.GetEntity(StageManager.ourInstance.GetTilePositionFromWorldTile(transform.position));
         
-        if (entity != null)
+        if (entity != null && entity is Player)
         {
             entity.Kill(DeathReason.Spike);
         }
