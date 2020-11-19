@@ -13,6 +13,14 @@ public class StageManager : MonoBehaviour
 
     public int myCurrentTurnIndex { get; private set; } = 0;
 
+    public int myTurnsLeft
+    {
+        get
+        {
+            return Mathf.Max(myStageTurnCount - myCurrentTurnIndex, 0);
+        }
+    }
+
     public StageMesssages myStageMessages { get; private set; } = new StageMesssages();
     private StageState myStageState { get; set; } = new StageState();
 
@@ -26,6 +34,11 @@ public class StageManager : MonoBehaviour
 
     [Tooltip("The size of one tile in the grid")]
     public float myTileSize = 1.0f;
+
+    [Header("Game Configuration")]
+    
+    [Tooltip("Amount of turns the player is allowed to make until the stage is lost")]
+    public int myStageTurnCount = 10;
 
     private float myTileShift = -0.5f;
 
@@ -260,6 +273,8 @@ public class StageManager : MonoBehaviour
         do
         {
             incompleteNonPlayerTurnEvents.Clear();
+
+            myStageMessages.TriggerTurnStart();
 
             // Freeze values used in loops etc.
             myEntities.Freeze();
