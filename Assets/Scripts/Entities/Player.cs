@@ -29,7 +29,7 @@ public class Player : Entity
     }
     private void PlayerAction()
     {
-        myCurrentPosition = StageManager.ourInstance.GetTilePositionFromWorld(transform.position);
+        //myCurrentPosition = StageManager.ourInstance.GetTilePositionFromWorld(transform.position);
         if (myTurnEvent != null)
         {
             //Touch Input
