@@ -53,10 +53,6 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator TransitionToStageCo(int aStageIndex)
     {
-        // TODO: Use the correct stage scene format
-        // string stageSceneName = $"Stage{aStageIndex}";
-
-        // Temporary for pre-alpha build
         string stageSceneName = $"Stage{aStageIndex + 1}_scene";
 
         yield return TransitionToScene(stageSceneName);
