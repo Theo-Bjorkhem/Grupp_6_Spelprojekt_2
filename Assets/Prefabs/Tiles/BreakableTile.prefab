@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f9828882540eb04f981ab784af8f008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myForceDisallowEnter: 0
   myBreakThreshold: 2
 --- !u!1001 &884847918475408610
 PrefabInstance:
@@ -126,7 +127,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 20e47c00707706b4eb84fd822a506997, type: 2}
+      objectReference: {fileID: 2100000, guid: 9bdd1793f9e495741bd03f8aa28ab42f, type: 2}
     - target: {fileID: -5754084199372789682, guid: 124028b57f851614aa5f3346678d4264,
         type: 3}
       propertyPath: m_Mesh
