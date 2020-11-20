@@ -411,7 +411,7 @@ public class StageManager : MonoBehaviour
     [System.Diagnostics.Conditional("UNITY_EDITOR")]
     private void EnsureNoEntity(Vector2Int aPosition)
     {
-        Debug.Assert(GetEntity(aPosition) == null, "Tried registering entity at occupied position!");
+        Debug.Assert(GetEntity(aPosition) == null, "Tried registering entity at occupied position! Click to highlight existing entity.", GetEntity(aPosition));
     }
 
     private void AllocateGrid()
