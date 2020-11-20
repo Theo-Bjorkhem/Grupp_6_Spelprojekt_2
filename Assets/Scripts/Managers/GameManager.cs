@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         // string stageSceneName = $"Stage{aStageIndex}";
 
         // Temporary for pre-alpha build
-        string stageSceneName = $"MartinScene{aStageIndex + 1}_scene";
+        string stageSceneName = $"Stage{aStageIndex + 1}_scene";
 
         yield return TransitionToScene(stageSceneName);
 
