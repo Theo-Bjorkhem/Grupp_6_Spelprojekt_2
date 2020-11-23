@@ -40,8 +40,6 @@ public class StageManager : MonoBehaviour
     [Tooltip("Amount of turns the player is allowed to make until the stage is lost")]
     public int myStageTurnCount = 10;
 
-    private float myTileShift = -0.5f;
-
     private Tile[,] myTileGrid;
 
     private Entity[,] myEntityGrid;
@@ -84,9 +82,9 @@ public class StageManager : MonoBehaviour
         myStageMessages.TriggerPlayerDefeated();
     }
 
-    public Vector3 GetTileCenterWorldPosition(Vector2Int aPosition)
+    public Vector3 GetEntityWorldPositionFromTilePosition(Vector2Int aPosition)
     {
-        return new Vector3((aPosition.x + myTileShift) * myTileSize, 0.0f, (aPosition.y + myTileShift) * myTileSize);
+        return new Vector3(aPosition.x * myTileSize, 0.0f, aPosition.y * myTileSize);
     }
 
     public Vector2Int GetTilePositionFromWorldTile(Vector3 aPosition)
@@ -95,9 +93,7 @@ public class StageManager : MonoBehaviour
     }
 
     public Vector2Int GetTilePositionFromWorldEntity(Vector3 aPosition)
-    {
-        return new Vector2Int(Mathf.FloorToInt((aPosition.x - myTileShift * myTileSize * 2.0f) / myTileSize), Mathf.FloorToInt((aPosition.z - myTileShift * myTileSize * 2.0f) / myTileSize));
-    }
+        => GetTilePositionFromWorldTile(aPosition);
 
     public Vector2Int GetEntityGridPosition(Entity anEntity)
     {
@@ -411,6 +407,13 @@ public class StageManager : MonoBehaviour
     [System.Diagnostics.Conditional("UNITY_EDITOR")]
     private void EnsureNoEntity(Vector2Int aPosition)
     {
+        if (GetEntity(aPosition) != null)
+        {
+            Debug.LogWarning("Registering entity at occupied position!");
+            Debug.LogWarning(GetEntity(aPosition));
+            Debug.LogWarning(aPosition);
+        }
+
         Debug.Assert(GetEntity(aPosition) == null, "Tried registering entity at occupied position! Click to highlight existing entity.", GetEntity(aPosition));
     }
 
@@ -465,21 +468,22 @@ public class StageManager : MonoBehaviour
             return;
         }
 
+        Vector3 shift = new Vector3(myTileSize, 0.0f, myTileSize);
+
         for (int x = 0; x < myGridWidth; ++x)
         {
             for (int z = 0; z < myGridHeight; ++z)
             {
-                Vector3 center = GetTileCenterWorldPosition(new Vector2Int(x, z));
-                Vector3 start = center - new Vector3(myTileSize * 0.5f, 0.0f, myTileSize * 0.5f);
+                Vector3 corner = GetEntityWorldPositionFromTilePosition(new Vector2Int(x, z));
+                Vector3 start = corner - shift;
 
                 Gizmos.DrawLine(start, start + Vector3.right * myTileSize);
                 Gizmos.DrawLine(start, start + Vector3.forward * myTileSize);
             }
         }
 
-        Vector3 shift = new Vector3(myTileSize * 0.5f, 0.0f, myTileSize * 0.5f);
-        Vector3 startCorner = GetTileCenterWorldPosition(Vector2Int.zero) - shift;
-        Vector3 endCorner = GetTileCenterWorldPosition(new Vector2Int(myGridWidth - 1, myGridHeight - 1)) + shift;
+        Vector3 startCorner = GetEntityWorldPositionFromTilePosition(Vector2Int.zero) - shift;
+        Vector3 endCorner = GetEntityWorldPositionFromTilePosition(new Vector2Int(myGridWidth - 1, myGridHeight - 1));
 
         Gizmos.DrawLine(new Vector3(startCorner.x, 0.0f, endCorner.z), endCorner);
         Gizmos.DrawLine(new Vector3(endCorner.x, 0.0f, startCorner.z), endCorner);
