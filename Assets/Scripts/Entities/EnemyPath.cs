@@ -4,11 +4,19 @@ public class EnemyPath : Entity
 {
     [SerializeField]
     private Direction[] mySteps;
+    [SerializeField]
+    private bool myWillReverse = true;
 
     private int myStepsIndex;
 
     public override void Action(TurnEvent aTurnEvent)
     {
+        if (mySteps.Length <= 0)
+        {
+            aTurnEvent.SignalDone();
+            return;
+        }
+
         Vector2Int newPosition = StageManager.ourInstance.GetEntityGridPosition(this) + DirectionToVec(mySteps[myStepsIndex]);
 
         if (!StageManager.ourInstance.IsPositionInGrid(newPosition))
@@ -36,7 +44,10 @@ public class EnemyPath : Entity
         if (myStepsIndex >= mySteps.Length)
         {
             myStepsIndex = 0;
-            ReverseSteps();
+            if (myWillReverse)
+            {
+                ReverseSteps();
+            }
         }
 
         aTurnEvent.SignalDone();

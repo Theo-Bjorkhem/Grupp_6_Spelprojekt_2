@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/mainMenu_scene.unity
+    path: Assets/Scenes/UI/mainMenu_scene.unity
     guid: 8e30fab29d4cc43498a45b1ce36951c1
   - enabled: 1
     path: Assets/Scenes/UI/uiBase_scene.unity
@@ -15,12 +15,15 @@ EditorBuildSettings:
     path: Assets/Scenes/UI/victoryDefeatUi_scene.unity
     guid: 802735bb488fc684ba4d369fd9ad4d59
   - enabled: 1
-    path: Assets/Scenes/Pending/MartinScene1_scene.unity
+    path: Assets/Scenes/Official/Stage1_scene.unity
+    guid: ba377617f31f7c848a80c271ce77b9c8
+  - enabled: 1
+    path: Assets/Scenes/Official/Stage2_scene.unity
     guid: e8c87b9ead40c5747b48a9eefe976330
   - enabled: 1
-    path: Assets/Scenes/Pending/MartinScene2_scene.unity
+    path: Assets/Scenes/Official/Stage3_scene.unity
     guid: 9cb1420ba83a1a245a7220c2c14b08b9
   - enabled: 1
-    path: Assets/Scenes/Pending/MartinScene3_scene.unity
+    path: Assets/Scenes/Official/Stage4_scene.unity
     guid: 68da88d50b0c23e4b889a8781553e220
   m_configObjects: {}

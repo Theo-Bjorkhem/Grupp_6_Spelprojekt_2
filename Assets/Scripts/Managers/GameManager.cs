@@ -53,11 +53,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator TransitionToStageCo(int aStageIndex)
     {
-        // TODO: Use the correct stage scene format
-        // string stageSceneName = $"Stage{aStageIndex}";
-
-        // Temporary for pre-alpha build
-        string stageSceneName = $"MartinScene{aStageIndex + 1}_scene";
+        string stageSceneName = $"Stage{aStageIndex + 1}_scene";
 
         yield return TransitionToScene(stageSceneName);
 
@@ -72,6 +68,7 @@ public class GameManager : MonoBehaviour
         // TODO: Add UI scenes that need to be loaded on stage load here!
         SceneManager.LoadScene("uiBase_scene", LoadSceneMode.Additive);
         SceneManager.LoadScene("victoryDefeatUi_scene", LoadSceneMode.Additive);
+        SceneManager.LoadScene("UI_Prototype", LoadSceneMode.Additive);
 
         myCurrentStageIndex = aStageIndex;
 
