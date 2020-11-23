@@ -13,11 +13,28 @@ public class BreakableTile : Tile
     {
         base.OnEnter(steppedOnMe);
 
+        HandleStep();
+    }
+
+    public override void OnExit(Entity steppedOffMe)
+    {
+        base.OnExit(steppedOffMe);
+
+        HandleStep();
+    }
+
+    public override bool CanEnter(Entity wantsToEnter)
+    {
+        return myStepCount < myBreakThreshold;
+    }
+
+    private bool HandleStep()
+    {
         ++myStepCount;
 
         if (myStepCount >= myBreakThreshold)
         {
-            // TODO: Animation etc..
+            // TODO: Animation etc...
             gameObject.SetActive(false);
 
             Entity entity = StageManager.ourInstance.GetEntity(StageManager.ourInstance.GetTilePositionFromWorldTile(transform.position));
@@ -29,11 +46,10 @@ public class BreakableTile : Tile
 
             // This requires that no entities are present on the tile, killing an entity should remove it from the grid immediately.
             StageManager.ourInstance.UnregisterTile(this);
-        }
-    }
 
-    public override bool CanEnter(Entity wantsToEnter)
-    {
-        return myStepCount < myBreakThreshold;
+            return true;
+        }
+
+        return false;
     }
 }

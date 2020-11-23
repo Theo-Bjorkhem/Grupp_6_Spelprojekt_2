@@ -73,7 +73,7 @@ public class Entity : MonoBehaviour
         {
             StageManager.ourInstance.MoveEntity(this, gridPosition);
 
-            transform.position = StageManager.ourInstance.GetTileCenterWorldPosition(gridPosition);
+            transform.position = StageManager.ourInstance.GetEntityWorldPositionFromTilePosition(gridPosition);
         }
     }
 
