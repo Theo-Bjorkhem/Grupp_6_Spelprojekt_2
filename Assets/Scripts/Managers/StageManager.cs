@@ -115,16 +115,21 @@ public class StageManager : MonoBehaviour
         Debug.Assert(myEntityGrid[currentGridPosition.x, currentGridPosition.y] == anEntity, "Entity position in grid and grid manager not in sync!");
 
         Tile oldTile = myTileGrid[currentGridPosition.x, currentGridPosition.y];
-        if (oldTile != null)
-        {
-            oldTile.OnExit(anEntity);
-        }
 
         myEntityGrid[currentGridPosition.x, currentGridPosition.y] = null;
         myEntityGrid[aNewPosition.x, aNewPosition.y] = anEntity;
         entityData.myGridPosition = aNewPosition;
 
         Tile newTile = myTileGrid[aNewPosition.x, aNewPosition.y];
+
+        // Do both of these after we have moved
+        // This allow for example BreakableTile to work, since no entity can stand upon it when it breaks without dying
+        // And OnExit & OnEnter both could trigger it to break, we only want to kill this entity if the newTile breaks.
+        if (oldTile != null)
+        {
+            oldTile.OnExit(anEntity);
+        }
+
         if (newTile != null)
         {
             newTile.OnEnter(anEntity);
