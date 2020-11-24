@@ -110,9 +110,9 @@ public class StageManager : MonoBehaviour
 
         Vector2Int currentGridPosition = entityData.myGridPosition;
 
-        Debug.Assert(CanEntityMoveToPosition(anEntity, aNewPosition), "Entity tried invalid move!");
+        Debug.Assert(CanEntityMoveToPosition(anEntity, aNewPosition), "Entity tried invalid move!", anEntity);
 
-        Debug.Assert(myEntityGrid[currentGridPosition.x, currentGridPosition.y] == anEntity, "Entity position in grid and grid manager not in sync!");
+        Debug.Assert(myEntityGrid[currentGridPosition.x, currentGridPosition.y] == anEntity, "Entity position in grid and grid manager not in sync!", anEntity);
 
         Tile oldTile = myTileGrid[currentGridPosition.x, currentGridPosition.y];
 
@@ -213,7 +213,7 @@ public class StageManager : MonoBehaviour
     {
         Vector2Int currentGridPosition = GetEntityGridPosition(anEntity);
 
-        Debug.Assert(myEntityGrid[currentGridPosition.x, currentGridPosition.y] == anEntity, "Entity location not in sync with grid!");
+        Debug.Assert(myEntityGrid[currentGridPosition.x, currentGridPosition.y] == anEntity, "Entity location not in sync with grid!", anEntity);
 
         myEntityGrid[currentGridPosition.x, currentGridPosition.y] = null;
 
@@ -241,7 +241,7 @@ public class StageManager : MonoBehaviour
 
     private EntityData GetEntityData(Entity anEntity)
     {
-        Debug.Assert(myEntities.myValue.ContainsKey(anEntity), "Tried to get data from unregistered entity!");
+        Debug.Assert(myEntities.myValue.ContainsKey(anEntity), "Tried to get data from unregistered entity!", anEntity);
 
         return myEntities.myValue[anEntity];
     }
@@ -380,7 +380,7 @@ public class StageManager : MonoBehaviour
 
             if (tile != null)
             {
-                Debug.Assert(tile.CanEnter(entity), "Initial entity location is on tile disallowing enter!");
+                Debug.Assert(tile.CanEnter(entity), "Initial entity location is on tile disallowing enter!", tile);
 
                 tile.OnEnter(entity);
             }
@@ -406,7 +406,7 @@ public class StageManager : MonoBehaviour
             Debug.LogWarning("Non empty tile: " + aPosition);
         }
 
-        Debug.Assert(GetTile(aPosition) == null, "Tried registering tile at occupied position!");
+        Debug.Assert(GetTile(aPosition) == null, "Tried registering tile at occupied position!", GetTile(aPosition));
     }
 
     [System.Diagnostics.Conditional("UNITY_EDITOR")]
@@ -424,7 +424,7 @@ public class StageManager : MonoBehaviour
 
     private void AllocateGrid()
     {
-        Debug.Assert(myGridWidth > 0 && myGridHeight > 0, "Grid dimensions invalid!");
+        Debug.Assert(myGridWidth > 0 && myGridHeight > 0, "Grid dimensions invalid!", this);
 
         myTileGrid = new Tile[myGridWidth, myGridHeight];
         myEntityGrid = new Entity[myGridWidth, myGridHeight];
@@ -437,7 +437,7 @@ public class StageManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Assert(ourInstance == null, "Multiple StageManagers loaded!");
+        Debug.Assert(ourInstance == null, "Multiple StageManagers loaded!", this);
 
         ourInstance = this;
 
