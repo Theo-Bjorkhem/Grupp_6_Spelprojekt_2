@@ -9,6 +9,8 @@ public class MoveableBox : Entity
 
     private Player myGrabbedByPlayer;
 
+    private Collider myCollider;
+
     public override void Interact(Entity anEntity, Direction aDirection)
     {
         base.Interact(anEntity, aDirection);       
@@ -44,6 +46,8 @@ public class MoveableBox : Entity
 
         myHoleTile = aHoleTile;
 
+        myCollider.enabled = false;
+
         StageManager.ourInstance.UnregisterEntity(this);
     }
 
@@ -57,5 +61,10 @@ public class MoveableBox : Entity
             // TODO: * 0.5f until pivot is correct on entities
             transform.position += Vector3.down * StageManager.ourInstance.myTileSize * 0.5f;
         }
+    }
+
+    private void Awake()
+    {
+        myCollider = GetComponent<Collider>();
     }
 }
