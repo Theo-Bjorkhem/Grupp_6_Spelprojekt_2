@@ -38,7 +38,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager ourInstance;
 
     [SerializeField]
-    Sound[] mySounds;
+    Sound[] mySounds = { };
 
     private void Awake()
     {
@@ -48,6 +48,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
+            DontDestroyOnLoad(gameObject);
             ourInstance = this;
         }
     }
