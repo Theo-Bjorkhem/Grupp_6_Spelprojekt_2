@@ -48,19 +48,19 @@ public class Player : Entity
             {
                 case 1: //Up
                     gotInput = true;
-					moveDirection = Direction.Right;
+					moveDirection = Direction.Up;
                     break;
                 case 2: //Down
                     gotInput = true;
-					moveDirection = Direction.Left;
+					moveDirection = Direction.Down;
                     break;
                 case 3: //Right
                     gotInput = true;
-					moveDirection = Direction.Down;
+					moveDirection = Direction.Right;
                     break;
                 case 4: //Left
                     gotInput = true;
-					moveDirection = Direction.Up;
+					moveDirection = Direction.Left;
                     break;
                 default:
                     break;
@@ -70,22 +70,22 @@ public class Player : Entity
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 gotInput = true;
-				moveDirection = Direction.Right;
+				moveDirection = Direction.Up;
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
 				gotInput = true;
-				moveDirection = Direction.Down;
+				moveDirection = Direction.Right;
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
 				gotInput = true;
-				moveDirection = Direction.Up;
+				moveDirection = Direction.Left;
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
 				gotInput = true;
-				moveDirection = Direction.Left;
+				moveDirection = Direction.Down;
             }
 
             if (gotInput)
