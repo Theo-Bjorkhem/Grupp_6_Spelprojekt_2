@@ -49,25 +49,7 @@ public class Entity : MonoBehaviour
     protected virtual void Move(Direction aDirection)
     {
         Vector2Int gridPosition = StageManager.ourInstance.GetEntityGridPosition(this);
-
-        switch (aDirection)
-        {
-            case Direction.Up:
-                gridPosition += Vector2Int.up;
-                break;
-            case Direction.Right:
-                gridPosition += Vector2Int.right;
-                break;
-            case Direction.Down:
-                gridPosition += Vector2Int.down;
-                break;
-            case Direction.Left:
-                gridPosition += Vector2Int.left;
-                break;
-            default:
-                Debug.LogError(this + " has no direction, somehow.");
-                break;
-        }
+        gridPosition += DirectionToVec(aDirection);
 
         if (StageManager.ourInstance.CanEntityMoveToPosition(this, gridPosition))
         {
