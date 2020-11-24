@@ -72,7 +72,7 @@ public class Entity : MonoBehaviour
         if (StageManager.ourInstance.CanEntityMoveToPosition(this, gridPosition))
         {
             StageManager.ourInstance.MoveEntity(this, gridPosition);
-
+            AudioManager.ourInstance.PlaySound("PlayerMove");
             transform.position = StageManager.ourInstance.GetEntityWorldPositionFromTilePosition(gridPosition);
         }
     }
