@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7684570143959889735}
   - component: {fileID: 3218308505051403067}
+  - component: {fileID: 2155950828579772714}
   m_Layer: 0
   m_Name: Player_prefab
   m_TagString: Untagged
@@ -48,6 +49,18 @@ MonoBehaviour:
   myDragDistance: 10
   myMaxSwipeTime: 0.5
   myMinSwipeLength: 100
+--- !u!114 &2155950828579772714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5811035199643741324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa9a99bdf2e500442a781d8501211d55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8500668260193331879
 PrefabInstance:
   m_ObjectHideFlags: 0

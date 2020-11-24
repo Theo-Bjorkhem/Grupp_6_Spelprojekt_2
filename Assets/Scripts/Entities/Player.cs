@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Player : Entity
+public partial class Player : Entity
 {
-    private TurnEvent myTurnEvent = null;
-	
-    [Header("Objects")]
-    [Tooltip("The Player GameObject.")]
-    [SerializeField] private GameObject myPlayer;
+    public bool myIsInTurn => myTurnEvent != null;
+    public bool myIsGrabbingBox => myGrabbedBox != null;
 
     [Header("Touch Settings")]
     [Tooltip("Length you must drag you finger accros the screen before the PLayer moves.")]
@@ -17,15 +14,43 @@ public class Player : Entity
     [SerializeField] private float myMaxSwipeTime;
     [Tooltip("Minimum length of Swipe for it not to become null (in pixels).")]
     [SerializeField] private float myMinSwipeLength;
-	
+
+    private TurnEvent myTurnEvent = null;
+
     //Touch Related
     private float mySwipeStartTime;
     private float mySwipeEndTime;
     private Vector2 mySwipeStartPos;
     private Vector2 mySwipeEndPos;
 
-    public void Update()
+    // Grabbable box
+    private MoveableBox myGrabbedBox;
+
+    private Camera myMainCamera;
+
+    public override void Action(TurnEvent aTurnEvent)
     {
+        myTurnEvent = aTurnEvent;
+    }
+	
+    /// <summary>
+    /// Called from ex. <see cref="MoveableBox"/> when the player is forced to release the box.
+    /// </summary>
+    public void ForceReleaseBox()
+    {
+        OnReleaseBox();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        myMainCamera = Camera.main;
+    }
+
+    private void Update()
+    {
+        // TODO: Remove
         if (base.IsDead())
         {
             StageManager.ourInstance.OnPlayerLoss();
@@ -33,79 +58,158 @@ public class Player : Entity
             // Temporary while VictoryDefeatUI is not implemented
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+
         PlayerAction();
     }
-	
+
+    private void OnGrabBox(MoveableBox aBox)
+    {
+        Debug.Assert(!myIsGrabbingBox, "OnGrabBox called when already grabbing box!");
+
+        myGrabbedBox = aBox;
+        myGrabbedBox.OnGrabbedByPlayer(this);
+    }
+
+    private void OnReleaseBox()
+    {
+        Debug.Assert(myIsGrabbingBox, "OnReleaseBox called when not grabbing box!");
+
+        myGrabbedBox.OnReleasedByPlayer();
+        myGrabbedBox = null;
+    }
+
     private void PlayerAction()
     {
-        if (myTurnEvent != null)
+        if (myIsInTurn)
         {
-            Direction moveDirection = Direction.Up;
-            bool gotInput = false;
+            TurnActionData turnActionData = GetTurnActionFromInput();
 
-            //Touch Input
-            switch (TouchInput())
+            switch (turnActionData.myType)
             {
-                case 1: //Up
-                    gotInput = true;
-					moveDirection = Direction.Up;
+                case TurnActionData.Type.Move:
+                    if (myIsGrabbingBox)
+                    {
+                        HandleGrabbedMovement(turnActionData.myMoveDirection);
+                    }
+                    else
+                    {
+                        HandleNormalMovement(turnActionData.myMoveDirection);
+                    }
                     break;
-                case 2: //Down
-                    gotInput = true;
-					moveDirection = Direction.Down;
+
+                case TurnActionData.Type.Box:
+                    if (myGrabbedBox == turnActionData.myMoveableBox)
+                    {
+                        OnReleaseBox();
+                    }
+                    else
+                    {
+                        if (myIsGrabbingBox)
+                        {
+                            OnReleaseBox();
+                        }
+
+                        if (CheckCanGrabBox(turnActionData.myMoveableBox))
+                        {
+                            OnGrabBox(turnActionData.myMoveableBox);
+                        }
+                    }
                     break;
-                case 3: //Right
-                    gotInput = true;
-					moveDirection = Direction.Right;
-                    break;
-                case 4: //Left
-                    gotInput = true;
-					moveDirection = Direction.Left;
-                    break;
+
                 default:
                     break;
             }
-			
-            //Keyboard Input (for convenience)
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                gotInput = true;
-				moveDirection = Direction.Up;
-            }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-				gotInput = true;
-				moveDirection = Direction.Right;
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-				gotInput = true;
-				moveDirection = Direction.Left;
-            }
-            else if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-				gotInput = true;
-				moveDirection = Direction.Down;
-            }
 
-            if (gotInput)
+            if (turnActionData.myConsumesTurn)
             {
-                Entity interactingEntity = GetEntityInDirection(moveDirection);
-
-                if (interactingEntity != null)
-                {
-                    interactingEntity.Interact(this, moveDirection);
-                }
-                else
-                {
-                    Move(moveDirection);
-                }
                 myTurnEvent.SignalDone();
                 myTurnEvent = null;
             }
         }
     }
 	
+    private TurnActionData GetTurnActionFromInput()
+    {
+        Direction moveDirection = Direction.Up;
+        bool gotInput = false;
+
+        //Touch Input
+        // TODO: Touch input support for clicking on entities
+        switch (TouchInput())
+        {
+            case 1: //Up
+                gotInput = true;
+                moveDirection = Direction.Up;
+                break;
+            case 2: //Down
+                gotInput = true;
+                moveDirection = Direction.Down;
+                break;
+            case 3: //Right
+                gotInput = true;
+                moveDirection = Direction.Right;
+                break;
+            case 4: //Left
+                gotInput = true;
+                moveDirection = Direction.Left;
+                break;
+            default:
+                break;
+        }
+
+        //Keyboard Input (for convenience)
+        if (Input.GetMouseButtonDown(0))
+        {
+            Entity entity = FindEntityFromScreenClick(Input.mousePosition);
+            if (entity != null && entity is MoveableBox moveableBox)
+            {
+                return TurnActionData.CreateBox(moveableBox);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            gotInput = true;
+            moveDirection = Direction.Up;
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            gotInput = true;
+            moveDirection = Direction.Right;
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            gotInput = true;
+            moveDirection = Direction.Left;
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            gotInput = true;
+            moveDirection = Direction.Down;
+        }
+
+        if (gotInput)
+        {
+            return TurnActionData.CreateMove(moveDirection);
+        }
+
+        return TurnActionData.None;
+    }
+
+    private Entity FindEntityFromScreenClick(Vector3 aScreenPos)
+    {
+        Ray ray = myMainCamera.ScreenPointToRay(aScreenPos);
+
+        int layerMask = LayerMask.GetMask("Selectable Entity");
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, float.PositiveInfinity, layerMask, QueryTriggerInteraction.Collide))
+        {
+            return hitInfo.collider.gameObject.GetComponent<Entity>();
+        }
+
+        return null;
+    }
+
     private int TouchInput()
     {
         if (Input.touchCount > 0)
@@ -150,40 +254,73 @@ public class Player : Entity
         }
         return 0;
     }
-	
-    public override void Action(TurnEvent aTurnEvent)
-    {
-        myTurnEvent = aTurnEvent;
 
-    }
-	
-    private Entity GetEntityInDirection(Direction aDirection)
+    private void HandleGrabbedMovement(Direction aMovementDirection)
     {
-        Vector2Int myPosition = StageManager.ourInstance.GetTilePositionFromWorldEntity(transform.position);
-        Vector2Int checkPosition;
-
-        switch (aDirection)
+        switch (ComputeGrabbedMovementTypeInDirection(aMovementDirection))
         {
-            case Direction.Up:
-               checkPosition = (myPosition + new Vector2Int(0, 1));
+            case GrabbedMovementType.Push:
+                myGrabbedBox.OnPlayerMoveBox(aMovementDirection);
+                Move(aMovementDirection);
                 break;
-            case Direction.Right:
-                checkPosition = (myPosition + new Vector2Int(1, 0));
+            case GrabbedMovementType.Pull:
+                Move(aMovementDirection);
+                myGrabbedBox.OnPlayerMoveBox(aMovementDirection);
                 break;
-            case Direction.Down:
-                checkPosition = (myPosition + new Vector2Int(0, -1));
-                break;
-            case Direction.Left:
-                checkPosition = (myPosition + new Vector2Int(-1, 0));
-                break;
+            case GrabbedMovementType.Invalid:
             default:
-                return null;
+                // TODO: Either disallow moving or move and drop the box.
+                // Current behaviour is to ignore movement
+                break;
+        }
+    }
+
+    private void HandleNormalMovement(Direction aMovementDirection)
+    {
+        Entity interactingEntity = GetEntityInDirection(aMovementDirection);
+
+        if (interactingEntity != null)
+        {
+            interactingEntity.Interact(this, aMovementDirection);
+        }
+        else
+        {
+            Move(aMovementDirection);
+        }
+    }
+
+    private bool CheckCanGrabBox(MoveableBox aMoveableBox)
+    {
+        Vector2Int toEntity = StageManager.ourInstance.GetEntityGridPosition(aMoveableBox) - StageManager.ourInstance.GetEntityGridPosition(this);
+        return toEntity.sqrMagnitude == 1;
+    }
+
+    private GrabbedMovementType ComputeGrabbedMovementTypeInDirection(Direction aDirection)
+    {
+        Debug.Assert(myIsGrabbingBox, "ComputeGrabbedMovementType calle when not grabbing box!");
+
+        Vector2Int toEntity = StageManager.ourInstance.GetEntityGridPosition(myGrabbedBox) - StageManager.ourInstance.GetEntityGridPosition(this);
+        Vector2Int movementDisplacement = DirectionToVec(aDirection);
+
+        if (movementDisplacement == toEntity)
+        {
+            return GrabbedMovementType.Push;
+        }
+        else if (movementDisplacement == -toEntity)
+        {
+            return GrabbedMovementType.Pull;
         }
 
-        if(checkPosition.x >= 0 && checkPosition.x < StageManager.ourInstance.myGridWidth && checkPosition.y >= 0 && checkPosition.y < StageManager.ourInstance.myGridHeight)
+        return GrabbedMovementType.Invalid;
+    }
+
+    private Entity GetEntityInDirection(Direction aDirection)
+    {
+        Vector2Int checkPosition = StageManager.ourInstance.GetEntityGridPosition(this) + DirectionToVec(aDirection);
+
+        if (StageManager.ourInstance.IsPositionInGrid(checkPosition))
         {
             return StageManager.ourInstance.GetEntity(checkPosition);
-
         }
         else
         {
