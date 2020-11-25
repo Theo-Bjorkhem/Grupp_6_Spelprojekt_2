@@ -51,9 +51,9 @@ public class MoveableBox : Entity
         StageManager.ourInstance.UnregisterEntity(this);
     }
 
-    protected override void Move(Direction aDirection)
+    protected override bool Move(Direction aDirection)
     {
-        base.Move(aDirection);
+        bool result = base.Move(aDirection);
 
         if (myIsInHole)
         {
@@ -61,6 +61,8 @@ public class MoveableBox : Entity
             // TODO: * 0.5f until pivot is correct on entities
             transform.position += Vector3.down * StageManager.ourInstance.myTileSize * 0.5f;
         }
+
+        return result;
     }
 
     private void Awake()

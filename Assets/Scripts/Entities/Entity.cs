@@ -43,10 +43,10 @@ public class Entity : MonoBehaviour
 
     /// <summary>
     /// Ask stageManager what is in the adjacent space in the arguments direction.
-    /// Move there is possible, otherwise interact with it.
+    /// Move there if possible. Return true on successful move, otherwise false.
     /// </summary>
     /// <param name="aDirection"></param>
-    protected virtual void Move(Direction aDirection)
+    protected virtual bool Move(Direction aDirection)
     {
         Vector2Int gridPosition = StageManager.ourInstance.GetEntityGridPosition(this);
         gridPosition += DirectionToVec(aDirection);
@@ -56,6 +56,12 @@ public class Entity : MonoBehaviour
             StageManager.ourInstance.MoveEntity(this, gridPosition);
 
             transform.position = StageManager.ourInstance.GetEntityWorldPositionFromTilePosition(gridPosition);
+
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 

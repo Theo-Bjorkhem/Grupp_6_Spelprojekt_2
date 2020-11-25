@@ -281,16 +281,21 @@ public partial class Player : Entity
 
     private void HandleNormalMovement(Direction aMovementDirection)
     {
-        Entity interactingEntity = GetEntityInDirection(aMovementDirection);
+        Entity entityAtNextPosition = GetEntityInDirection(aMovementDirection);
 
-        if (interactingEntity != null)
+        if (entityAtNextPosition != null)
         {
-            interactingEntity.Interact(this, aMovementDirection);
+            entityAtNextPosition.Interact(this, aMovementDirection);
+            // TODO: figure out which animation to play
+            myAnimator.Blocked(aMovementDirection);
+        }
+        else if (Move(aMovementDirection))
+        {
+            myAnimator.Move(aMovementDirection);
         }
         else
         {
-            Move(aMovementDirection);
-            myAnimator.Hop(aMovementDirection);
+            myAnimator.Blocked(aMovementDirection);
         }
     }
 

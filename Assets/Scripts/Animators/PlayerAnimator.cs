@@ -7,6 +7,8 @@ public class PlayerAnimator : MonoBehaviour
 {
     [Tooltip("A transform used to rotate the player model")]
     [SerializeField] private Transform myRotationalRoot;
+    [Tooltip("A multiplier for all moving animations")]
+    [SerializeField] private float myMoveSpeedMultiplier = 1.0f;
 
     private Animator myAnimator;
 
@@ -16,27 +18,32 @@ public class PlayerAnimator : MonoBehaviour
     private void Awake()
     {
         myAnimator = GetComponent<Animator>();
+        myAnimator.SetFloat("Movement Animation Speed Multiplier", myMoveSpeedMultiplier);
         myIsInTurnAnimation = false;
     }
 
-    private void FinishTurn()
-    {
-        myIsInTurnAnimation = false;
-        myOnTurnAnimationEnd?.Invoke();
-    }
-
-    public void Hop(Direction aDirection)
+    public void Blocked(Direction aDirection)
     {
         myIsInTurnAnimation = true;
         RotateTowardsDirection(aDirection);
-        myAnimator.SetTrigger("Hop");
+        myAnimator.SetTrigger("Blocked");
     }
 
-    // Called from animation event
-    private void OnHopEnd()
+    public void Move(Direction aDirection)
     {
-        FinishTurn();
+        myIsInTurnAnimation = true;
+        RotateTowardsDirection(aDirection);
+        myAnimator.SetTrigger("Move");
+    }
+
+    /// <summary>
+    /// Called from Animation Events when a Turn Animation has ended
+    /// </summary>
+    private void OnTurnAnimationEnded()
+    {
+        myIsInTurnAnimation = false;
         myAnimator.SetTrigger("Idle");
+        myOnTurnAnimationEnd?.Invoke();
     }
 
     private void RotateTowardsDirection(Direction aDirection)
