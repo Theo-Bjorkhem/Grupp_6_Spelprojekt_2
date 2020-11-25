@@ -260,12 +260,26 @@ public partial class Player : Entity
         switch (ComputeGrabbedMovementTypeInDirection(aMovementDirection))
         {
             case GrabbedMovementType.Push:
-                myGrabbedBox.OnPlayerMoveBox(aMovementDirection);
-                Move(aMovementDirection);
+                if (myGrabbedBox.OnPlayerMoveBox(aMovementDirection))
+                {
+                    if (!Move(aMovementDirection))
+                    {
+                        // Player could not follow box => release box
+                        // Ex. box triggered a breakable tile
+                        OnReleaseBox();
+                    }
+                }
                 break;
             case GrabbedMovementType.Pull:
-                Move(aMovementDirection);
-                myGrabbedBox.OnPlayerMoveBox(aMovementDirection);
+                if (Move(aMovementDirection))
+                {
+                    if (!myGrabbedBox.OnPlayerMoveBox(aMovementDirection))
+                    {
+                        // Box could not follow player => release box
+                        // Ex. we triggered a breakable tile
+                        OnReleaseBox();
+                    }
+                }
                 break;
             case GrabbedMovementType.Invalid:
             default:

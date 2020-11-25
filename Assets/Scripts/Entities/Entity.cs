@@ -46,7 +46,8 @@ public class Entity : MonoBehaviour
     /// Move there is possible, otherwise interact with it.
     /// </summary>
     /// <param name="aDirection"></param>
-    protected virtual void Move(Direction aDirection)
+    /// <returns>true if the entity did move, false otherwise.</returns>
+    protected virtual bool Move(Direction aDirection)
     {
         Vector2Int gridPosition = StageManager.ourInstance.GetEntityGridPosition(this);
         gridPosition += DirectionToVec(aDirection);
@@ -56,7 +57,11 @@ public class Entity : MonoBehaviour
             StageManager.ourInstance.MoveEntity(this, gridPosition);
 
             transform.position = StageManager.ourInstance.GetEntityWorldPositionFromTilePosition(gridPosition);
+
+            return true;
         }
+
+        return false;
     }
 
     protected virtual void Start()
