@@ -47,7 +47,7 @@ MonoBehaviour:
   mySounds:
   - myName: PlayerMove
     myClip: {fileID: 8300000, guid: 0cff03339ee91ce4fb27c9dc0e980031, type: 3}
-    myVolume: 1
+    myVolume: 0.2
     myPitch: 1
     myRandomVolume: 0.1
     myRandomPitch: 0.1

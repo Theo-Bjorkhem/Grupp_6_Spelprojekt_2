@@ -21,7 +21,8 @@ public class Sound
     public void SetSource(AudioSource aSource)
     {
         mySource = aSource;
-        mySource.clip = aSource.clip;
+        mySource.clip = myClip;
+        mySource.playOnAwake = false;
     }
 
     public void Play()
