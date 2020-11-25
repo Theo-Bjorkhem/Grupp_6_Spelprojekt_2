@@ -47,7 +47,7 @@ MonoBehaviour:
   mySounds:
   - myName: PlayerMove
     myClip: {fileID: 8300000, guid: 0cff03339ee91ce4fb27c9dc0e980031, type: 3}
-    myVolume: 0.1
+    myVolume: 0.05
     myPitch: 1
     myRandomVolume: 0.1
     myRandomPitch: 0.1
@@ -63,6 +63,12 @@ MonoBehaviour:
     myPitch: 1
     myRandomVolume: 0.1
     myRandomPitch: 0.1
+  - myName: Ambience
+    myClip: {fileID: 8300000, guid: c7e2940ab06767743a1962b79af3d4a6, type: 3}
+    myVolume: 0.02
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
 --- !u!81 &8939331553364165216
 AudioListener:
   m_ObjectHideFlags: 0

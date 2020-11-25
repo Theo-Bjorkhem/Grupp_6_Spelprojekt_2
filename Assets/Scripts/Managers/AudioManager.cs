@@ -27,11 +27,19 @@ public class Sound
 
     public void Play()
     {
+        mySource.loop = false;
         mySource.volume = myVolume * (1 + Random.Range(-myRandomVolume / 2f, myRandomVolume / 2f));
         mySource.pitch = myPitch * (1 + Random.Range(-myRandomPitch / 2f, myRandomPitch / 2f));
         mySource.Play();
     }
 
+    public void Loop()
+    {
+        mySource.loop = true;
+        mySource.volume = myVolume * (1 + Random.Range(-myRandomVolume / 2f, myRandomVolume / 2f));
+        mySource.pitch = myPitch * (1 + Random.Range(-myRandomPitch / 2f, myRandomPitch / 2f));
+        mySource.Play();
+    }
 }
 
 public class AudioManager : MonoBehaviour
@@ -62,6 +70,8 @@ public class AudioManager : MonoBehaviour
             go.transform.SetParent(this.transform);
             mySounds[i].SetSource(go.AddComponent<AudioSource>());
         }
+
+        PlayLoop("Ambience");
     }
 
     public void PlaySound(string aName)
@@ -71,6 +81,20 @@ public class AudioManager : MonoBehaviour
             if (mySounds[i].myName == aName)
             {
                 mySounds[i].Play();
+                return;
+            }
+        }
+
+        Debug.LogError("AudioManager: No sound with name: " + aName + " exists.");
+    }
+
+    public void PlayLoop(string aName)
+    {
+        for (int i = 0; i < mySounds.Length; i++)
+        {
+            if (mySounds[i].myName == aName)
+            {
+                mySounds[i].Loop();
                 return;
             }
         }
