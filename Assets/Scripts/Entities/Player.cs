@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PlayerAnimator))]
 public partial class Player : Entity
 {
     public bool myIsInTurn => myTurnEvent != null;
@@ -27,10 +28,12 @@ public partial class Player : Entity
     private MoveableBox myGrabbedBox;
 
     private Camera myMainCamera;
+    private PlayerAnimator myAnimator;
 
     public override void Action(TurnEvent aTurnEvent)
     {
         myTurnEvent = aTurnEvent;
+        myAnimator.OnTurnAnimationFinish = EndTurn;
     }
 	
     /// <summary>
@@ -45,7 +48,9 @@ public partial class Player : Entity
     {
         base.Start();
 
-        myMainCamera = Camera.main;
+        myMainCamera = Camera.main; 
+        myAnimator = GetComponent<PlayerAnimator>();
+        myAnimator.OnTurnAnimationFinish = EndTurn;
     }
 
     private void Update()
@@ -60,6 +65,14 @@ public partial class Player : Entity
         }
 
         PlayerAction();
+    }
+
+    private void EndTurn()
+    {
+        Debug.Assert(myIsInTurn, "EndTurn called outside of Player's turn", this);
+        myTurnEvent.SignalDone();
+        myTurnEvent = null;
+        myAnimator.OnTurnAnimationFinish = null;
     }
 
     private void OnGrabBox(MoveableBox aBox)
@@ -122,8 +135,7 @@ public partial class Player : Entity
 
             if (turnActionData.myConsumesTurn)
             {
-                myTurnEvent.SignalDone();
-                myTurnEvent = null;
+                //EndTurn();
             }
         }
     }
@@ -286,6 +298,7 @@ public partial class Player : Entity
         else
         {
             Move(aMovementDirection);
+            myAnimator.Hop();
         }
     }
 
