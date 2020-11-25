@@ -47,7 +47,19 @@ MonoBehaviour:
   mySounds:
   - myName: PlayerMove
     myClip: {fileID: 8300000, guid: 0cff03339ee91ce4fb27c9dc0e980031, type: 3}
-    myVolume: 0.2
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0.1
+    myRandomPitch: 0.1
+  - myName: Victory
+    myClip: {fileID: 8300000, guid: 9c127d1a5b7782644a79b2ad018e74c0, type: 3}
+    myVolume: 0.4
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: BoxMove
+    myClip: {fileID: 8300000, guid: 0334d3aa48f0c994ca299aec9edbfd05, type: 3}
+    myVolume: 0.4
     myPitch: 1
     myRandomVolume: 0.1
     myRandomPitch: 0.1
