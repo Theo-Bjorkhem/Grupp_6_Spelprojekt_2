@@ -56,7 +56,7 @@ public class Entity : MonoBehaviour
         if (StageManager.ourInstance.CanEntityMoveToPosition(this, gridPosition))
         {
             StageManager.ourInstance.MoveEntity(this, gridPosition);
-            AudioManager.ourInstance.PlaySound(myMoveSound);
+            AudioManager.ourInstance?.PlaySound(myMoveSound);
             transform.position = StageManager.ourInstance.GetEntityWorldPositionFromTilePosition(gridPosition);
 
             return true;
