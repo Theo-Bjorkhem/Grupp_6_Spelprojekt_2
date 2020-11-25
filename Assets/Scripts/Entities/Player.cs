@@ -5,12 +5,13 @@ using UnityEngine.SceneManagement;
 public partial class Player : Entity
 {
     public bool myIsInTurn => myTurnEvent != null;
+    public bool myIsAcceptingInput => !myAnimator.myIsInTurnAnimation;
     public bool myIsGrabbingBox => myGrabbedBox != null;
 
     [Header("Touch Settings")]
     [Tooltip("Length you must drag you finger accros the screen before the PLayer moves.")]
     [SerializeField] private float myDragDistance;
-	
+
     [Tooltip("Longest time the player can swipe before the swipe becomes null (in seconds).")]
     [SerializeField] private float myMaxSwipeTime;
     [Tooltip("Minimum length of Swipe for it not to become null (in pixels).")]
@@ -33,9 +34,8 @@ public partial class Player : Entity
     public override void Action(TurnEvent aTurnEvent)
     {
         myTurnEvent = aTurnEvent;
-        myAnimator.OnTurnAnimationFinish = EndTurn;
     }
-	
+
     /// <summary>
     /// Called from ex. <see cref="MoveableBox"/> when the player is forced to release the box.
     /// </summary>
@@ -48,9 +48,8 @@ public partial class Player : Entity
     {
         base.Start();
 
-        myMainCamera = Camera.main; 
+        myMainCamera = Camera.main;
         myAnimator = GetComponent<PlayerAnimator>();
-        myAnimator.OnTurnAnimationFinish = EndTurn;
     }
 
     private void Update()
@@ -65,14 +64,6 @@ public partial class Player : Entity
         }
 
         PlayerAction();
-    }
-
-    private void EndTurn()
-    {
-        Debug.Assert(myIsInTurn, "EndTurn called outside of Player's turn", this);
-        myTurnEvent.SignalDone();
-        myTurnEvent = null;
-        myAnimator.OnTurnAnimationFinish = null;
     }
 
     private void OnGrabBox(MoveableBox aBox)
@@ -93,7 +84,7 @@ public partial class Player : Entity
 
     private void PlayerAction()
     {
-        if (myIsInTurn)
+        if (myIsAcceptingInput)
         {
             TurnActionData turnActionData = GetTurnActionFromInput();
 
@@ -135,11 +126,12 @@ public partial class Player : Entity
 
             if (turnActionData.myConsumesTurn)
             {
-                //EndTurn();
+                myTurnEvent.SignalDone();
+                myTurnEvent = null;
             }
         }
     }
-	
+
     private TurnActionData GetTurnActionFromInput()
     {
         Direction moveDirection = Direction.Up;
@@ -298,7 +290,7 @@ public partial class Player : Entity
         else
         {
             Move(aMovementDirection);
-            myAnimator.Hop();
+            myAnimator.Hop(aMovementDirection);
         }
     }
 

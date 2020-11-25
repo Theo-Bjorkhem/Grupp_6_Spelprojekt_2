@@ -1,27 +1,34 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimator : MonoBehaviour
 {
+    [Tooltip("A transform used to rotate the player model")]
+    [SerializeField] private Transform myRotationalRoot;
+
     private Animator myAnimator;
 
-    public Action OnTurnAnimationFinish { private get; set; }
+    public event UnityAction myOnTurnAnimationEnd;
+    public bool myIsInTurnAnimation { get; private set; }
 
     private void Awake()
     {
         myAnimator = GetComponent<Animator>();
-        OnTurnAnimationFinish = null;
+        myIsInTurnAnimation = false;
     }
 
     private void FinishTurn()
     {
-        Debug.Assert(OnTurnAnimationFinish != null, "Could not invoke OnTurnAnimationFinish because it was not set", this);
-        OnTurnAnimationFinish.Invoke();
+        myIsInTurnAnimation = false;
+        myOnTurnAnimationEnd?.Invoke();
     }
 
-    public void Hop()
+    public void Hop(Direction aDirection)
     {
+        myIsInTurnAnimation = true;
+        RotateTowardsDirection(aDirection);
         myAnimator.SetTrigger("Hop");
     }
 
@@ -30,5 +37,26 @@ public class PlayerAnimator : MonoBehaviour
     {
         FinishTurn();
         myAnimator.SetTrigger("Idle");
+    }
+
+    private void RotateTowardsDirection(Direction aDirection)
+    {
+        switch (aDirection)
+        {
+            case Direction.Up:
+                myRotationalRoot.localRotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                break;
+            case Direction.Right:
+                myRotationalRoot.localRotation = Quaternion.Euler(0.0f, 90.0f, 0.0f);
+                break;
+            case Direction.Down:
+                myRotationalRoot.localRotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+                break;
+            case Direction.Left:
+                myRotationalRoot.localRotation = Quaternion.Euler(0.0f, 270.0f, 0.0f);
+                break;
+            default:
+                break;
+        }
     }
 }
