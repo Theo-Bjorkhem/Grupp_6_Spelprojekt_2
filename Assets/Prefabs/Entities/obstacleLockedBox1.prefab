@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 5090044835004116832}
   - component: {fileID: 8146065434814472389}
   - component: {fileID: 6262347724673553423}
+  - component: {fileID: -8557398559638645164}
   m_Layer: 0
-  m_Name: obstacleLockedBox1_mesh
+  m_Name: obstacleLockedBox1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,3 +80,15 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &-8557398559638645164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5613922081684796890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13479ad8d67840243a338c1b9047d46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
