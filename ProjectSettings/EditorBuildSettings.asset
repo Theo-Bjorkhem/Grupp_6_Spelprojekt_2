@@ -27,6 +27,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Official/Stage4_scene.unity
     guid: 68da88d50b0c23e4b889a8781553e220
   - enabled: 1
-    path: Assets/Scenes/UI/UI_Prototype.unity
+    path: Assets/Scenes/UI/HUD1_scene.unity
     guid: 4d7e05df3df7f2640bc1841da85b934d
   m_configObjects: {}
