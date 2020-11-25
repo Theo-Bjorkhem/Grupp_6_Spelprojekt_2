@@ -68,5 +68,6 @@ public class MoveableBox : Entity
     private void Awake()
     {
         myCollider = GetComponent<Collider>();
+        myMoveSound = "BoxMove";
     }
 }

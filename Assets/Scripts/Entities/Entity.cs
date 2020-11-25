@@ -3,6 +3,8 @@
 public class Entity : MonoBehaviour
 {
     private EntityState myEntityState = EntityState.Normal;
+    [HideInInspector]
+    public string myMoveSound = "PlayerMove";
 
     public virtual bool IsDead() => myEntityState.HasFlag(EntityState.Dead);
 
@@ -54,7 +56,7 @@ public class Entity : MonoBehaviour
         if (StageManager.ourInstance.CanEntityMoveToPosition(this, gridPosition))
         {
             StageManager.ourInstance.MoveEntity(this, gridPosition);
-
+            AudioManager.ourInstance.PlaySound(myMoveSound);
             transform.position = StageManager.ourInstance.GetEntityWorldPositionFromTilePosition(gridPosition);
 
             return true;
