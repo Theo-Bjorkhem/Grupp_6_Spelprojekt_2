@@ -53,5 +53,4 @@ public class Tile : MonoBehaviour
     {
         StageManager.ourInstance.RegisterTile(this);
     }
-
 }

@@ -2914,7 +2914,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1287084999}
   m_Enabled: 1
-  m_AgentTypeID: 1479372276
+  m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -2935,13 +2935,26 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1287084999}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 089c605eb4a5dfd4caf8c26537d72c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 302878811}
   agent: {fileID: 1287085001}
+--- !u!114 &1287085003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287084999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0328a892287979944b2f60da22a79192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _destination: {fileID: 1362784632}
 --- !u!1001 &1294875548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3357,7 +3370,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577487262}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 089c605eb4a5dfd4caf8c26537d72c46, type: 3}
   m_Name: 
@@ -3614,22 +3627,22 @@ PrefabInstance:
     - target: {fileID: 142864140888567120, guid: 62b42947968df9c449394c9bf5e57613,
         type: 3}
       propertyPath: mySteps.Array.size
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 142864140888567120, guid: 62b42947968df9c449394c9bf5e57613,
         type: 3}
       propertyPath: mySteps.Array.data[1]
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 142864140888567120, guid: 62b42947968df9c449394c9bf5e57613,
         type: 3}
       propertyPath: mySteps.Array.data[2]
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 142864140888567120, guid: 62b42947968df9c449394c9bf5e57613,
         type: 3}
       propertyPath: mySteps.Array.data[3]
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 142864140888567120, guid: 62b42947968df9c449394c9bf5e57613,
         type: 3}
@@ -3644,16 +3657,21 @@ PrefabInstance:
     - target: {fileID: 142864140888567120, guid: 62b42947968df9c449394c9bf5e57613,
         type: 3}
       propertyPath: mySteps.Array.data[5]
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 142864140888567120, guid: 62b42947968df9c449394c9bf5e57613,
         type: 3}
       propertyPath: mySteps.Array.data[6]
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 142864140888567120, guid: 62b42947968df9c449394c9bf5e57613,
         type: 3}
       propertyPath: mySteps.Array.data[7]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 142864140888567120, guid: 62b42947968df9c449394c9bf5e57613,
+        type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6015261209511599403, guid: 62b42947968df9c449394c9bf5e57613,
@@ -3674,7 +3692,7 @@ PrefabInstance:
     - target: {fileID: 8566899093668584803, guid: 62b42947968df9c449394c9bf5e57613,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 1.53
       objectReference: {fileID: 0}
     - target: {fileID: 8566899093668584803, guid: 62b42947968df9c449394c9bf5e57613,
         type: 3}
@@ -3684,7 +3702,7 @@ PrefabInstance:
     - target: {fileID: 8566899093668584803, guid: 62b42947968df9c449394c9bf5e57613,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4
+      value: 4.4
       objectReference: {fileID: 0}
     - target: {fileID: 8566899093668584803, guid: 62b42947968df9c449394c9bf5e57613,
         type: 3}

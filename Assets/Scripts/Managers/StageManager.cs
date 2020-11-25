@@ -53,7 +53,7 @@ public class StageManager : MonoBehaviour
 
         // TODO: Update stage score through GameManager
         GameManager.ourInstance.UpdateStageScore();
-        
+
         myStageMessages.TriggerPlayerWon();
 
         // Rest will be handled by VictoryDefeatUI (signaled through event)
