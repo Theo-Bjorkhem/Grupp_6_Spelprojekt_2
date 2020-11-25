@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1106274027831399570}
   - component: {fileID: 8721854927892713555}
   m_Layer: 0
-  m_Name: SpikesTile
+  m_Name: SpikesTile_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myForceDisallowEnter: 0
-  mySpikeOnEven: 1
+  myInitialExtended: 0
 --- !u!1001 &2696121400920939513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127,12 +127,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: f673f39a06e987e4fb08b7a22e19d95e, type: 2}
+      objectReference: {fileID: 2100000, guid: d2f5378d8665a964c88f1acc2fff9aef, type: 2}
     - target: {fileID: -5754084199372789682, guid: 124028b57f851614aa5f3346678d4264,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 2950894392799949531, guid: 7256a2fd1a92cb84cb60baaab8452138,
+      objectReference: {fileID: -7294438456214726756, guid: 7256a2fd1a92cb84cb60baaab8452138,
         type: 3}
     - target: {fileID: 919132149155446097, guid: 124028b57f851614aa5f3346678d4264,
         type: 3}
