@@ -53,7 +53,7 @@ public class MoveableBox : Entity
 
     protected override bool Move(Direction aDirection)
     {
-        bool didMove = base.Move(aDirection);
+        bool result = base.Move(aDirection);
 
         if (myIsInHole)
         {
@@ -62,11 +62,12 @@ public class MoveableBox : Entity
             transform.position += Vector3.down * StageManager.ourInstance.myTileSize * 0.5f;
         }
 
-        return didMove;
+        return result;
     }
 
     private void Awake()
     {
         myCollider = GetComponent<Collider>();
+        myMoveSound = "BoxMove";
     }
 }

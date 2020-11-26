@@ -3,6 +3,8 @@
 public class Entity : MonoBehaviour
 {
     private EntityState myEntityState = EntityState.Normal;
+    [HideInInspector]
+    public string myMoveSound = "PlayerMove";
 
     public virtual bool IsDead() => myEntityState.HasFlag(EntityState.Dead);
 
@@ -43,10 +45,9 @@ public class Entity : MonoBehaviour
 
     /// <summary>
     /// Ask stageManager what is in the adjacent space in the arguments direction.
-    /// Move there is possible, otherwise interact with it.
+    /// Move there if possible. Return true on successful move, otherwise false.
     /// </summary>
     /// <param name="aDirection"></param>
-    /// <returns>true if the entity did move, false otherwise.</returns>
     protected virtual bool Move(Direction aDirection)
     {
         Vector2Int gridPosition = StageManager.ourInstance.GetEntityGridPosition(this);
@@ -55,7 +56,7 @@ public class Entity : MonoBehaviour
         if (StageManager.ourInstance.CanEntityMoveToPosition(this, gridPosition))
         {
             StageManager.ourInstance.MoveEntity(this, gridPosition);
-
+            AudioManager.ourInstance?.PlaySound(myMoveSound);
             transform.position = StageManager.ourInstance.GetEntityWorldPositionFromTilePosition(gridPosition);
 
             return true;
