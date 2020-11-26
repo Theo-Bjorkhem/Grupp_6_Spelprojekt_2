@@ -9,6 +9,8 @@ public class StageManager : MonoBehaviour
         public Vector2Int myGridPosition;
     }
 
+    public bool myHasKey = false;
+
     public static StageManager ourInstance;
 
     public int myCurrentTurnIndex { get; private set; } = 0;
