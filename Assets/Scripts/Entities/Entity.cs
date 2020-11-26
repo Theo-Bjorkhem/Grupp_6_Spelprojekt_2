@@ -107,4 +107,42 @@ public class Entity : MonoBehaviour
         }
         return Direction.Up;
     }
+
+#if UNITY_EDITOR
+
+    private StageManager myStageManagerUE;
+    private void OnDrawGizmosSelected()
+    {
+        if (myStageManagerUE == null)
+        {
+            myStageManagerUE = FindObjectOfType<StageManager>();
+
+            if (myStageManagerUE == null)
+            {
+                return;
+            }
+        }
+
+        Vector2Int gridPosition = myStageManagerUE.GetTilePositionFromWorldTile(transform.position);
+
+        Vector3 center = myStageManagerUE.GetEntityWorldPositionFromTilePosition(gridPosition) - new Vector3(myStageManagerUE.myTileSize, 0.0f, myStageManagerUE.myTileSize) * 0.5f;
+
+        Color color = Color.green;
+
+        if (!myStageManagerUE.IsPositionInGrid(gridPosition))
+        {
+            color = Color.red;
+        }
+        else if (!Mathf.Approximately(transform.position.x % 1.0f, 0.0f) || !Mathf.Approximately(transform.position.z % 1.0f, 0.0f))
+        {
+            color = Color.yellow;
+        }
+
+        color.a = 0.5f;
+
+        Gizmos.color = color;
+        Gizmos.DrawCube(center, new Vector3(myStageManagerUE.myTileSize, 0.1f, myStageManagerUE.myTileSize));
+    }
+
+#endif
 }
