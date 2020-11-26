@@ -285,9 +285,33 @@ public partial class Player : Entity
 
         if (entityAtNextPosition != null)
         {
-            entityAtNextPosition.Interact(this, aMovementDirection);
-            // TODO: figure out which animation to play
-            myAnimator.Blocked(aMovementDirection);
+            if (entityAtNextPosition as Key != null)
+            {
+                entityAtNextPosition.Interact(this, aMovementDirection);
+                Move(aMovementDirection);
+                myAnimator.Move(aMovementDirection);
+            }
+            else if (entityAtNextPosition as LockedBox != null)
+            {
+                entityAtNextPosition.Interact(this, aMovementDirection);
+                // TODO: Interact function returns true on success?
+                if (StageManager.ourInstance.myHasKey)
+                {
+                    Move(aMovementDirection);
+                    myAnimator.Move(aMovementDirection);
+                }
+                else
+                {
+                    myAnimator.Blocked(aMovementDirection);
+                }
+            }
+            else
+            {
+                entityAtNextPosition.Interact(this, aMovementDirection);
+                // TODO: figure out which animation to play
+                myAnimator.Blocked(aMovementDirection);
+            }
+
         }
         else if (Move(aMovementDirection))
         {
