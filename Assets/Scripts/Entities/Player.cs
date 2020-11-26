@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PlayerAnimator))]
 public partial class Player : Entity
 {
     public bool myIsInTurn => myTurnEvent != null;
+    public bool myIsAcceptingInput => !myAnimator.myIsInTurnAnimation;
     public bool myIsGrabbingBox => myGrabbedBox != null;
 
     [Header("Touch Settings")]
     [Tooltip("Length you must drag you finger accros the screen before the PLayer moves.")]
     [SerializeField] private float myDragDistance;
-	
+
     [Tooltip("Longest time the player can swipe before the swipe becomes null (in seconds).")]
     [SerializeField] private float myMaxSwipeTime;
     [Tooltip("Minimum length of Swipe for it not to become null (in pixels).")]
@@ -27,12 +29,13 @@ public partial class Player : Entity
     private MoveableBox myGrabbedBox;
 
     private Camera myMainCamera;
+    private PlayerAnimator myAnimator;
 
     public override void Action(TurnEvent aTurnEvent)
     {
         myTurnEvent = aTurnEvent;
     }
-	
+
     /// <summary>
     /// Called from ex. <see cref="MoveableBox"/> when the player is forced to release the box.
     /// </summary>
@@ -46,6 +49,7 @@ public partial class Player : Entity
         base.Start();
 
         myMainCamera = Camera.main;
+        myAnimator = GetComponent<PlayerAnimator>();
     }
 
     private void Update()
@@ -80,7 +84,7 @@ public partial class Player : Entity
 
     private void PlayerAction()
     {
-        if (myIsInTurn)
+        if (myIsAcceptingInput)
         {
             TurnActionData turnActionData = GetTurnActionFromInput();
 
@@ -127,7 +131,7 @@ public partial class Player : Entity
             }
         }
     }
-	
+
     private TurnActionData GetTurnActionFromInput()
     {
         Direction moveDirection = Direction.Up;
@@ -277,15 +281,21 @@ public partial class Player : Entity
 
     private void HandleNormalMovement(Direction aMovementDirection)
     {
-        Entity interactingEntity = GetEntityInDirection(aMovementDirection);
+        Entity entityAtNextPosition = GetEntityInDirection(aMovementDirection);
 
-        if (interactingEntity != null)
+        if (entityAtNextPosition != null)
         {
-            interactingEntity.Interact(this, aMovementDirection);
+            entityAtNextPosition.Interact(this, aMovementDirection);
+            // TODO: figure out which animation to play
+            myAnimator.Blocked(aMovementDirection);
+        }
+        else if (Move(aMovementDirection))
+        {
+            myAnimator.Move(aMovementDirection);
         }
         else
         {
-            Move(aMovementDirection);
+            myAnimator.Blocked(aMovementDirection);
         }
     }
 
