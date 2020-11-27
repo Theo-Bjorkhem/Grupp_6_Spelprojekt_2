@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class SnapHelper : MonoBehaviour
 {
+    private struct TransData
+    {
+        public Vector3 myPosition;
+    }
+
     [MenuItem("SP/Snapping/Snap to whole number XZ")]
     static void SnapSelectionToWholeNumberXZ()
     {
@@ -24,21 +29,23 @@ public class SnapHelper : MonoBehaviour
     {
         Transform parent = Selection.activeTransform;
         List<Transform> children = new List<Transform>(parent.childCount);
+        List<TransData> childTransData = new List<TransData>(parent.childCount);
 
         foreach (Transform child in parent)
         {
             children.Add(child);
+            childTransData.Add(new TransData { myPosition = child.position });
         }
 
         Undo.RecordObject(parent, "Apply transform to children (parent)");
         Undo.RecordObjects(children.ToArray(), "Apply transform to children (children");
 
-        Vector3 parentPos = parent.localPosition;
         parent.localPosition = Vector3.zero;
+        parent.localRotation = Quaternion.identity;
 
-        foreach(Transform child in children)
+        for(int i = 0; i < children.Count; ++i)
         {
-            child.localPosition += parentPos;
+            children[i].position = childTransData[i].myPosition;
         }
     }
 }
