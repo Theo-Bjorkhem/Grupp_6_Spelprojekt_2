@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 209067698}
   - component: {fileID: 209067697}
   - component: {fileID: 209067696}
+  - component: {fileID: 209067700}
   m_Layer: 0
   m_Name: GameHUD
   m_TagString: Untagged
@@ -222,6 +223,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &209067700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209067695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eb36947573754f438524e6ecff58654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &596315993
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,7 +547,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 209067700}
         m_MethodName: PauseGame
         m_Mode: 1
         m_Arguments:
@@ -564,7 +577,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fb75e1364a91eea49bea896edca15a91, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5da739283204c6a44ba921a4d2f73652, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -7,8 +7,11 @@ public class Pause_script : MonoBehaviour
 {
     public void PauseGame()
     {
-        Time.timeScale = 0;
-        SceneManager.LoadScene("PausMenu1_scene", LoadSceneMode.Additive);
+        if (!SceneManager.GetSceneByName("PausMenu1_scene").isLoaded)
+        {
+            Time.timeScale = 0;
+            SceneManager.LoadScene("PausMenu1_scene", LoadSceneMode.Additive);
+        }
     }
     public void UnPasueGame()
     {
@@ -18,6 +21,7 @@ public class Pause_script : MonoBehaviour
     }
     public void LoadMainMenu()
     {
-
+        SceneManager.LoadScene("mainMenu_scene");
+        Time.timeScale = 1;
     }
 }
