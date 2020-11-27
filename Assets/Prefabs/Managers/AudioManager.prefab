@@ -123,6 +123,30 @@ MonoBehaviour:
     myPitch: 1
     myRandomVolume: 0
     myRandomPitch: 0
+  - myName: MenuNegative
+    myClip: {fileID: 8300000, guid: 688465f0f6514914f8a8f2708787e654, type: 3}
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: MenuPositive
+    myClip: {fileID: 8300000, guid: a5e3024c42a51cb47a82cfa6b50d2714, type: 3}
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: Pause
+    myClip: {fileID: 8300000, guid: 293d987fbf975d94dbae5005c7e12a1b, type: 3}
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: Unpause
+    myClip: {fileID: 8300000, guid: cfdfcc508581e544cbd0cb7bfd2df0be, type: 3}
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
 --- !u!81 &8939331553364165216
 AudioListener:
   m_ObjectHideFlags: 0
