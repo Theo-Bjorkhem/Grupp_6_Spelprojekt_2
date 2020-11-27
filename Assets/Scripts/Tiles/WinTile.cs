@@ -23,6 +23,7 @@ public class WinTile : Tile
             else
             {
                 GameManager.ourInstance.TransitionToNextStage();
+                AudioManager.ourInstance.PlaySound("Victory");
             }
         }
         base.OnEnter(steppedOnMe);

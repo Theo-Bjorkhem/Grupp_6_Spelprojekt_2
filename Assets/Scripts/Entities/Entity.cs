@@ -3,6 +3,8 @@
 public class Entity : MonoBehaviour
 {
     private EntityState myEntityState = EntityState.Normal;
+    [HideInInspector]
+    public string myMoveSound = "PlayerMove";
 
     public virtual bool IsDead() => myEntityState.HasFlag(EntityState.Dead);
 
@@ -43,10 +45,10 @@ public class Entity : MonoBehaviour
 
     /// <summary>
     /// Ask stageManager what is in the adjacent space in the arguments direction.
-    /// Move there is possible, otherwise interact with it.
+    /// Move there if possible. Return true on successful move, otherwise false.
     /// </summary>
     /// <param name="aDirection"></param>
-    protected virtual void Move(Direction aDirection)
+    protected virtual bool Move(Direction aDirection)
     {
         Vector2Int gridPosition = StageManager.ourInstance.GetEntityGridPosition(this);
         gridPosition += DirectionToVec(aDirection);
@@ -54,9 +56,13 @@ public class Entity : MonoBehaviour
         if (StageManager.ourInstance.CanEntityMoveToPosition(this, gridPosition))
         {
             StageManager.ourInstance.MoveEntity(this, gridPosition);
-
+            AudioManager.ourInstance?.PlaySound(myMoveSound);
             transform.position = StageManager.ourInstance.GetEntityWorldPositionFromTilePosition(gridPosition);
+
+            return true;
         }
+
+        return false;
     }
 
     protected virtual void Start()
@@ -101,4 +107,42 @@ public class Entity : MonoBehaviour
         }
         return Direction.Up;
     }
+
+#if UNITY_EDITOR
+
+    private StageManager myStageManagerUE;
+    private void OnDrawGizmosSelected()
+    {
+        if (myStageManagerUE == null)
+        {
+            myStageManagerUE = FindObjectOfType<StageManager>();
+
+            if (myStageManagerUE == null)
+            {
+                return;
+            }
+        }
+
+        Vector2Int gridPosition = myStageManagerUE.GetTilePositionFromWorldTile(transform.position);
+
+        Vector3 center = myStageManagerUE.GetEntityWorldPositionFromTilePosition(gridPosition) - new Vector3(myStageManagerUE.myTileSize, 0.0f, myStageManagerUE.myTileSize) * 0.5f;
+
+        Color color = Color.green;
+
+        if (!myStageManagerUE.IsPositionInGrid(gridPosition))
+        {
+            color = Color.red;
+        }
+        else if (!Mathf.Approximately(transform.position.x % 1.0f, 0.0f) || !Mathf.Approximately(transform.position.z % 1.0f, 0.0f))
+        {
+            color = Color.yellow;
+        }
+
+        color.a = 0.5f;
+
+        Gizmos.color = color;
+        Gizmos.DrawCube(center, new Vector3(myStageManagerUE.myTileSize, 0.1f, myStageManagerUE.myTileSize));
+    }
+
+#endif
 }
