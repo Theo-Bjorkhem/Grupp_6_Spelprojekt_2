@@ -23,12 +23,13 @@ public class Entity : MonoBehaviour
 
     /// <summary>
     /// When "moved" into, by the player usually. This is where a box is pushed for example.
+    /// Returns a <see cref="InteractResult"/> to let the interactor know what happened.
     /// </summary>
     /// <param name="aDirection"></param>
     /// <param name="anEntity">The entity interacting with this entity.</param>
-    public virtual void Interact(Entity anEntity, Direction aDirection)
+    public virtual InteractResult Interact(Entity anEntity, Direction aDirection)
     {
-        
+        return InteractResult.Nothing;
     }
 
     /// <summary>
