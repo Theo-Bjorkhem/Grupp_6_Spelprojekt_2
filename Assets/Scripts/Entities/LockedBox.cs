@@ -13,6 +13,7 @@ public class LockedBox : Entity
 
         if (StageManager.ourInstance.myHasKey)
         {
+            AudioManager.ourInstance.PlaySound("UnlockChest");
             StageManager.ourInstance.UnregisterEntity(this);
             this.gameObject.SetActive(false);
         }
