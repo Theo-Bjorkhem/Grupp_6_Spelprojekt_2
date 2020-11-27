@@ -70,6 +70,8 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("victoryDefeatUi_scene", LoadSceneMode.Additive);
         SceneManager.LoadScene("UI_Prototype", LoadSceneMode.Additive);
 
+        AudioManager.ourInstance.PlaySound("StageLoaded");
+
         myCurrentStageIndex = aStageIndex;
 
         Debug.Assert(StageManager.ourInstance != null, "No StageManager in loaded stage!");

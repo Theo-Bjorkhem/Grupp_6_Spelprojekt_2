@@ -46,6 +46,8 @@ public class SpikeTile : Tile
         // TODO: Extend spikes visually when spike model has spikes and main body separate
         transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z); // Test visuals
 
+        AudioManager.ourInstance.PlaySound("ArmsExtend");
+
         // If the player is standing on this tile we'll kill it
         Entity entity = StageManager.ourInstance.GetEntity(StageManager.ourInstance.GetTilePositionFromWorldTile(transform.position));
         
@@ -64,5 +66,7 @@ public class SpikeTile : Tile
 
         // TODO: Rectract spikes visually when spike model has spikes and main body separate
         transform.position = new Vector3(transform.position.x, -0.5f, transform.position.z); // Test visuals
+
+        AudioManager.ourInstance.PlaySound("ArmsRetract");
     }
 }

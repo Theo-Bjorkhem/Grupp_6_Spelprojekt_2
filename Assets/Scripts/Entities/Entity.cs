@@ -40,6 +40,8 @@ public class Entity : MonoBehaviour
     {
         StageManager.ourInstance.UnregisterEntity(this);
 
+        AudioManager.ourInstance.PlaySound("KillEntity");
+
         myEntityState |= EntityState.Dead;
     }
 

@@ -69,6 +69,54 @@ MonoBehaviour:
     myPitch: 1
     myRandomVolume: 0
     myRandomPitch: 0
+  - myName: Music
+    myClip: {fileID: 8300000, guid: 8a09d899033d85440b04395082e06130, type: 3}
+    myVolume: 0.02
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: MoveIntoWall
+    myClip: {fileID: 8300000, guid: 1be367ebb0fdabe4d84634a5a8620796, type: 3}
+    myVolume: 0.4
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: PickupKey
+    myClip: {fileID: 8300000, guid: 8890b2485ed5ac141b5aa8e48562cc36, type: 3}
+    myVolume: 0.4
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: UnlockChest
+    myClip: {fileID: 8300000, guid: 632785605a21d734ca9b9591edbffd7b, type: 3}
+    myVolume: 0.4
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: ArmsExtend
+    myClip: {fileID: 8300000, guid: aa7f8e50c36d6034791eafc738c70840, type: 3}
+    myVolume: 0.4
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: ArmsRetract
+    myClip: {fileID: 8300000, guid: 4413f3768d8345f499de48a920b056d1, type: 3}
+    myVolume: 0.4
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: KillEntity
+    myClip: {fileID: 8300000, guid: 5b97701042ec8d946be08af25d38fbcb, type: 3}
+    myVolume: 0.4
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: StageLoaded
+    myClip: {fileID: 8300000, guid: 762cc55f830d32e4e99637fe1d445b24, type: 3}
+    myVolume: 0.4
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
 --- !u!81 &8939331553364165216
 AudioListener:
   m_ObjectHideFlags: 0

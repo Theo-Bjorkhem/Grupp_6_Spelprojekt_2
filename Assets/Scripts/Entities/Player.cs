@@ -246,6 +246,7 @@ public partial class Player : Entity
             entityAtNextPosition.Interact(this, aMovementDirection);
             // TODO: figure out which animation to play
             myAnimator.Blocked(aMovementDirection);
+            AudioManager.ourInstance.PlaySound("MoveIntoWall");
         }
         else if (Move(aMovementDirection))
         {
@@ -254,6 +255,7 @@ public partial class Player : Entity
         else
         {
             myAnimator.Blocked(aMovementDirection);
+            AudioManager.ourInstance.PlaySound("MoveIntoWall");
         }
     }
 
