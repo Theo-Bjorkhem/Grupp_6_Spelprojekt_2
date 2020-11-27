@@ -71,7 +71,7 @@ MonoBehaviour:
     myRandomPitch: 0
   - myName: Music
     myClip: {fileID: 8300000, guid: 8a09d899033d85440b04395082e06130, type: 3}
-    myVolume: 0.02
+    myVolume: 0.05
     myPitch: 1
     myRandomVolume: 0
     myRandomPitch: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
     myRandomPitch: 0
   - myName: StageLoaded
     myClip: {fileID: 8300000, guid: 762cc55f830d32e4e99637fe1d445b24, type: 3}
-    myVolume: 0.4
+    myVolume: 0.1
     myPitch: 1
     myRandomVolume: 0
     myRandomPitch: 0
