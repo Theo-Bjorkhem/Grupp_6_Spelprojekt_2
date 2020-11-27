@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(KeyAnimator))]
 public class Key : Entity
 {
+    private KeyAnimator myKeyAnimator;
+
     public override void Interact(Entity anEntity, Direction aDirection)
     {
         base.Interact(anEntity, aDirection);
@@ -12,6 +13,14 @@ public class Key : Entity
         StageManager.ourInstance.myHasKey = true;
 
         StageManager.ourInstance.UnregisterEntity(this);
-        this.gameObject.SetActive(false);
+
+        myKeyAnimator.OnPickedUp(() => gameObject.SetActive(false));
+        // TODO: SFX
+        // AudioManager.ourInstance.PlaySound("Key_Pickup");
+    }
+
+    private void Awake()
+    {
+        myKeyAnimator = GetComponent<KeyAnimator>();
     }
 }
