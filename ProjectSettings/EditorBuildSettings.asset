@@ -15,18 +15,24 @@ EditorBuildSettings:
     path: Assets/Scenes/UI/victoryDefeatUi_scene.unity
     guid: 802735bb488fc684ba4d369fd9ad4d59
   - enabled: 1
-    path: Assets/Scenes/Official/Stage1_scene.unity
-    guid: ba377617f31f7c848a80c271ce77b9c8
-  - enabled: 1
-    path: Assets/Scenes/Official/Stage2_scene.unity
-    guid: e8c87b9ead40c5747b48a9eefe976330
-  - enabled: 1
-    path: Assets/Scenes/Official/Stage3_scene.unity
-    guid: 9cb1420ba83a1a245a7220c2c14b08b9
-  - enabled: 1
-    path: Assets/Scenes/Official/Stage4_scene.unity
-    guid: 68da88d50b0c23e4b889a8781553e220
-  - enabled: 1
     path: Assets/Scenes/UI/UI_Prototype.unity
     guid: 4d7e05df3df7f2640bc1841da85b934d
+  - enabled: 1
+    path: Assets/Scenes/Pending/MartinStage1_scene.unity
+    guid: e4de1efdaa990164d89921d0260c63d1
+  - enabled: 1
+    path: Assets/Scenes/Pending/MartinStage2_scene.unity
+    guid: 4a12b24cc18a13c498161434f7b2cfea
+  - enabled: 1
+    path: Assets/Scenes/Pending/MartinStage3_scene.unity
+    guid: 7414d66479c713e43aff1dc89f0d728d
+  - enabled: 1
+    path: Assets/Scenes/Pending/MartinStage4_scene.unity
+    guid: 4a229dedf727bef47a3fc411859870e8
+  - enabled: 1
+    path: Assets/Scenes/Pending/MartinStage5_scene.unity
+    guid: c8e725a2b721d964b8440ba75127c764
+  - enabled: 1
+    path: Assets/Scenes/Pending/MartinStage6_scene.unity
+    guid: eaf8000b56e8bde4694bd245690c20ab
   m_configObjects: {}

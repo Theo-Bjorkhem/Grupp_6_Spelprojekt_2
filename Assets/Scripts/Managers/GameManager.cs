@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator TransitionToStageCo(int aStageIndex)
     {
-        string stageSceneName = $"Stage{aStageIndex + 1}_scene";
+        string stageSceneName = $"MartinStage{aStageIndex + 1}_scene";
 
         yield return TransitionToScene(stageSceneName);
 
