@@ -6,7 +6,7 @@ public class PlayerDebugCommands : MonoBehaviour
     [SerializeField] private int myFingersToGoBack = 2;
     [SerializeField] private int myFingersToReset = 3;
     [SerializeField] private int myFingersToGoForward = 4;
-    [SerializeField] private float myHoldToResetDuration = 3f;
+    [SerializeField] private float myHoldToActiveDuration = 3f;
     private float myTimer = 0f;
     
     void Start()
@@ -20,7 +20,7 @@ public class PlayerDebugCommands : MonoBehaviour
         if (Input.touchCount > 1)
         {
             myTimer += Time.deltaTime;
-            if (myTimer > myHoldToResetDuration)
+            if (myTimer > myHoldToActiveDuration)
             {
                 if (Input.touchCount == myFingersToGoBack)
                 {
@@ -64,9 +64,12 @@ public class PlayerDebugCommands : MonoBehaviour
 
     private void PreviousStage()
     {
-        GameManager.ourInstance?.TransitionToStage(
-            SceneManager.GetActiveScene().buildIndex
-            - SceneManager.GetSceneByName("MartinScene1_scene").buildIndex);
+        int stageIndex = SceneManager.GetActiveScene().buildIndex - 5;
+
+        if (stageIndex >= 0 && stageIndex < 6)
+        {
+            GameManager.ourInstance?.TransitionToStage(stageIndex);
+        }
     }
 
     private void ReloadScene()
