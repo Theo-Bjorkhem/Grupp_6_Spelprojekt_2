@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myRotationalRoot: {fileID: 8246875711269211468}
-  myMoveSpeedMultiplier: 1
+  myMoveSpeedMultiplier: 3
 --- !u!1001 &8500668260193331879
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105,6 +105,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7684570143959889735}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 9bd2f4c330b8f504e9198292d646b033,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9bd2f4c330b8f504e9198292d646b033,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.5
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c29df3f862ee2bc4aa247c4d2cab0429,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -179,16 +189,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 9bd2f4c330b8f504e9198292d646b033,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 9bd2f4c330b8f504e9198292d646b033,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9bd2f4c330b8f504e9198292d646b033, type: 3}

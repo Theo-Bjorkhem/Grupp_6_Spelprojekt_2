@@ -1412,11 +1412,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7729548661836359540, guid: 3a171be42b1a4ac44997872d70b75a77,
-        type: 3}
-      propertyPath: myMoveSpeedMultiplier
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 8246875711269211468, guid: 3a171be42b1a4ac44997872d70b75a77,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
