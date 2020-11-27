@@ -117,6 +117,12 @@ MonoBehaviour:
     myPitch: 1
     myRandomVolume: 0
     myRandomPitch: 0
+  - myName: BreakableTileBreaks
+    myClip: {fileID: 8300000, guid: 3bc531e4f52a7a64fba95c18018e5586, type: 3}
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
 --- !u!81 &8939331553364165216
 AudioListener:
   m_ObjectHideFlags: 0
