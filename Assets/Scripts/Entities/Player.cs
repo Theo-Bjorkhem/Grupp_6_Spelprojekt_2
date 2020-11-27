@@ -205,16 +205,12 @@ public partial class Player : Entity
 
     private void HandleGrabbedMovement(Direction aMovementDirection)
     {
-        bool moved = false;
-        bool movedBox = false;
         switch (ComputeGrabbedMovementTypeInDirection(aMovementDirection))
         {
             case GrabbedMovementType.Push:
-                movedBox = myGrabbedBox.OnPlayerMoveBox(aMovementDirection);
-                if (movedBox)
+                if (myGrabbedBox.OnPlayerMoveBox(aMovementDirection))
                 {
-                    moved = Move(aMovementDirection);
-                    if (!moved)
+                    if (!Move(aMovementDirection))
                     {
                         // Player could not follow box => release box
                         // Ex. box triggered a breakable tile
@@ -223,11 +219,9 @@ public partial class Player : Entity
                 }
                 break;
             case GrabbedMovementType.Pull:
-                moved = Move(aMovementDirection);
-                if (moved)
+                if (Move(aMovementDirection))
                 {
-                    movedBox = myGrabbedBox.OnPlayerMoveBox(aMovementDirection);
-                    if (!movedBox)
+                    if (!myGrabbedBox.OnPlayerMoveBox(aMovementDirection))
                     {
                         // Box could not follow player => release box
                         // Ex. we triggered a breakable tile
@@ -253,12 +247,20 @@ public partial class Player : Entity
 
         if (entityAtNextPosition != null)
         {
-            aInteractResult = entityAtNextPosition.Interact(this, aMovementDirection);
+            entityAtNextPosition.Interact(this, aMovementDirection);
+            // TODO: figure out which animation to play
+            myAnimator.Blocked(aMovementDirection);
+            AudioManager.ourInstance.PlaySound("MoveIntoWall");
+        }
+        else if (Move(aMovementDirection))
+        {
+            myAnimator.Move(aMovementDirection);
         }
 
         if (ShouldMove(aInteractResult))
         {
-            moved = Move(aMovementDirection);
+            myAnimator.Blocked(aMovementDirection);
+            AudioManager.ourInstance.PlaySound("MoveIntoWall");
         }
 
         PlayAnimation(aMovementDirection, aInteractResult, moved);

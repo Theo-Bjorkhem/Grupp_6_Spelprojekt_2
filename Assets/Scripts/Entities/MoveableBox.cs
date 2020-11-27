@@ -25,9 +25,9 @@ public class MoveableBox : Entity
         }
     }
 
-    public void OnPlayerMoveBox(Direction aDirection)
+    public bool OnPlayerMoveBox(Direction aDirection)
     {
-        Move(aDirection);
+        return Move(aDirection);
     }
 
     public void OnGrabbedByPlayer(Player aPlayer)

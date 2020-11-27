@@ -48,9 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myMoveSound: PlayerMove
-  myDragDistance: 10
-  myMaxSwipeTime: 0.5
-  myMinSwipeLength: 100
+  myTouchConfiguration:
+    mySwipeMinDistance: 100
+    mySwipeMaxDuration: 0.5
+    myTapMaxDistance: 50
+    myTapMaxDuration: 0.3
 --- !u!114 &2155950828579772714
 MonoBehaviour:
   m_ObjectHideFlags: 0

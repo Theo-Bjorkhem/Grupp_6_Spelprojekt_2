@@ -14,7 +14,7 @@ public class TurnCounterUI : MonoBehaviour
     }
     private void SetTurnCounterUI()
     {
-        gameObject.GetComponent<Text>().text = "Turns Left: " + myTurnsLeft;
+        gameObject.GetComponent<Text>().text = "" + myTurnsLeft;
     }
     private void OnTurnStart()
     {
