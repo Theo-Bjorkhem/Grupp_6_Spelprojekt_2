@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         // TODO: Add UI scenes that need to be loaded on stage load here!
         SceneManager.LoadScene("uiBase_scene", LoadSceneMode.Additive);
         SceneManager.LoadScene("victoryDefeatUi_scene", LoadSceneMode.Additive);
-        SceneManager.LoadScene("UI_Prototype", LoadSceneMode.Additive);
+        SceneManager.LoadScene("HUD1_scene", LoadSceneMode.Additive);
 
         AudioManager.ourInstance.PlaySound("StageLoaded");
 
