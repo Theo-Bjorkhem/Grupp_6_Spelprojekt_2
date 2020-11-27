@@ -13,7 +13,11 @@ public class BreakableTile : Tile
     {
         base.OnEnter(steppedOnMe);
 
-        HandleStep();
+        // TODO: write a better solution for entities that do not break tiles
+        if (steppedOnMe as Key == null)
+        {
+            HandleStep();
+        }
     }
 
     public override void OnExit(Entity steppedOffMe)
