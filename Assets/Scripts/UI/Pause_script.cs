@@ -27,4 +27,11 @@ public class Pause_script : MonoBehaviour
         SceneManager.LoadScene("mainMenu_scene");
         Time.timeScale = 1;
     }
+
+    public void RestartLevel()
+    {
+        int i = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(i);
+        Time.timeScale = 1;
+    }
 }
