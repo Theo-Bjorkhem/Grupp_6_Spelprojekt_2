@@ -137,13 +137,13 @@ MonoBehaviour:
     myRandomPitch: 0
   - myName: Pause
     myClip: {fileID: 8300000, guid: 293d987fbf975d94dbae5005c7e12a1b, type: 3}
-    myVolume: 0.1
+    myVolume: 0.05
     myPitch: 1
     myRandomVolume: 0
     myRandomPitch: 0
   - myName: Unpause
     myClip: {fileID: 8300000, guid: cfdfcc508581e544cbd0cb7bfd2df0be, type: 3}
-    myVolume: 0.1
+    myVolume: 0.05
     myPitch: 1
     myRandomVolume: 0
     myRandomPitch: 0
