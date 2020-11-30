@@ -5,7 +5,7 @@ public class Key : Entity
 {
     private KeyAnimator myKeyAnimator;
 
-    public override void Interact(Entity anEntity, Direction aDirection)
+    public override InteractResult Interact(Entity anEntity, Direction aDirection)
     {
         base.Interact(anEntity, aDirection);
         AudioManager.ourInstance.PlaySound("PickupKey");
@@ -17,6 +17,8 @@ public class Key : Entity
         myKeyAnimator.OnPickedUp(() => gameObject.SetActive(false));
         // TODO: SFX
         // AudioManager.ourInstance.PlaySound("Key_Pickup");
+		
+        return InteractResult.KeyPickedUp;
     }
 
     private void Awake()

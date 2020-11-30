@@ -22,6 +22,43 @@ public class PlayerAnimator : MonoBehaviour
         myIsInTurnAnimation = false;
     }
 
+    public void Fall()
+    {
+        RotateTowardsDirection(Direction.Down);
+        myAnimator.SetTrigger("Fall");
+    }
+
+    public void Death()
+    {
+        RotateTowardsDirection(Direction.Down);
+        myAnimator.SetTrigger("Death");
+    }
+
+    public void LetGo()
+    {
+        myAnimator.SetTrigger("Let Go");
+    }
+
+    public void Grab(Direction aDirection)
+    {
+        RotateTowardsDirection(aDirection);
+        myAnimator.SetTrigger("Grab");
+    }
+
+    public void Pull(Direction aDirection)
+    {
+        myIsInTurnAnimation = true;
+        RotateTowardsDirection(aDirection);
+        myAnimator.SetTrigger("Pull");
+    }
+
+    public void Push(Direction aDirection)
+    {
+        myIsInTurnAnimation = true;
+        RotateTowardsDirection(aDirection);
+        myAnimator.SetTrigger("Push");
+    }
+
     public void Blocked(Direction aDirection)
     {
         myIsInTurnAnimation = true;
@@ -34,6 +71,13 @@ public class PlayerAnimator : MonoBehaviour
         myIsInTurnAnimation = true;
         RotateTowardsDirection(aDirection);
         myAnimator.SetTrigger("Move");
+    }
+
+    public void Kick(Direction aDirection)
+    {
+        myIsInTurnAnimation = true;
+        RotateTowardsDirection(aDirection);
+        myAnimator.SetTrigger("Kick");
     }
 
     /// <summary>
