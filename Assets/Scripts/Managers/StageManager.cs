@@ -102,6 +102,11 @@ public class StageManager : MonoBehaviour
         return GetEntityData(anEntity).myGridPosition;
     }
 
+    public Vector2Int SubtractEntityGridPositions(Entity aLHS, Entity aRHS)
+    {
+        return GetEntityGridPosition(aLHS) - GetEntityGridPosition(aRHS);
+    }
+
     /// <summary>
     /// Moves the specified <paramref name="anEntity"/> to <paramref name="aNewPosition"/>.
     /// Asserts if the move would be illegal by <see cref="CanEntityMoveToPosition(Entity, Vector2Int)"/>.

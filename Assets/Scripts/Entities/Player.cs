@@ -97,17 +97,24 @@ public partial class Player : Entity
                     if (myGrabbedBox == turnActionData.myMoveableBox)
                     {
                         OnReleaseBox();
+                        LetGoAction();
                     }
                     else
                     {
                         if (myIsGrabbingBox)
                         {
                             OnReleaseBox();
+                            LetGoAction();
                         }
 
                         if (CheckCanGrabBox(turnActionData.myMoveableBox))
                         {
                             OnGrabBox(turnActionData.myMoveableBox);
+                            GrabAction(VecToDirection(
+                                StageManager.ourInstance.SubtractEntityGridPositions(
+                                    turnActionData.myMoveableBox, 
+                                    this
+                            )));
                         }
                     }
                     break;
@@ -216,6 +223,7 @@ public partial class Player : Entity
                         // Ex. box triggered a breakable tile
                         OnReleaseBox();
                     }
+                    PushAction(aMovementDirection, !myIsGrabbingBox);
                 }
                 break;
             case GrabbedMovementType.Pull:
@@ -227,6 +235,7 @@ public partial class Player : Entity
                         // Ex. we triggered a breakable tile
                         OnReleaseBox();
                     }
+                    PullAction(aMovementDirection, !myIsGrabbingBox);
                 }
                 break;
             case GrabbedMovementType.Invalid:
@@ -235,35 +244,40 @@ public partial class Player : Entity
                 // Current behaviour is to ignore movement
                 break;
         }
-
-        PlayAnimation(aMovementDirection, movedBox ? InteractResult.BoxMoved : InteractResult.BoxMoveFailed, moved);
     }
 
     private void HandleNormalMovement(Direction aMovementDirection)
     {
         Entity entityAtNextPosition = GetEntityInDirection(aMovementDirection);
         InteractResult aInteractResult = InteractResult.Undefined;
-        bool moved = false;
 
         if (entityAtNextPosition != null)
         {
-            entityAtNextPosition.Interact(this, aMovementDirection);
-            // TODO: figure out which animation to play
-            myAnimator.Blocked(aMovementDirection);
-            AudioManager.ourInstance.PlaySound("MoveIntoWall");
+            aInteractResult = entityAtNextPosition.Interact(this, aMovementDirection);
+            if (aInteractResult == InteractResult.BoxMoved
+                || aInteractResult == InteractResult.BoxMoveFailed)
+            {
+                KickAction(aMovementDirection);
+            }
+            else if (aInteractResult == InteractResult.KeyPickedUp
+                || aInteractResult == InteractResult.Unlocked)
+            {
+                Move(aMovementDirection);
+                MoveAction(aMovementDirection);
+            }
+            else
+            {
+                BlockedAction(aMovementDirection);
+            }
         }
         else if (Move(aMovementDirection))
         {
-            myAnimator.Move(aMovementDirection);
+            MoveAction(aMovementDirection);
         }
-
-        if (ShouldMove(aInteractResult))
+        else
         {
-            myAnimator.Blocked(aMovementDirection);
-            AudioManager.ourInstance.PlaySound("MoveIntoWall");
+            BlockedAction(aMovementDirection);
         }
-
-        PlayAnimation(aMovementDirection, aInteractResult, moved);
     }
 
     private bool CheckCanGrabBox(MoveableBox aMoveableBox)
@@ -305,73 +319,49 @@ public partial class Player : Entity
         }
     }
 
-    private bool ShouldMove(InteractResult aInteractResult)
+    private void MoveAction(Direction aMovementDirection)
     {
-        switch (aInteractResult)
-        {
-            case InteractResult.BoxMoved:
-                return myIsGrabbingBox;
-            case InteractResult.BoxMoveFailed:
-                return false;
-            case InteractResult.KeyPickedUp:
-                return true;
-            case InteractResult.Nothing:
-                return false;
-            case InteractResult.Undefined:
-                return true;
-            case InteractResult.Unlocked:
-                return true;
-            case InteractResult.UnlockFailed:
-                return false;
-            default:
-                return true;
-        }
+        myAnimator.Move(aMovementDirection);
+        AudioManager.ourInstance?.PlaySound("PlayerMove");
     }
 
-    private void PlayAnimation(Direction aMovementDirection, InteractResult aInteractResult, bool aMoved)
+    private void BlockedAction(Direction aMovementDirection)
     {
-        if (aMoved)
+        myAnimator.Blocked(aMovementDirection);
+        AudioManager.ourInstance?.PlaySound("MoveIntoWall");
+    }
+
+    private void KickAction(Direction aMovementDirection)
+    {
+        myAnimator.Kick(aMovementDirection);
+        // kick sound?
+        // AudioManager.ourInstance?.PlaySound("");
+    }
+
+    private void PullAction(Direction aMovementDirection, bool aBoxDropped)
+    {
+        myAnimator.Pull(aMovementDirection);
+    }
+
+    private void PushAction(Direction aMovementDirection, bool aBoxDropped)
+    {
+        if (aBoxDropped)
         {
-            PlayMoveAnimation(aMovementDirection, aInteractResult);
+            KickAction(aMovementDirection);
         }
         else
         {
-            PlayStayAnimation(aMovementDirection, aInteractResult);
+            myAnimator.Push(aMovementDirection);
         }
     }
 
-    private void PlayStayAnimation(Direction aMovementDirection, InteractResult aInteractResult)
+    private void GrabAction(Direction aDirection)
     {
-        if (aInteractResult == InteractResult.BoxMoved)
-        {
-            myAnimator.Kick(aMovementDirection);
-        }
-        else
-        {
-            myAnimator.Blocked(aMovementDirection);
-        }
+        myAnimator.Grab(aDirection);
     }
 
-    private void PlayMoveAnimation(Direction aMovementDirection, InteractResult aInteractResult)
+    private void LetGoAction()
     {
-        if (aInteractResult == InteractResult.BoxMoved)
-        {
-            if (myIsGrabbingBox)
-            {
-                GrabbedMovementType grabMoveType = ComputeGrabbedMovementTypeInDirection(aMovementDirection);
-                if (grabMoveType == GrabbedMovementType.Pull)
-                {
-                    myAnimator.Pull(aMovementDirection);
-                }
-                else if (grabMoveType == GrabbedMovementType.Push)
-                {
-                    myAnimator.Push(aMovementDirection);
-                }
-            }
-        }
-        else
-        {
-            myAnimator.Move(aMovementDirection);
-        }
+        myAnimator.LetGo();
     }
 }

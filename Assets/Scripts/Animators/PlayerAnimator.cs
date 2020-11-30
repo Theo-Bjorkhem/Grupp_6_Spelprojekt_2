@@ -34,9 +34,8 @@ public class PlayerAnimator : MonoBehaviour
         myAnimator.SetTrigger("Death");
     }
 
-    public void LetGo(Direction aDirection)
+    public void LetGo()
     {
-        RotateTowardsDirection(aDirection);
         myAnimator.SetTrigger("Let Go");
     }
 

@@ -92,6 +92,31 @@ public class Entity : MonoBehaviour
         return Vector2Int.up;
     }
 
+    protected Direction VecToDirection(Vector2Int aVector)
+    {
+        if (aVector == Vector2Int.up)
+        {
+            return Direction.Up;
+        }
+        else if (aVector == Vector2Int.right)
+        {
+            return Direction.Right;
+        }
+        else if (aVector == Vector2Int.down)
+        {
+            return Direction.Down;
+        }
+        else if (aVector == Vector2Int.left)
+        {
+            return Direction.Left;
+        }
+        else
+        {
+            Debug.Assert(false, "Invalid direction vector", this);
+            return Direction.Up;
+        }
+    }
+
     protected Direction ReverseDirection (Direction aDirection)
     {
         switch (aDirection)
