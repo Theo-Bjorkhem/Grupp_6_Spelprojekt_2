@@ -5,7 +5,7 @@ public class Key : Entity
 {
     private KeyAnimator myKeyAnimator;
 
-    public override void Interact(Entity anEntity, Direction aDirection)
+    public override InteractResult Interact(Entity anEntity, Direction aDirection)
     {
         base.Interact(anEntity, aDirection);
         AudioManager.ourInstance.PlaySound("PickupKey");
