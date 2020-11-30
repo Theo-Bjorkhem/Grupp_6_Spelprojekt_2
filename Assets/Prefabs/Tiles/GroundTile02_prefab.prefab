@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 964581780344917359}
   - component: {fileID: 3064160017672649125}
   m_Layer: 0
-  m_Name: tileBase2_mesh
+  m_Name: GroundTile02_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: 538c64b9311fb7947a2fbffdb695eb3b, type: 3}
+  - {fileID: 6271573414225017425, guid: 538c64b9311fb7947a2fbffdb695eb3b, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
