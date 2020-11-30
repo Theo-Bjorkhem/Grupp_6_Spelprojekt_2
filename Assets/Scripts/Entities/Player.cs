@@ -340,7 +340,7 @@ public partial class Player : Entity
 
     private void PullAction(Direction aMovementDirection, bool aBoxDropped)
     {
-        myAnimator.Pull(aMovementDirection);
+        myAnimator.Pull(ReverseDirection(aMovementDirection));
     }
 
     private void PushAction(Direction aMovementDirection, bool aBoxDropped)
