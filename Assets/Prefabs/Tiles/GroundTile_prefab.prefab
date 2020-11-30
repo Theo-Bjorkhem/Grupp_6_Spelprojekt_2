@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8154423829439374118}
   - component: {fileID: 507145446747683516}
   m_Layer: 0
-  m_Name: GroundTile
+  m_Name: GroundTile_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,7 +139,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 20e47c00707706b4eb84fd822a506997, type: 2}
+      objectReference: {fileID: 6271573414225017425, guid: 00f3efc0328b98a4cb7434b470627945,
+        type: 3}
     - target: {fileID: -5754084199372789682, guid: 124028b57f851614aa5f3346678d4264,
         type: 3}
       propertyPath: m_Mesh
