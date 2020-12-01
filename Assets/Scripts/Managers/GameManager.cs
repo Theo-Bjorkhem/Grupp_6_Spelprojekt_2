@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator TransitionToScene(string aSceneName)
     {
-        // TODO: Fade out?
+        yield return EffectUI.ourInstance.FadeOut(0.8f);
 
         // TODO: Start loading animation?
 
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
 
         // TODO: Stop loading animation?
 
-        // TODO: Fade in?
+        yield return EffectUI.ourInstance.FadeIn(0.8f);
     }
 
     private void Awake()
@@ -108,6 +108,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         ourInstance = this;
+
+        SceneManager.LoadScene("effectUi_scene", LoadSceneMode.Additive);
     }
 
     public void Quit()
