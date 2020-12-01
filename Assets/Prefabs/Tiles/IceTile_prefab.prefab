@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5728279333316527200}
   - component: {fileID: 7668716619649432965}
   m_Layer: 0
-  m_Name: IceTile
+  m_Name: IceTile_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87bd551f35a5b64dad89ab894efadd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myForceDisallowEnter: 0
 --- !u!1001 &2501236536050685513
 PrefabInstance:
   m_ObjectHideFlags: 0
