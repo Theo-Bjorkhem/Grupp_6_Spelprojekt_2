@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52141dac3ffd4b9448e440d468bc2c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myMoveSound: PlayerMove
   mySteps: 
   myWillReverse: 1
 --- !u!1001 &6209891898186775057
@@ -61,7 +62,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e50118ad778ae2c44bd6324a3db595ca,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e50118ad778ae2c44bd6324a3db595ca,
         type: 3}

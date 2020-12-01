@@ -72,6 +72,7 @@ public class AudioManager : MonoBehaviour
         }
 
         PlayLoop("Ambience");
+        PlayLoop("Music");
     }
 
     public void PlaySound(string aName)

@@ -23,12 +23,13 @@ public class Entity : MonoBehaviour
 
     /// <summary>
     /// When "moved" into, by the player usually. This is where a box is pushed for example.
+    /// Returns a <see cref="InteractResult"/> to let the interactor know what happened.
     /// </summary>
     /// <param name="aDirection"></param>
     /// <param name="anEntity">The entity interacting with this entity.</param>
-    public virtual void Interact(Entity anEntity, Direction aDirection)
+    public virtual InteractResult Interact(Entity anEntity, Direction aDirection)
     {
-        
+        return InteractResult.Nothing;
     }
 
     /// <summary>
@@ -39,6 +40,10 @@ public class Entity : MonoBehaviour
     public virtual void Kill(DeathReason aReason)
     {
         StageManager.ourInstance.UnregisterEntity(this);
+        if (AudioManager.ourInstance != null)
+        {
+            AudioManager.ourInstance.PlaySound("KillEntity");
+        }
 
         myEntityState |= EntityState.Dead;
     }
@@ -56,15 +61,16 @@ public class Entity : MonoBehaviour
         if (StageManager.ourInstance.CanEntityMoveToPosition(this, gridPosition))
         {
             StageManager.ourInstance.MoveEntity(this, gridPosition);
-            AudioManager.ourInstance?.PlaySound(myMoveSound);
+            if (AudioManager.ourInstance != null)
+            {
+                AudioManager.ourInstance.PlaySound(myMoveSound);
+            }
             transform.position = StageManager.ourInstance.GetEntityWorldPositionFromTilePosition(gridPosition);
 
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     protected virtual void Start()
@@ -91,6 +97,31 @@ public class Entity : MonoBehaviour
         return Vector2Int.up;
     }
 
+    protected Direction VecToDirection(Vector2Int aVector)
+    {
+        if (aVector == Vector2Int.up)
+        {
+            return Direction.Up;
+        }
+        else if (aVector == Vector2Int.right)
+        {
+            return Direction.Right;
+        }
+        else if (aVector == Vector2Int.down)
+        {
+            return Direction.Down;
+        }
+        else if (aVector == Vector2Int.left)
+        {
+            return Direction.Left;
+        }
+        else
+        {
+            Debug.Assert(false, "Invalid direction vector", this);
+            return Direction.Up;
+        }
+    }
+
     protected Direction ReverseDirection (Direction aDirection)
     {
         switch (aDirection)
@@ -109,4 +140,42 @@ public class Entity : MonoBehaviour
         }
         return Direction.Up;
     }
+
+#if UNITY_EDITOR
+
+    private StageManager myStageManagerUE;
+    private void OnDrawGizmosSelected()
+    {
+        if (myStageManagerUE == null)
+        {
+            myStageManagerUE = FindObjectOfType<StageManager>();
+
+            if (myStageManagerUE == null)
+            {
+                return;
+            }
+        }
+
+        Vector2Int gridPosition = myStageManagerUE.GetTilePositionFromWorldTile(transform.position);
+
+        Vector3 center = myStageManagerUE.GetEntityWorldPositionFromTilePosition(gridPosition) - new Vector3(myStageManagerUE.myTileSize, 0.0f, myStageManagerUE.myTileSize) * 0.5f;
+
+        Color color = Color.green;
+
+        if (!myStageManagerUE.IsPositionInGrid(gridPosition))
+        {
+            color = Color.red;
+        }
+        else if (!Mathf.Approximately(transform.position.x % 1.0f, 0.0f) || !Mathf.Approximately(transform.position.z % 1.0f, 0.0f))
+        {
+            color = Color.yellow;
+        }
+
+        color.a = 0.5f;
+
+        Gizmos.color = color;
+        Gizmos.DrawCube(center, new Vector3(myStageManagerUE.myTileSize, 0.1f, myStageManagerUE.myTileSize));
+    }
+
+#endif
 }

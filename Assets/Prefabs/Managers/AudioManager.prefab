@@ -59,13 +59,91 @@ MonoBehaviour:
     myRandomPitch: 0
   - myName: BoxMove
     myClip: {fileID: 8300000, guid: 0334d3aa48f0c994ca299aec9edbfd05, type: 3}
-    myVolume: 0.4
+    myVolume: 0.1
     myPitch: 1
     myRandomVolume: 0.1
     myRandomPitch: 0.1
   - myName: Ambience
     myClip: {fileID: 8300000, guid: c7e2940ab06767743a1962b79af3d4a6, type: 3}
     myVolume: 0.02
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: Music
+    myClip: {fileID: 8300000, guid: 8a09d899033d85440b04395082e06130, type: 3}
+    myVolume: 0.05
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: MoveIntoWall
+    myClip: {fileID: 8300000, guid: 1be367ebb0fdabe4d84634a5a8620796, type: 3}
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: PickupKey
+    myClip: {fileID: 8300000, guid: 8890b2485ed5ac141b5aa8e48562cc36, type: 3}
+    myVolume: 0.4
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: UnlockChest
+    myClip: {fileID: 8300000, guid: 632785605a21d734ca9b9591edbffd7b, type: 3}
+    myVolume: 0.4
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: ArmsExtend
+    myClip: {fileID: 8300000, guid: aa7f8e50c36d6034791eafc738c70840, type: 3}
+    myVolume: 0.05
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: ArmsRetract
+    myClip: {fileID: 8300000, guid: 4413f3768d8345f499de48a920b056d1, type: 3}
+    myVolume: 0.05
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: KillEntity
+    myClip: {fileID: 8300000, guid: 5b97701042ec8d946be08af25d38fbcb, type: 3}
+    myVolume: 0.4
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: StageLoaded
+    myClip: {fileID: 8300000, guid: 762cc55f830d32e4e99637fe1d445b24, type: 3}
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: BreakableTileBreaks
+    myClip: {fileID: 8300000, guid: 3bc531e4f52a7a64fba95c18018e5586, type: 3}
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: MenuNegative
+    myClip: {fileID: 8300000, guid: 688465f0f6514914f8a8f2708787e654, type: 3}
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: MenuPositive
+    myClip: {fileID: 8300000, guid: a5e3024c42a51cb47a82cfa6b50d2714, type: 3}
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: Pause
+    myClip: {fileID: 8300000, guid: 293d987fbf975d94dbae5005c7e12a1b, type: 3}
+    myVolume: 0.05
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: Unpause
+    myClip: {fileID: 8300000, guid: cfdfcc508581e544cbd0cb7bfd2df0be, type: 3}
+    myVolume: 0.05
     myPitch: 1
     myRandomVolume: 0
     myRandomPitch: 0

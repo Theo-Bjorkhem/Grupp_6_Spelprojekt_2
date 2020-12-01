@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 271008395319283018}
   - component: {fileID: 953940044188277283}
   m_Layer: 0
-  m_Name: BreakableTile
+  m_Name: BreakableTile_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myForceDisallowEnter: 0
+  myHoleTilePrefab: {fileID: 4962898006199208465, guid: 80a2fa0a5a1caa34e90c173dd57b448b,
+    type: 3}
   myBreakThreshold: 2
 --- !u!1001 &884847918475408610
 PrefabInstance:

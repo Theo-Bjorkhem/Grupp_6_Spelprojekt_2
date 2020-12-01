@@ -11,16 +11,23 @@ public class MoveableBox : Entity
 
     private Collider myCollider;
 
-    public override void Interact(Entity anEntity, Direction aDirection)
+    public override InteractResult Interact(Entity anEntity, Direction aDirection)
     {
         base.Interact(anEntity, aDirection);       
         
-        Move(aDirection);
+        if (Move(aDirection))
+        {
+            return InteractResult.BoxMoved;
+        }
+        else
+        {
+            return InteractResult.BoxMoveFailed;
+        }
     }
 
-    public void OnPlayerMoveBox(Direction aDirection)
+    public bool OnPlayerMoveBox(Direction aDirection)
     {
-        Move(aDirection);
+        return Move(aDirection);
     }
 
     public void OnGrabbedByPlayer(Player aPlayer)

@@ -9,6 +9,8 @@ public class StageManager : MonoBehaviour
         public Vector2Int myGridPosition;
     }
 
+    public bool myHasKey = false;
+
     public static StageManager ourInstance;
 
     public int myCurrentTurnIndex { get; private set; } = 0;
@@ -98,6 +100,11 @@ public class StageManager : MonoBehaviour
     public Vector2Int GetEntityGridPosition(Entity anEntity)
     {
         return GetEntityData(anEntity).myGridPosition;
+    }
+
+    public Vector2Int SubtractEntityGridPositions(Entity aLHS, Entity aRHS)
+    {
+        return GetEntityGridPosition(aLHS) - GetEntityGridPosition(aRHS);
     }
 
     /// <summary>
