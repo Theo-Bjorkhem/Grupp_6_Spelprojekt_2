@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8146065434814472389}
   - component: {fileID: 6262347724673553423}
   m_Layer: 0
-  m_Name: obstacleLockedBox1_mesh
+  m_Name: obstacleLockedBox1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

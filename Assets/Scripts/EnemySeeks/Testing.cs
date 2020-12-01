@@ -5,9 +5,9 @@ using UnityEngine;
 public class Testing : MonoBehaviour
 {
 
-    private Grid grid;
-    private float mouseMoveTimer;
-    private float mouseMoveTimerMax = .01f;
+    //private Grid grid;
+    //private float mouseMoveTimer;
+    //private float mouseMoveTimerMax = .01f;
 
 
 }
