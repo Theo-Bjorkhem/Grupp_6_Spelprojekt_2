@@ -337,13 +337,19 @@ public partial class Player : Entity
     {
         myAnimator.Move(aMovementDirection);
 
-        AudioManager.ourInstance?.PlaySound("PlayerMove");
+        if (AudioManager.ourInstance != null)
+        {
+            AudioManager.ourInstance.PlaySound("PlayerMove");
+        }
     }
 
     private void BlockedAction(Direction aMovementDirection)
     {
         myAnimator.Blocked(aMovementDirection);
-        AudioManager.ourInstance?.PlaySound("MoveIntoWall");
+        if (AudioManager.ourInstance != null)
+        {
+            AudioManager.ourInstance.PlaySound("MoveIntoWall");
+        }
     }
 
     private void KickAction(Direction aMovementDirection)
@@ -351,7 +357,10 @@ public partial class Player : Entity
         myAnimator.Kick(aMovementDirection);
 
         // kick sound?
-        // AudioManager.ourInstance?.PlaySound("");
+        //if (AudioManager.ourInstance != null)
+        //{
+        //    AudioManager.ourInstance.PlaySound("");
+        //}
     }
 
     private void PullAction(Direction aMovementDirection, bool aBoxDropped)
