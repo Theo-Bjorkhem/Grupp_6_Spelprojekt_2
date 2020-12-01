@@ -70,7 +70,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("victoryDefeatUi_scene", LoadSceneMode.Additive);
         SceneManager.LoadScene("HUD1_scene", LoadSceneMode.Additive);
 
-        AudioManager.ourInstance.PlaySound("StageLoaded");
+        if (AudioManager.ourInstance != null)
+        {
+            AudioManager.ourInstance.PlaySound("StageLoaded");
+        }
 
         myCurrentStageIndex = aStageIndex;
 

@@ -44,7 +44,10 @@ public class BreakableTile : Tile
 
         if (myStepCount >= myBreakThreshold)
         {
-            AudioManager.ourInstance.PlaySound("BreakableTileBreaks");
+            if (AudioManager.ourInstance != null)
+            {
+                AudioManager.ourInstance.PlaySound("BreakableTileBreaks");
+            }
 
             // TODO: Animation etc...
             gameObject.SetActive(false);
