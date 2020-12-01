@@ -55,7 +55,10 @@ public partial class Player : Entity
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        PlayerAction();
+        if (myIsInTurn)
+        {
+            PlayerAction();
+        }
     }
 
     private void OnGrabBox(MoveableBox aBox)
@@ -228,6 +231,7 @@ public partial class Player : Entity
                             OnReleaseBox();
                         }
                     }
+
                     PushAction(aMovementDirection, !myIsGrabbingBox);
                 }
                 break;
@@ -244,6 +248,7 @@ public partial class Player : Entity
                             OnReleaseBox();
                         }
                     }
+
                     PullAction(aMovementDirection, !myIsGrabbingBox);
                 }
                 break;
@@ -331,6 +336,7 @@ public partial class Player : Entity
     private void MoveAction(Direction aMovementDirection)
     {
         myAnimator.Move(aMovementDirection);
+
         AudioManager.ourInstance?.PlaySound("PlayerMove");
     }
 
@@ -343,13 +349,21 @@ public partial class Player : Entity
     private void KickAction(Direction aMovementDirection)
     {
         myAnimator.Kick(aMovementDirection);
+
         // kick sound?
         // AudioManager.ourInstance?.PlaySound("");
     }
 
     private void PullAction(Direction aMovementDirection, bool aBoxDropped)
     {
-        myAnimator.Pull(ReverseDirection(aMovementDirection));
+        if (aBoxDropped)
+        {
+            MoveAction(aMovementDirection);
+        }
+        else
+        {
+            myAnimator.Pull(ReverseDirection(aMovementDirection));
+        }
     }
 
     private void PushAction(Direction aMovementDirection, bool aBoxDropped)
