@@ -15,8 +15,6 @@ public class Key : Entity
         StageManager.ourInstance.UnregisterEntity(this);
 
         myKeyAnimator.OnPickedUp(() => gameObject.SetActive(false));
-        // TODO: SFX
-        // AudioManager.ourInstance.PlaySound("Key_Pickup");
 		
         return InteractResult.KeyPickedUp;
     }
