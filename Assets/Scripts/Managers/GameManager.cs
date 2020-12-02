@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator TransitionToMainMenuCo()
     {
-        yield return TransitionToScene("MainMenu");
+        yield return TransitionToScene("mainMenu_scene");
 
         myCurrentStageIndex = -1;
     }
