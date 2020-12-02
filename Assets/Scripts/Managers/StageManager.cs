@@ -9,7 +9,7 @@ public class StageManager : MonoBehaviour
         public Vector2Int myGridPosition;
     }
 
-    public bool myHasKey = false;
+    public int myKeyCount = 0;
 
     public static StageManager ourInstance;
 
