@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myRotationalRoot: {fileID: 8246875711269211468}
-  myMoveSpeedMultiplier: 1
+  myMoveSpeedMultiplier: 3
 --- !u!1001 &8500668260193331879
 PrefabInstance:
   m_ObjectHideFlags: 0
