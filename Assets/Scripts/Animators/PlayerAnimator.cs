@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Animator))]
@@ -36,13 +35,13 @@ public class PlayerAnimator : MonoBehaviour
 
     public void LetGo()
     {
-        myAnimator.SetTrigger("Let Go");
+        myAnimator.SetBool("IsGrabbing", false);
     }
 
     public void Grab(Direction aDirection)
     {
         RotateTowardsDirection(aDirection);
-        myAnimator.SetTrigger("Grab");
+        myAnimator.SetBool("IsGrabbing", true);
     }
 
     public void Pull(Direction aDirection)
@@ -70,6 +69,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         myIsInTurnAnimation = true;
         RotateTowardsDirection(aDirection);
+
         myAnimator.SetTrigger("Move");
     }
 
@@ -77,6 +77,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         myIsInTurnAnimation = true;
         RotateTowardsDirection(aDirection);
+
         myAnimator.SetTrigger("Kick");
     }
 
@@ -86,7 +87,6 @@ public class PlayerAnimator : MonoBehaviour
     private void OnTurnAnimationEnded()
     {
         myIsInTurnAnimation = false;
-        myAnimator.SetTrigger("Idle");
         myOnTurnAnimationEnd?.Invoke();
     }
 
