@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LockedBox : Entity
+public class MinimizeChest : Entity
 {
     private Animator myAnimator;
+
 
     public override InteractResult Interact(Entity anEntity, Direction aDirection)
     {
@@ -17,22 +18,12 @@ public class LockedBox : Entity
             {
                 AudioManager.ourInstance.PlaySound("UnlockChest");
             }
+            
             StageManager.ourInstance.UnregisterEntity(this);
-            myAnimator.SetTrigger("ChestScaleGone");
-
+            this.gameObject.SetActive(false);
             return InteractResult.Unlocked;
         }
-		return InteractResult.UnlockFailed;
-    }
-
-    private void AnimationFinished()
-    {
-        this.gameObject.SetActive(false);
-    }
-
-    void Awake()
-    {
-        myAnimator = GetComponent<Animator>();
+        return InteractResult.UnlockFailed;
     }
 
 }

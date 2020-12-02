@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
         // TODO: Implement when we know how to score a stage etc.
     }
 
+    public int GetStageIndex()
+    {
+        return myCurrentStageIndex;
+    }
+
     public void TransitionToMainMenu()
     {
         StartCoroutine(TransitionToMainMenuCo());
@@ -30,6 +35,7 @@ public class GameManager : MonoBehaviour
 
         return true;
     }
+
 
     public void TransitionToNextStage()
     {
@@ -64,7 +70,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError($"Failed to load scene {stageSceneName}!");
             yield break;
         }
-
+        
         // TODO: Add UI scenes that need to be loaded on stage load here!
         SceneManager.LoadScene("uiBase_scene", LoadSceneMode.Additive);
         SceneManager.LoadScene("victoryDefeatUi_scene", LoadSceneMode.Additive);
@@ -106,5 +112,10 @@ public class GameManager : MonoBehaviour
         ourInstance = this;
 
         SceneManager.LoadScene("effectUi_scene", LoadSceneMode.Additive);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

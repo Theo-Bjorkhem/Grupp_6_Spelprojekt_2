@@ -366,11 +366,12 @@ public class StageManager : MonoBehaviour
             // TODO: Better place?
 
             // If the current turn resulted in the player unregistering then the player has died => loss
-            if (myPlayer.myValue == null)
+            if (myPlayer.myValue == null || myTurnsLeft < 1)
             {
+                myPlayer.myValue.Kill(DeathReason.Out_Of_Turns);
                 OnPlayerLoss();
             }
-
+            
             yield return null;
 
             ++myCurrentTurnIndex;
