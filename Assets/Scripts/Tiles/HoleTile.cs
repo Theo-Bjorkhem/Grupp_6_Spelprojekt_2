@@ -14,13 +14,13 @@
         if (steppedOnMe is MoveableBox moveableBox)
         {
             moveableBox.OnFellInHole(this);
-
             myMoveableBox = moveableBox;
+            return;
         }
-    }
 
-    public override bool CanEnter(Entity wantsToEnter)
-    {
-        return myIsFilled || (wantsToEnter is MoveableBox);
+        if (steppedOnMe is Player)
+        {
+            steppedOnMe.Kill(DeathReason.Fall);
+        }
     }
 }
