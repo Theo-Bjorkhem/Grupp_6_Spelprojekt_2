@@ -7,6 +7,7 @@ public partial class Player : Entity
     public bool myIsInTurn => myTurnEvent != null;
     public bool myIsAcceptingInput => !myAnimator.myIsInTurnAnimation;
     public bool myIsGrabbingBox => myGrabbedBox != null;
+    private bool myIsLoaded = false;
 
     [SerializeField]
     private TouchConfiguration myTouchConfiguration = TouchConfiguration.Default;
@@ -52,11 +53,16 @@ public partial class Player : Entity
             StageManager.ourInstance.OnPlayerLoss();
 
             // Temporary while VictoryDefeatUI is not implemented
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if (myIsLoaded == false)
+            {
+                GameManager.ourInstance.TransitionToStage(GameManager.ourInstance.GetStageIndex());
+                myIsLoaded = true;
+            }
         }
 
         if (myIsInTurn)
         {
+            myIsLoaded = false;
             PlayerAction();
         }
     }
@@ -70,7 +76,7 @@ public partial class Player : Entity
 
         GrabAction(VecToDirection(
             StageManager.ourInstance.SubtractEntityGridPositions(
-                aBox, 
+                aBox,
                 this
         )));
     }
