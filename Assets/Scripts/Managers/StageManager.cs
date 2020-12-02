@@ -62,6 +62,11 @@ public class StageManager : MonoBehaviour
         // Stop turn machine
         StopAllCoroutines();
 
+        if (AudioManager.ourInstance != null)
+        {
+            AudioManager.ourInstance.PlaySound("Victory");
+        }
+
         myStageState.myIsStageWon = true;
 
         // TODO: Update stage score through GameManager
@@ -69,7 +74,8 @@ public class StageManager : MonoBehaviour
         
         myStageMessages.TriggerPlayerWon();
 
-        // Rest will be handled by VictoryDefeatUI (signaled through event)
+        // We do not want any victory/defeat ui => got to next stage here
+        GameManager.ourInstance.TransitionToNextStage();
     }
 
     /// <summary>
@@ -82,6 +88,9 @@ public class StageManager : MonoBehaviour
 
         myStageState.myIsPlayerAlive = false;
         myStageMessages.TriggerPlayerDefeated();
+
+        // We do not want any victory/defeat ui => reset stage here
+        GameManager.ourInstance.TransitionToStage(GameManager.ourInstance.GetStageIndex());
     }
 
     public Vector3 GetEntityWorldPositionFromTilePosition(Vector2Int aPosition)
@@ -363,12 +372,14 @@ public class StageManager : MonoBehaviour
 
             RunQueuedOperations();
 
-            // TODO: Better place?
-
-            // If the current turn resulted in the player unregistering then the player has died => loss
-            if (myPlayer.myValue == null || myTurnsLeft < 1)
+            if (myTurnsLeft < 1 && myPlayer.myValue != null)
             {
                 myPlayer.myValue.Kill(DeathReason.Out_Of_Turns);
+            }
+
+            // If the current turn resulted in the player unregistering then the player has died => loss
+            if (myPlayer.myValue == null)
+            {
                 OnPlayerLoss();
             }
             

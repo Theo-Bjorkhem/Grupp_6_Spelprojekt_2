@@ -7,7 +7,6 @@ public partial class Player : Entity
     public bool myIsInTurn => myTurnEvent != null;
     public bool myIsAcceptingInput => !myAnimator.myIsInTurnAnimation;
     public bool myIsGrabbingBox => myGrabbedBox != null;
-    private bool myIsLoaded = false;
 
     [SerializeField]
     private TouchConfiguration myTouchConfiguration = TouchConfiguration.Default;
@@ -47,22 +46,8 @@ public partial class Player : Entity
 
     private void Update()
     {
-        // TODO: Remove
-        if (base.IsDead())
-        {
-            StageManager.ourInstance.OnPlayerLoss();
-
-            // Temporary while VictoryDefeatUI is not implemented
-            if (myIsLoaded == false)
-            {
-                GameManager.ourInstance.TransitionToStage(GameManager.ourInstance.GetStageIndex());
-                myIsLoaded = true;
-            }
-        }
-
         if (myIsInTurn)
         {
-            myIsLoaded = false;
             PlayerAction();
         }
     }
