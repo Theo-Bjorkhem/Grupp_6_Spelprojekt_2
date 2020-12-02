@@ -3080,8 +3080,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: bc367ec58344583478a57ff16843d637, type: 3}
 --- !u!4 &902801510 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5090044835004116832, guid: bc367ec58344583478a57ff16843d637,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 902801509}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &906842114 stripped
@@ -4231,6 +4230,11 @@ PrefabInstance:
         type: 3}
       propertyPath: myGridHeight
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8973547958284570925, guid: ec6086e186ec6e94d8cc92ab1ce6b1ab,
+        type: 3}
+      propertyPath: myStageTurnCount
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8973547958284570926, guid: ec6086e186ec6e94d8cc92ab1ce6b1ab,
         type: 3}

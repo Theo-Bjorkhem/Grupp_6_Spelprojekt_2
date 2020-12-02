@@ -709,6 +709,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc367ec58344583478a57ff16843d637, type: 3}
+--- !u!4 &281836575 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 281836574}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &300439556
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3551,12 +3556,6 @@ Transform:
   m_Father: {fileID: 13186527}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1169567363 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5090044835004116832, guid: bc367ec58344583478a57ff16843d637,
-    type: 3}
-  m_PrefabInstance: {fileID: 281836574}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1198867245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4494,6 +4493,11 @@ PrefabInstance:
         type: 3}
       propertyPath: myGridHeight
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8973547958284570925, guid: ec6086e186ec6e94d8cc92ab1ce6b1ab,
+        type: 3}
+      propertyPath: myStageTurnCount
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 8973547958284570926, guid: ec6086e186ec6e94d8cc92ab1ce6b1ab,
         type: 3}
@@ -5991,7 +5995,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1169567363}
+  - {fileID: 281836575}
   m_Father: {fileID: 13186527}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
