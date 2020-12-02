@@ -40,8 +40,10 @@ public class Entity : MonoBehaviour
     public virtual void Kill(DeathReason aReason)
     {
         StageManager.ourInstance.UnregisterEntity(this);
-
-        AudioManager.ourInstance.PlaySound("KillEntity");
+        if (AudioManager.ourInstance != null)
+        {
+            AudioManager.ourInstance.PlaySound("KillEntity");
+        }
 
         myEntityState |= EntityState.Dead;
     }
@@ -59,7 +61,10 @@ public class Entity : MonoBehaviour
         if (StageManager.ourInstance.CanEntityMoveToPosition(this, gridPosition))
         {
             StageManager.ourInstance.MoveEntity(this, gridPosition);
-            AudioManager.ourInstance?.PlaySound(myMoveSound);
+            if (AudioManager.ourInstance != null)
+            {
+                AudioManager.ourInstance.PlaySound(myMoveSound);
+            }
             transform.position = StageManager.ourInstance.GetEntityWorldPositionFromTilePosition(gridPosition);
 
             return true;

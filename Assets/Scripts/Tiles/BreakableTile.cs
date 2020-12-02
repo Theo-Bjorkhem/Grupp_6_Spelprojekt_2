@@ -17,14 +17,20 @@ public class BreakableTile : Tile
     {
         base.OnEnter(steppedOnMe);
 
-        HandleStep();
+        if (CheckCanEntityTriggersStep(steppedOnMe))
+        {
+            HandleStep();
+        }
     }
 
     public override void OnExit(Entity steppedOffMe)
     {
         base.OnExit(steppedOffMe);
 
-        HandleStep();
+        if (CheckCanEntityTriggersStep(steppedOffMe))
+        {
+            HandleStep();
+        }
     }
 
     public override bool CanEnter(Entity wantsToEnter)
@@ -38,7 +44,10 @@ public class BreakableTile : Tile
 
         if (myStepCount >= myBreakThreshold)
         {
-            AudioManager.ourInstance.PlaySound("BreakableTileBreaks");
+            if (AudioManager.ourInstance != null)
+            {
+                AudioManager.ourInstance.PlaySound("BreakableTileBreaks");
+            }
 
             // TODO: Animation etc...
             gameObject.SetActive(false);
@@ -63,5 +72,14 @@ public class BreakableTile : Tile
         }
 
         return false;
+    }
+
+    private bool CheckCanEntityTriggersStep(Entity anEntity)
+    {
+        return
+            anEntity is Player ||
+            anEntity is EnemyPath ||
+            anEntity is EnemySeek ||
+            anEntity is MoveableBox;
     }
 }

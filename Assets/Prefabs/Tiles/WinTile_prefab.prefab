@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: c58270813b932a246b1557d20ba3849a, type: 3}
+  - {fileID: 6271573414225017425, guid: c58270813b932a246b1557d20ba3849a, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 5734227869409726635}
   - component: {fileID: 6478212980888302661}
   m_Layer: 0
-  m_Name: WinTile
+  m_Name: WinTile_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

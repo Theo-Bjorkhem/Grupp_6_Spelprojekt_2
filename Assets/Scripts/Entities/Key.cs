@@ -8,15 +8,16 @@ public class Key : Entity
     public override InteractResult Interact(Entity anEntity, Direction aDirection)
     {
         base.Interact(anEntity, aDirection);
-        AudioManager.ourInstance.PlaySound("PickupKey");
+        if (AudioManager.ourInstance != null)
+        {
+            AudioManager.ourInstance.PlaySound("PickupKey");
+        }
 
         StageManager.ourInstance.myHasKey = true;
 
         StageManager.ourInstance.UnregisterEntity(this);
 
         myKeyAnimator.OnPickedUp(() => gameObject.SetActive(false));
-        // TODO: SFX
-        // AudioManager.ourInstance.PlaySound("Key_Pickup");
 		
         return InteractResult.KeyPickedUp;
     }
