@@ -87,53 +87,55 @@ public partial class Player : Entity
 
     private void PlayerAction()
     {
-        if (myIsAcceptingInput)
+        if (!myIsAcceptingInput)
         {
-            TurnActionData turnActionData = GetTurnActionFromInput();
+            return;
+        }
+        
+        TurnActionData turnActionData = GetTurnActionFromInput();
 
-            switch (turnActionData.myType)
-            {
-                case TurnActionData.Type.Move:
+        switch (turnActionData.myType)
+        {
+            case TurnActionData.Type.Move:
+                if (myIsGrabbingBox)
+                {
+                    HandleGrabbedMovement(turnActionData.myMoveDirection);
+                }
+                else
+                {
+                    HandleNormalMovement(turnActionData.myMoveDirection);
+                }
+                break;
+
+            case TurnActionData.Type.Box:
+                if (myGrabbedBox == turnActionData.myMoveableBox)
+                {
+                    OnReleaseBox();
+                }
+                else
+                {
                     if (myIsGrabbingBox)
-                    {
-                        HandleGrabbedMovement(turnActionData.myMoveDirection);
-                    }
-                    else
-                    {
-                        HandleNormalMovement(turnActionData.myMoveDirection);
-                    }
-                    break;
-
-                case TurnActionData.Type.Box:
-                    if (myGrabbedBox == turnActionData.myMoveableBox)
                     {
                         OnReleaseBox();
                     }
-                    else
+
+                    if (CheckCanGrabBox(turnActionData.myMoveableBox))
                     {
-                        if (myIsGrabbingBox)
-                        {
-                            OnReleaseBox();
-                        }
-
-                        if (CheckCanGrabBox(turnActionData.myMoveableBox))
-                        {
-                            OnGrabBox(turnActionData.myMoveableBox);
-                        }
+                        OnGrabBox(turnActionData.myMoveableBox);
                     }
-                    break;
+                }
+                break;
 
-                default:
-                    break;
-            }
+            default:
+                break;
+        }
 
-            if (turnActionData.myConsumesTurn)
-            {
-                myTouchProgress.Reset();
+        if (turnActionData.myConsumesTurn)
+        {
+            myTouchProgress.Reset();
 
-                myTurnEvent.SignalDone();
-                myTurnEvent = null;
-            }
+            myTurnEvent.SignalDone();
+            myTurnEvent = null;
         }
     }
 
@@ -267,18 +269,26 @@ public partial class Player : Entity
 
         if (entityAtNextPosition != null)
         {
+            if (entityAtNextPosition.GetType() == typeof(EnemyPath))
+            {
+                Kill(DeathReason.Enemy);
+            }
+
             aInteractResult = entityAtNextPosition.Interact(this, aMovementDirection);
+            
             if (aInteractResult == InteractResult.BoxMoved
                 || aInteractResult == InteractResult.BoxMoveFailed)
             {
                 KickAction(aMovementDirection);
             }
+            
             else if (aInteractResult == InteractResult.KeyPickedUp
                 || aInteractResult == InteractResult.Unlocked)
             {
                 Move(aMovementDirection);
                 MoveAction(aMovementDirection);
             }
+            
             else
             {
                 BlockedAction(aMovementDirection);
