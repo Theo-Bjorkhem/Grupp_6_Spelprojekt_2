@@ -10,10 +10,11 @@ public class MinimizeChest : Entity
     public override InteractResult Interact(Entity anEntity, Direction aDirection)
     {
         base.Interact(anEntity, aDirection);
-        print(StageManager.ourInstance.myHasKey);
+        print(StageManager.ourInstance.myUnusedKeys);
 
-        if (StageManager.ourInstance.myHasKey)
+        if (StageManager.ourInstance.myUnusedKeys > 0)
         {
+            StageManager.ourInstance.myUnusedKeys--;
             if (AudioManager.ourInstance != null)
             {
                 AudioManager.ourInstance.PlaySound("UnlockChest");
