@@ -53,7 +53,7 @@ public class AudioManager : MonoBehaviour
     {
         if (ourInstance != null)
         {
-            Debug.LogError("More than one audioManager in the scene");
+            Destroy(gameObject);
         }
         else
         {
