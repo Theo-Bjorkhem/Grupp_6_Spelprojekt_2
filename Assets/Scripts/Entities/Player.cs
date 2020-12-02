@@ -55,7 +55,10 @@ public partial class Player : Entity
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        PlayerAction();
+        if (myIsInTurn)
+        {
+            PlayerAction();
+        }
     }
 
     private void OnGrabBox(MoveableBox aBox)
@@ -64,11 +67,19 @@ public partial class Player : Entity
 
         myGrabbedBox = aBox;
         myGrabbedBox.OnGrabbedByPlayer(this);
+
+        GrabAction(VecToDirection(
+            StageManager.ourInstance.SubtractEntityGridPositions(
+                aBox, 
+                this
+        )));
     }
 
     private void OnReleaseBox()
     {
         Debug.Assert(myIsGrabbingBox, "OnReleaseBox called when not grabbing box!");
+
+        LetGoAction();
 
         myGrabbedBox.OnReleasedByPlayer();
         myGrabbedBox = null;
@@ -97,24 +108,17 @@ public partial class Player : Entity
                     if (myGrabbedBox == turnActionData.myMoveableBox)
                     {
                         OnReleaseBox();
-                        LetGoAction();
                     }
                     else
                     {
                         if (myIsGrabbingBox)
                         {
                             OnReleaseBox();
-                            LetGoAction();
                         }
 
                         if (CheckCanGrabBox(turnActionData.myMoveableBox))
                         {
                             OnGrabBox(turnActionData.myMoveableBox);
-                            GrabAction(VecToDirection(
-                                StageManager.ourInstance.SubtractEntityGridPositions(
-                                    turnActionData.myMoveableBox, 
-                                    this
-                            )));
                         }
                     }
                     break;
@@ -221,8 +225,13 @@ public partial class Player : Entity
                     {
                         // Player could not follow box => release box
                         // Ex. box triggered a breakable tile
-                        OnReleaseBox();
+
+                        if (myIsGrabbingBox)
+                        {
+                            OnReleaseBox();
+                        }
                     }
+
                     PushAction(aMovementDirection, !myIsGrabbingBox);
                 }
                 break;
@@ -233,8 +242,13 @@ public partial class Player : Entity
                     {
                         // Box could not follow player => release box
                         // Ex. we triggered a breakable tile
-                        OnReleaseBox();
+
+                        if (myIsGrabbingBox)
+                        {
+                            OnReleaseBox();
+                        }
                     }
+
                     PullAction(aMovementDirection, !myIsGrabbingBox);
                 }
                 break;
@@ -322,6 +336,7 @@ public partial class Player : Entity
     private void MoveAction(Direction aMovementDirection)
     {
         myAnimator.Move(aMovementDirection);
+
         if (AudioManager.ourInstance != null)
         {
             AudioManager.ourInstance.PlaySound("PlayerMove");
@@ -340,16 +355,24 @@ public partial class Player : Entity
     private void KickAction(Direction aMovementDirection)
     {
         myAnimator.Kick(aMovementDirection);
+
         // kick sound?
         //if (AudioManager.ourInstance != null)
         //{
         //    AudioManager.ourInstance.PlaySound("");
         //}
-        }
+    }
 
     private void PullAction(Direction aMovementDirection, bool aBoxDropped)
     {
-        myAnimator.Pull(ReverseDirection(aMovementDirection));
+        if (aBoxDropped)
+        {
+            MoveAction(aMovementDirection);
+        }
+        else
+        {
+            myAnimator.Pull(ReverseDirection(aMovementDirection));
+        }
     }
 
     private void PushAction(Direction aMovementDirection, bool aBoxDropped)
