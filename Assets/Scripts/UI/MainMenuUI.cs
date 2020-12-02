@@ -8,7 +8,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnStartButtonClicked()
     {
-        GameManager.ourInstance.TransitionToStage(3);
+        GameManager.ourInstance.TransitionToStage(0);
     }
     public void LoadScene(int aScene)
     {
