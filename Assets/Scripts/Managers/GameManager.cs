@@ -30,12 +30,6 @@ public class GameManager : MonoBehaviour
 
         return true;
     }
-    public void UnsafeTransitionToStage(int aStageIndex)
-    {
-        // TODO: Check if stage unlocked etc..
-
-        StartCoroutine(TransitionToStageCo(aStageIndex));
-    }
 
 
     public void TransitionToNextStage()
