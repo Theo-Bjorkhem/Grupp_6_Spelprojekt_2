@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+
     public void TransitionToNextStage()
     {
         // TODO: Check that the next stage exists.
@@ -106,5 +107,10 @@ public class GameManager : MonoBehaviour
         ourInstance = this;
 
         SceneManager.LoadScene("effectUi_scene", LoadSceneMode.Additive);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
