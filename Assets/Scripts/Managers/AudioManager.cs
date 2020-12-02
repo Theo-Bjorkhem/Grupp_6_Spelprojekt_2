@@ -40,11 +40,19 @@ public class Sound
         mySource.pitch = myPitch * (1 + Random.Range(-myRandomPitch / 2f, myRandomPitch / 2f));
         mySource.Play();
     }
+
+    public void Stop()
+    {
+        mySource.Stop();
+    }
 }
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager ourInstance;
+
+    [SerializeField]
+    private bool myMute = false;
 
     [SerializeField]
     Sound[] mySounds = { };
@@ -53,7 +61,7 @@ public class AudioManager : MonoBehaviour
     {
         if (ourInstance != null)
         {
-            Debug.LogError("More than one audioManager in the scene");
+            Destroy(gameObject);
         }
         else
         {
@@ -71,12 +79,20 @@ public class AudioManager : MonoBehaviour
             mySounds[i].SetSource(go.AddComponent<AudioSource>());
         }
 
-        PlayLoop("Ambience");
-        PlayLoop("Music");
+        if (!myMute)
+        {
+            PlayLoop("Ambience");
+            PlayLoop("Music");
+        }
     }
 
     public void PlaySound(string aName)
     {
+        if (myMute)
+        {
+            return;
+        }
+
         for (int i = 0; i < mySounds.Length; i++)
         {
             if (mySounds[i].myName == aName)
@@ -91,6 +107,11 @@ public class AudioManager : MonoBehaviour
 
     public void PlayLoop(string aName)
     {
+        if (myMute)
+        {
+            return;
+        }
+
         for (int i = 0; i < mySounds.Length; i++)
         {
             if (mySounds[i].myName == aName)
@@ -101,5 +122,39 @@ public class AudioManager : MonoBehaviour
         }
 
         Debug.LogError("AudioManager: No sound with name: " + aName + " exists.");
+    }
+
+    public void ToggleMute()
+    {
+        myMute = !myMute;
+        MuteUpdate();
+    }
+
+    public void SetMute(bool aSet)
+    {
+        myMute = aSet;
+        MuteUpdate();
+    }
+
+    private void MuteUpdate()
+    {
+        //Audio gets unmuted
+        if (!myMute)
+        {
+            PlayLoop("Ambience");
+            PlayLoop("Music");
+            return;
+        }
+
+        //Audio gets muted
+        for (int i = 0; i < mySounds.Length; i++)
+        {
+            mySounds[i].Stop();
+        }
+    }
+
+    public bool IsMuted()
+    {
+        return myMute;
     }
 }
