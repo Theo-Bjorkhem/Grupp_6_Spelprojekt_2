@@ -13,7 +13,7 @@ public class Key : Entity
             AudioManager.ourInstance.PlaySound("PickupKey");
         }
 
-        StageManager.ourInstance.myHasKey = true;
+        ++StageManager.ourInstance.myKeyCount;
 
         StageManager.ourInstance.UnregisterEntity(this);
 
