@@ -36,7 +36,6 @@ public class Pause_script : MonoBehaviour
         SceneManager.LoadScene("mainMenu_scene");
         Time.timeScale = 1;
     }
-
     public void RestartLevel()
     {
         GameManager.ourInstance.TransitionToStage(GameManager.ourInstance.GetStageIndex());
