@@ -197,6 +197,15 @@ public class StageManager : MonoBehaviour
         EnsureEmptyTile(gridPosition);
 
         myTileGrid[gridPosition.x, gridPosition.y] = aTile;
+
+        if (myProtectedTurnRegion.myIsLocked)
+        {
+            Entity entity = GetEntity(gridPosition);
+            if (entity != null)
+            {
+                aTile.OnEnter(entity);
+            }
+        }
     }
 
     public void RegisterEntity(Entity anEntity)
@@ -212,13 +221,20 @@ public class StageManager : MonoBehaviour
         {
             myPlayer.Set(anEntity as Player);
         }
+
+        if (myProtectedTurnRegion.myIsLocked)
+        {
+            Tile tile = GetTile(gridPosition);
+            if (tile != null)
+            {
+                tile.OnEnter(anEntity);
+            }
+        }
     }
 
     public void UnregisterTile(Tile aTile)
     {
         Vector2Int gridPosition = GetTilePositionFromWorldTile(aTile.transform.position);
-
-        EnsureNoEntity(gridPosition);
 
         myTileGrid[gridPosition.x, gridPosition.y] = null;
 

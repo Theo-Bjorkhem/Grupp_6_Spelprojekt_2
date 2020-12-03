@@ -54,12 +54,11 @@ public class BreakableTile : Tile
 
             Entity entity = StageManager.ourInstance.GetEntity(StageManager.ourInstance.GetTilePositionFromWorldTile(transform.position));
 
-            if (entity != null)
+            if (entity != null && myHoleTilePrefab == null)
             {
                 entity.Kill(DeathReason.Fall);
             }
 
-            // This requires that no entities are present on the tile, killing an entity should remove it from the grid immediately.
             StageManager.ourInstance.UnregisterTile(this);
 
             if (myHoleTilePrefab != null)

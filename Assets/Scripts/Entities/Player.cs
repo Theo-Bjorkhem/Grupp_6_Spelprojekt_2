@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerAnimator))]
 public partial class Player : Entity

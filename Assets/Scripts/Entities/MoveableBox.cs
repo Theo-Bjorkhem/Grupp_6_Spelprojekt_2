@@ -56,6 +56,8 @@ public class MoveableBox : Entity
         myCollider.enabled = false;
 
         StageManager.ourInstance.UnregisterEntity(this);
+
+        TriggerFallAnimation();
     }
 
     protected override bool Move(Direction aDirection)
@@ -64,12 +66,15 @@ public class MoveableBox : Entity
 
         if (myIsInHole)
         {
-            // TODO: Fall animation
-            // TODO: * 0.5f until pivot is correct on entities
-            transform.position += Vector3.down * StageManager.ourInstance.myTileSize * 0.5f;
+            TriggerFallAnimation();
         }
 
         return result;
+    }
+
+    private void TriggerFallAnimation()
+    {
+        transform.position += Vector3.down * StageManager.ourInstance.myTileSize * 0.9f;
     }
 
     private void Awake()
