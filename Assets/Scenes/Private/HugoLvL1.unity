@@ -927,6 +927,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 953940044188277283, guid: 19c0537c8145c7b4d8dda9aede714688,
+        type: 3}
+      propertyPath: myBreakThreshold
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6619098921051798918, guid: 19c0537c8145c7b4d8dda9aede714688,
         type: 3}
       propertyPath: m_Name
@@ -2035,6 +2040,11 @@ PrefabInstance:
         type: 3}
       propertyPath: myTileSize
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8973547958284570925, guid: ec6086e186ec6e94d8cc92ab1ce6b1ab,
+        type: 3}
+      propertyPath: myStageTurnCount
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8973547958284570926, guid: ec6086e186ec6e94d8cc92ab1ce6b1ab,
         type: 3}
