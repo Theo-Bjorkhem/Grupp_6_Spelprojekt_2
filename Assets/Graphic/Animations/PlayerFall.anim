@@ -39,7 +39,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: pc_model/ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/l_cape_01_int/l_cape_02_int/l_cape_03_int
+    path: ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/l_cape_01_int/l_cape_02_int/l_cape_03_int
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -64,7 +64,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: pc_model/ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/r_cape_01_int/r_cape_02_int/r_cape_03_int
+    path: ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/r_cape_01_int/r_cape_02_int/r_cape_03_int
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -89,7 +89,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: pc_model/ctrls_n_joints/joints/c_hip
+    path: ctrls_n_joints/joints/c_hip
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
@@ -168,7 +168,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: pc_model/ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/l_cape_01_int/l_cape_02_int/l_cape_03_int
+    path: ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/l_cape_01_int/l_cape_02_int/l_cape_03_int
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -196,7 +196,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: pc_model/ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/l_cape_01_int/l_cape_02_int/l_cape_03_int
+    path: ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/l_cape_01_int/l_cape_02_int/l_cape_03_int
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -224,7 +224,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: pc_model/ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/l_cape_01_int/l_cape_02_int/l_cape_03_int
+    path: ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/l_cape_01_int/l_cape_02_int/l_cape_03_int
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -252,7 +252,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: pc_model/ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/r_cape_01_int/r_cape_02_int/r_cape_03_int
+    path: ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/r_cape_01_int/r_cape_02_int/r_cape_03_int
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -280,7 +280,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: pc_model/ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/r_cape_01_int/r_cape_02_int/r_cape_03_int
+    path: ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/r_cape_01_int/r_cape_02_int/r_cape_03_int
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -308,7 +308,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: pc_model/ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/r_cape_01_int/r_cape_02_int/r_cape_03_int
+    path: ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/r_cape_01_int/r_cape_02_int/r_cape_03_int
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -336,7 +336,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: pc_model/ctrls_n_joints/joints/c_hip
+    path: ctrls_n_joints/joints/c_hip
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -364,7 +364,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: pc_model/ctrls_n_joints/joints/c_hip
+    path: ctrls_n_joints/joints/c_hip
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -392,7 +392,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: pc_model/ctrls_n_joints/joints/c_hip
+    path: ctrls_n_joints/joints/c_hip
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves: []

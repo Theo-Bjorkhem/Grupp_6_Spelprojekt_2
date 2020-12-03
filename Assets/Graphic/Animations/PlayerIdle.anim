@@ -66,7 +66,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: pc_model/ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/c_head_int
+    path: ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/c_head_int
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
@@ -158,7 +158,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: pc_model/ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/c_head_int
+    path: ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/c_head_int
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -213,7 +213,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: pc_model/ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/c_head_int
+    path: ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/c_head_int
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -268,7 +268,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: pc_model/ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/c_head_int
+    path: ctrls_n_joints/joints/c_hip/c_spine_int/c_shoulder_int/c_head_int
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves: []

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(PlayerAnimator))]
 public partial class Player : Entity
 {
     public bool myIsInTurn => myTurnEvent != null;
@@ -38,7 +37,12 @@ public partial class Player : Entity
         base.Start();
 
         myMainCamera = Camera.main;
-        myAnimator = GetComponent<PlayerAnimator>();
+        myAnimator = GetComponentInChildren<PlayerAnimator>();
+        if (myAnimator == null)
+        {
+            enabled = false;
+            Debug.Assert(false, "No Animator-component found in children of PlayerAnimator!", this);
+        }
 
         myTouchProgress.myTouchConfiguration = myTouchConfiguration;
     }
