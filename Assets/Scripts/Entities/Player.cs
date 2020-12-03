@@ -110,10 +110,9 @@ public partial class Player : Entity
                         OnReleaseBox();
                     }
 
-                    if (CheckCanGrabBox(turnActionData.myMoveableBox))
-                    {
-                        OnGrabBox(turnActionData.myMoveableBox);
-                    }
+                    Debug.Assert(CheckCanGrabBox(turnActionData.myMoveableBox), "Trying to grab box when not in range!");
+                    
+                    OnGrabBox(turnActionData.myMoveableBox);
                 }
                 break;
 
@@ -146,10 +145,15 @@ public partial class Player : Entity
                 Entity entity = FindEntityFromScreenClick(touchEvent.myTapPosition);
                 if (entity != null && entity is MoveableBox moveableBox)
                 {
-                    return TurnActionData.CreateBox(moveableBox);
+                    if (CheckCanGrabBox(moveableBox))
+                    {
+                        return TurnActionData.CreateBox(moveableBox);
+                    }
                 }
             }
         }
+
+#if UNITY_EDITOR
 
         //Keyboard Input (for convenience)
         Direction moveDirection = Direction.Up;
@@ -160,7 +164,10 @@ public partial class Player : Entity
             Entity entity = FindEntityFromScreenClick(Input.mousePosition);
             if (entity != null && entity is MoveableBox moveableBox)
             {
-                return TurnActionData.CreateBox(moveableBox);
+                if (CheckCanGrabBox(moveableBox))
+                {
+                    return TurnActionData.CreateBox(moveableBox);
+                }
             }
         }
 
@@ -189,6 +196,8 @@ public partial class Player : Entity
         {
             return TurnActionData.CreateMove(moveDirection);
         }
+
+#endif
 
         return TurnActionData.None;
     }
