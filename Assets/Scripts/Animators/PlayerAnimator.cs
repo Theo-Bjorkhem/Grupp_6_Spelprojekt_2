@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Animator))]
 public class PlayerAnimator : MonoBehaviour
 {
     [Tooltip("A transform used to rotate the player model")]
@@ -16,7 +15,12 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Awake()
     {
-        myAnimator = GetComponent<Animator>();
+        myAnimator = GetComponentInChildren<Animator>();
+        if (myAnimator == null)
+        {
+            enabled = false;
+            Debug.Assert(false, "No Animator-component found in children of PlayerAnimator!", this);
+        }
         myAnimator.SetFloat("Movement Animation Speed Multiplier", myMoveSpeedMultiplier);
         myIsInTurnAnimation = false;
     }
