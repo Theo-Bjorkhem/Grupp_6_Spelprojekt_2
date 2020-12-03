@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerAnimator))]
 public partial class Player : Entity
@@ -7,7 +6,6 @@ public partial class Player : Entity
     public bool myIsInTurn => myTurnEvent != null;
     public bool myIsAcceptingInput => !myAnimator.myIsInTurnAnimation;
     public bool myIsGrabbingBox => myGrabbedBox != null;
-    private bool myIsLoaded = false;
 
     [SerializeField]
     private TouchConfiguration myTouchConfiguration = TouchConfiguration.Default;
@@ -47,22 +45,8 @@ public partial class Player : Entity
 
     private void Update()
     {
-        // TODO: Remove
-        if (base.IsDead())
-        {
-            StageManager.ourInstance.OnPlayerLoss();
-
-            // Temporary while VictoryDefeatUI is not implemented
-            if (myIsLoaded == false)
-            {
-                GameManager.ourInstance.TransitionToStage(GameManager.ourInstance.GetStageIndex());
-                myIsLoaded = true;
-            }
-        }
-
         if (myIsInTurn)
         {
-            myIsLoaded = false;
             PlayerAction();
         }
     }
@@ -125,10 +109,9 @@ public partial class Player : Entity
                         OnReleaseBox();
                     }
 
-                    if (CheckCanGrabBox(turnActionData.myMoveableBox))
-                    {
-                        OnGrabBox(turnActionData.myMoveableBox);
-                    }
+                    Debug.Assert(CheckCanGrabBox(turnActionData.myMoveableBox), "Trying to grab box when not in range!");
+                    
+                    OnGrabBox(turnActionData.myMoveableBox);
                 }
                 break;
 
@@ -161,10 +144,15 @@ public partial class Player : Entity
                 Entity entity = FindEntityFromScreenClick(touchEvent.myTapPosition);
                 if (entity != null && entity is MoveableBox moveableBox)
                 {
-                    return TurnActionData.CreateBox(moveableBox);
+                    if (CheckCanGrabBox(moveableBox))
+                    {
+                        return TurnActionData.CreateBox(moveableBox);
+                    }
                 }
             }
         }
+
+#if UNITY_EDITOR
 
         //Keyboard Input (for convenience)
         Direction moveDirection = Direction.Up;
@@ -175,7 +163,10 @@ public partial class Player : Entity
             Entity entity = FindEntityFromScreenClick(Input.mousePosition);
             if (entity != null && entity is MoveableBox moveableBox)
             {
-                return TurnActionData.CreateBox(moveableBox);
+                if (CheckCanGrabBox(moveableBox))
+                {
+                    return TurnActionData.CreateBox(moveableBox);
+                }
             }
         }
 
@@ -204,6 +195,8 @@ public partial class Player : Entity
         {
             return TurnActionData.CreateMove(moveDirection);
         }
+
+#endif
 
         return TurnActionData.None;
     }

@@ -11,7 +11,15 @@ public class PlayerAnimator : MonoBehaviour
     private Animator myAnimator;
 
     public event UnityAction myOnTurnAnimationEnd;
-    public bool myIsInTurnAnimation { get; private set; }
+    public bool myIsInTurnAnimation
+    {
+        get
+        {
+            AnimatorStateInfo animatorStateInfo = myAnimator.GetCurrentAnimatorStateInfo(0);
+
+            return myAnimator.IsInTransition(0) || !(animatorStateInfo.IsName("Idle") || animatorStateInfo.IsName("Grabbing"));
+        }
+    }
 
     private void Awake()
     {
@@ -22,7 +30,6 @@ public class PlayerAnimator : MonoBehaviour
             Debug.Assert(false, "No Animator-component found in children of PlayerAnimator!", this);
         }
         myAnimator.SetFloat("Movement Animation Speed Multiplier", myMoveSpeedMultiplier);
-        myIsInTurnAnimation = false;
     }
 
     public void Fall()
@@ -50,28 +57,24 @@ public class PlayerAnimator : MonoBehaviour
 
     public void Pull(Direction aDirection)
     {
-        myIsInTurnAnimation = true;
         RotateTowardsDirection(aDirection);
         myAnimator.SetTrigger("Pull");
     }
 
     public void Push(Direction aDirection)
     {
-        myIsInTurnAnimation = true;
         RotateTowardsDirection(aDirection);
         myAnimator.SetTrigger("Push");
     }
 
     public void Blocked(Direction aDirection)
     {
-        myIsInTurnAnimation = true;
         RotateTowardsDirection(aDirection);
         myAnimator.SetTrigger("Blocked");
     }
 
     public void Move(Direction aDirection)
     {
-        myIsInTurnAnimation = true;
         RotateTowardsDirection(aDirection);
 
         myAnimator.SetTrigger("Move");
@@ -79,7 +82,6 @@ public class PlayerAnimator : MonoBehaviour
 
     public void Kick(Direction aDirection)
     {
-        myIsInTurnAnimation = true;
         RotateTowardsDirection(aDirection);
 
         myAnimator.SetTrigger("Kick");
@@ -90,7 +92,6 @@ public class PlayerAnimator : MonoBehaviour
     /// </summary>
     private void OnTurnAnimationEnded()
     {
-        myIsInTurnAnimation = false;
         myOnTurnAnimationEnd?.Invoke();
     }
 

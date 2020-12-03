@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LockedBox : Entity
 {
@@ -9,16 +7,18 @@ public class LockedBox : Entity
     public override InteractResult Interact(Entity anEntity, Direction aDirection)
     {
         base.Interact(anEntity, aDirection);
-        print(StageManager.ourInstance.myHasKey);
 
-        if (StageManager.ourInstance.myHasKey)
+        if (StageManager.ourInstance.myKeyCount > 0)
         {
             if (AudioManager.ourInstance != null)
             {
                 AudioManager.ourInstance.PlaySound("UnlockChest");
             }
+            
             StageManager.ourInstance.UnregisterEntity(this);
             myAnimator.SetTrigger("ChestScaleGone");
+
+            --StageManager.ourInstance.myKeyCount;
 
             return InteractResult.Unlocked;
         }
