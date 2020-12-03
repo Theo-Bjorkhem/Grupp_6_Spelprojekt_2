@@ -39,8 +39,7 @@ public class Pause_script : MonoBehaviour
 
     public void RestartLevel()
     {
-        int i = SceneManager.GetActiveScene().buildIndex;
-        GameManager.ourInstance.TransitionToStage(i);
+        GameManager.ourInstance.TransitionToStage(GameManager.ourInstance.GetStageIndex());
         Time.timeScale = 1;
     }
 }
