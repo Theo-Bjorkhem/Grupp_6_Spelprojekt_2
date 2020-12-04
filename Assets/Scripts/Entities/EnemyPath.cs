@@ -18,7 +18,6 @@ public class EnemyPath : Entity
         }
 
         Vector2Int newPosition = StageManager.ourInstance.GetEntityGridPosition(this) + DirectionToVec(mySteps[myStepsIndex]);
-
         if (!StageManager.ourInstance.IsPositionInGrid(newPosition))
         {
             aTurnEvent.SignalDone();
@@ -28,12 +27,17 @@ public class EnemyPath : Entity
         if (!StageManager.ourInstance.CanEntityMoveToPosition(this, newPosition))
         {
             Entity entity = StageManager.ourInstance.GetEntity(newPosition);
-
             if (entity is Player)
             {
                 entity.Kill(DeathReason.Enemy);
             }
+            aTurnEvent.SignalDone();
+            return;
+        }
 
+        Tile tile = StageManager.ourInstance.GetTile(newPosition);
+        if (tile is HoleTile holeTile && !holeTile.myIsFilled)
+        {
             aTurnEvent.SignalDone();
             return;
         }
@@ -56,13 +60,11 @@ public class EnemyPath : Entity
     private void ReverseSteps()
     {
         Direction[] newSteps = new Direction[mySteps.Length];
-
         for (int i = mySteps.Length - 1; i >= 0; i--)
         {
             Direction direction = ReverseDirection(mySteps[i]);
             newSteps[mySteps.Length - 1 - i] = direction;
         }
-
         mySteps = newSteps;
     }
 }
