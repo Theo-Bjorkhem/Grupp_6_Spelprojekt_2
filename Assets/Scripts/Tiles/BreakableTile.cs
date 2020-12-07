@@ -13,6 +13,8 @@ public class BreakableTile : Tile
 
     private int myStepCount = 0;
 
+    private Animator myAnimator;
+
     public override void OnEnter(Entity steppedOnMe)
     {
         base.OnEnter(steppedOnMe);
@@ -50,24 +52,25 @@ public class BreakableTile : Tile
             }
 
             // TODO: Animation etc...
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+            myAnimator.SetTrigger("TileBreaks");
 
             Entity entity = StageManager.ourInstance.GetEntity(StageManager.ourInstance.GetTilePositionFromWorldTile(transform.position));
 
-            if (entity != null && myHoleTilePrefab == null)
-            {
-                entity.Kill(DeathReason.Fall);
-            }
+            //if (entity != null && myHoleTilePrefab == null)
+            //{
+            //    entity.Kill(DeathReason.Fall);
+            //}
 
-            StageManager.ourInstance.UnregisterTile(this);
+            //StageManager.ourInstance.UnregisterTile(this);
 
-            if (myHoleTilePrefab != null)
-            {
-                // If we have a hole tile prefab we'll spawn it as a replacement for ourselves.
-                Instantiate(myHoleTilePrefab, transform.position, Quaternion.identity);
-            }
+            //if (myHoleTilePrefab != null)
+            //{
+            //    // If we have a hole tile prefab we'll spawn it as a replacement for ourselves.
+            //    Instantiate(myHoleTilePrefab, transform.position, Quaternion.identity);
+            //}
 
-            return true;
+            //return true;
         }
 
         return false;
@@ -80,5 +83,10 @@ public class BreakableTile : Tile
             anEntity is EnemyPath ||
             anEntity is EnemySeek ||
             anEntity is MoveableBox;
+    }
+
+    void Awake()
+    {
+        myAnimator = GetComponent<Animator>();
     }
 }
