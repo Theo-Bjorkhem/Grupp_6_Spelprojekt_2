@@ -52,25 +52,22 @@ public class BreakableTile : Tile
             }
 
             // TODO: Animation etc...
-            //gameObject.SetActive(false);
             myAnimator.SetTrigger("TileBreaks");
 
             Entity entity = StageManager.ourInstance.GetEntity(StageManager.ourInstance.GetTilePositionFromWorldTile(transform.position));
 
-            //if (entity != null && myHoleTilePrefab == null)
-            //{
-            //    entity.Kill(DeathReason.Fall);
-            //}
+            if (entity != null && myHoleTilePrefab == null)
+            {
+                entity.Kill(DeathReason.Fall);
+            }
 
-            //StageManager.ourInstance.UnregisterTile(this);
+            StageManager.ourInstance.UnregisterTile(this);
 
-            //if (myHoleTilePrefab != null)
-            //{
-            //    // If we have a hole tile prefab we'll spawn it as a replacement for ourselves.
-            //    Instantiate(myHoleTilePrefab, transform.position, Quaternion.identity);
-            //}
-
-            //return true;
+            if (myHoleTilePrefab != null)
+            {
+                // If we have a hole tile prefab we'll spawn it as a replacement for ourselves.
+                Instantiate(myHoleTilePrefab, transform.position, Quaternion.identity);
+            }
         }
 
         return false;
