@@ -3,6 +3,8 @@
 public class EnemyPath : Entity
 {
     [SerializeField]
+    private Transform myRoot = null;
+    [SerializeField]
     private Direction[] mySteps;
     [SerializeField]
     private bool myWillReverse = true;
@@ -42,7 +44,35 @@ public class EnemyPath : Entity
             return;
         }
 
-        Move(mySteps[myStepsIndex]);
+        if (Move(mySteps[myStepsIndex]))
+        {
+            switch (mySteps[myStepsIndex])
+            {
+                case Direction.Up:
+                    //myRoot.localRotation.eulerAngles.Set(0, 0, 0);
+                    myRoot.localEulerAngles = new Vector3(0f, 0f, 0f);
+                    //myRoot.rotation.eulerAngles.Set(0, 0, 0);
+                    break;
+                case Direction.Right:
+                    myRoot.localEulerAngles = new Vector3(0f, 90f, 0f);
+                    //myRoot.rotation.eulerAngles.Set(0, 90, 0);
+                    break;
+                case Direction.Down:
+                    //myRoot.localRotation.eulerAngles.Set(0, 180, 0);
+                    myRoot.localEulerAngles = new Vector3(0f, 180f, 0f);
+                    //myRoot.rotation.eulerAngles.Set(0, 180, 0);
+                    break;
+                case Direction.Left:
+                    //myRoot.localRotation.eulerAngles.Set(0, 270, 0);
+                    myRoot.localEulerAngles = new Vector3(0f, 270f, 0f);
+                    //myRoot.rotation.eulerAngles.Set(0, 270, 0);
+                    break;
+                default:
+                    Debug.LogError("Enemy: " + this + " can't rotate");
+                    break;
+            }
+        }
+
         myStepsIndex++;
 
         if (myStepsIndex >= mySteps.Length)
