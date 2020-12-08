@@ -22,13 +22,11 @@ public class PlayerAnimator : MonoBehaviour
         {
             AnimatorStateInfo animatorStateInfo = myAnimator.GetCurrentAnimatorStateInfo(0);
 
-            return myAnimator.IsInTransition(0) || !(animatorStateInfo.IsName("Idle") || animatorStateInfo.IsName("Grabbing"));
+            return myAnimator.IsInTransition(0) || !animatorStateInfo.IsName("Idle");
         }
     }
 
     public bool myIsInTransition => myAnimator.IsInTransition(0);
-
-    public bool myIsInGrabbingState => myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Grabbing");
 
     public bool myIsInIdleState => myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
 
@@ -63,23 +61,6 @@ public class PlayerAnimator : MonoBehaviour
     {
         RotateTowardsDirection(Direction.Down);
         myAnimator.SetTrigger("Death");
-    }
-
-    public void LetGo()
-    {
-        myAnimator.SetBool("IsGrabbing", false);
-    }
-
-    public void Grab(Direction aDirection)
-    {
-        RotateTowardsDirection(aDirection);
-        myAnimator.SetBool("IsGrabbing", true);
-    }
-
-    public void Pull(Direction aDirection)
-    {
-        RotateTowardsDirection(aDirection);
-        myAnimator.SetTrigger("Pull");
     }
 
     public void Push(Direction aDirection)

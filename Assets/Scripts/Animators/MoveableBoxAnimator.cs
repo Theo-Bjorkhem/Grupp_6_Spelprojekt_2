@@ -23,6 +23,10 @@ public class MoveableBoxAnimator : MonoBehaviour
     [SerializeField]
     private float myFallDuration = 0.35f;
 
+    [SerializeField]
+    [Range(0.0f, 1.0f)]
+    private float myFallDepth = 0.8f;
+
     private System.Collections.Generic.Queue<ActionData> myActionQueue = new System.Collections.Generic.Queue<ActionData>(2);
     
     public void PreparePossibleMove()
@@ -39,7 +43,7 @@ public class MoveableBoxAnimator : MonoBehaviour
 
     public void DoFall()
     {
-        QueueAction(DoFallCo(), () => transform.position = new Vector3(transform.position.x, StageManager.ourInstance.myTileSize * -0.9f, transform.position.z));
+        QueueAction(DoFallCo(), () => transform.position = new Vector3(transform.position.x, StageManager.ourInstance.myTileSize * -myFallDepth, transform.position.z));
     }
 
     private IEnumerator DoMoveCo(Vector3 aFrom, Vector3 aTo)
@@ -96,7 +100,7 @@ public class MoveableBoxAnimator : MonoBehaviour
         yield return null; // Don't do anything immediately when queued
 
         Vector3 startPos = transform.position;
-        Vector3 endPos = new Vector3(startPos.x, StageManager.ourInstance.myTileSize * -0.9f, startPos.z);
+        Vector3 endPos = new Vector3(startPos.x, StageManager.ourInstance.myTileSize * -myFallDepth, startPos.z);
 
         float elapsed = 0.0f;
 

@@ -57,11 +57,6 @@ public partial class Player : Entity
 
     private System.Collections.IEnumerator DoPush(Direction aMovementDirection, MoveableBox aMoveableBox)
     {
-        GrabAction(aMovementDirection);
-
-        while (!myAnimator.myIsInGrabbingState)
-            yield return null;
-
         // NOTE: Special cased the HoleTile for now,
         // if we pushed a box that was on a BreakableTile and it broke and is now a HoleTile
         // we should not be able to move into that tile and die immediately.
@@ -73,20 +68,13 @@ public partial class Player : Entity
             yield break;
         }
 
-        if (!couldMove)
-        {
-            LetGoAction();
-        }
-
         PushAction(aMovementDirection, !couldMove);
 
-        while (!myAnimator.myIsInGrabbingState && !myAnimator.myIsInIdleState)
-            yield return null;
+        // Wait a frame for animator to start transition
+        yield return null;
 
-        if (couldMove)
-        {
-            LetGoAction();
-        }
+        while (myAnimator.myIsInTransition || !myAnimator.myIsInIdleState)
+            yield return null;
 
         if (!myWasLastActionFullyHandled)
         {
@@ -293,15 +281,5 @@ public partial class Player : Entity
         {
             myAnimator.Push(aMovementDirection);
         }
-    }
-
-    private void GrabAction(Direction aDirection)
-    {
-        myAnimator.Grab(aDirection);
-    }
-
-    private void LetGoAction()
-    {
-        myAnimator.LetGo();
     }
 }
