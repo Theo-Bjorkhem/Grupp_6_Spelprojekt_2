@@ -33,6 +33,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRotationalRoot: {fileID: 9011058466494108751}
   myMoveSpeedMultiplier: 1
+  myAnimationPositionRoot: {fileID: 8469631625856126900}
 --- !u!1 &5811035199643741324
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +181,12 @@ Transform:
 --- !u!4 &9011058466494108751 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1517008853720523848, guid: 448523f7a2aa6ef4c89344688afc3282,
+    type: 3}
+  m_PrefabInstance: {fileID: 1729159687031869431}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8469631625856126900 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2128768293163220925, guid: 448523f7a2aa6ef4c89344688afc3282,
     type: 3}
   m_PrefabInstance: {fileID: 1729159687031869431}
   m_PrefabAsset: {fileID: 0}

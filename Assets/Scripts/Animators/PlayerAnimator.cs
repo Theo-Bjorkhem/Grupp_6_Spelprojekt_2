@@ -6,8 +6,12 @@ public class PlayerAnimator : MonoBehaviour
 {
     [Tooltip("A transform used to rotate the player model")]
     [SerializeField] private Transform myRotationalRoot;
+
     [Tooltip("A multiplier for all moving animations")]
     [SerializeField] private float myMoveSpeedMultiplier = 1.0f;
+
+    [Tooltip("A transform that is used during animations to animate position shifting")]
+    [SerializeField] private Transform myAnimationPositionRoot;
 
     private Animator myAnimator;
 
@@ -27,6 +31,21 @@ public class PlayerAnimator : MonoBehaviour
     public bool myIsInGrabbingState => myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Grabbing");
 
     public bool myIsInIdleState => myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+
+    public bool IsInState(string aState)
+    {
+        return myAnimator.GetCurrentAnimatorStateInfo(0).IsName(aState);
+    }
+
+    public bool IsNextState(string aState)
+    {
+        return myAnimator.IsInTransition(0) && myAnimator.GetNextAnimatorStateInfo(0).IsName(aState);
+    }
+
+    public Transform GetAnimationPositionRoot()
+    {
+        return myAnimationPositionRoot;
+    }
 
     private void Awake()
     {

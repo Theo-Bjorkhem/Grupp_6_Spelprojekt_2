@@ -17,6 +17,11 @@ public partial class Player : Entity
     private Camera myMainCamera;
     private PlayerAnimator myAnimator;
 
+    public PlayerAnimator GetAnimator()
+    {
+        return myAnimator;
+    }
+
     public override void Action(TurnEvent aTurnEvent)
     {
         myTurnEvent = aTurnEvent;
