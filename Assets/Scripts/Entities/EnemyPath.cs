@@ -10,6 +10,32 @@ public class EnemyPath : Entity
     private bool myWillReverse = true;
 
     private int myStepsIndex;
+    private Vector3 myLerpStart = Vector3.zero;
+    private Vector3 myLerpTarget = Vector3.zero;
+    private float myLerpT = 0.0f;
+    private bool myIsLerping = false;
+
+    private void Update()
+    {
+        if (!myIsLerping)
+        {
+            return;
+        }
+
+        myLerpT += Time.deltaTime * 2;
+        if (myLerpT >= 1)
+        {
+            myLerpT = 0;
+            myIsLerping = false;
+            transform.position = myLerpTarget;
+            myLerpTarget = Vector3.zero;
+            myLerpStart = Vector3.zero;
+            return;
+        }
+
+        Vector3 position = Vector3.Lerp(myLerpStart, myLerpTarget, myLerpT);
+        transform.position = position;
+    }
 
     public override void Action(TurnEvent aTurnEvent)
     {
@@ -49,23 +75,16 @@ public class EnemyPath : Entity
             switch (mySteps[myStepsIndex])
             {
                 case Direction.Up:
-                    //myRoot.localRotation.eulerAngles.Set(0, 0, 0);
                     myRoot.localEulerAngles = new Vector3(0f, 0f, 0f);
-                    //myRoot.rotation.eulerAngles.Set(0, 0, 0);
                     break;
                 case Direction.Right:
                     myRoot.localEulerAngles = new Vector3(0f, 90f, 0f);
-                    //myRoot.rotation.eulerAngles.Set(0, 90, 0);
                     break;
                 case Direction.Down:
-                    //myRoot.localRotation.eulerAngles.Set(0, 180, 0);
                     myRoot.localEulerAngles = new Vector3(0f, 180f, 0f);
-                    //myRoot.rotation.eulerAngles.Set(0, 180, 0);
                     break;
                 case Direction.Left:
-                    //myRoot.localRotation.eulerAngles.Set(0, 270, 0);
                     myRoot.localEulerAngles = new Vector3(0f, 270f, 0f);
-                    //myRoot.rotation.eulerAngles.Set(0, 270, 0);
                     break;
                 default:
                     Debug.LogError("Enemy: " + this + " can't rotate");
@@ -96,5 +115,27 @@ public class EnemyPath : Entity
             newSteps[mySteps.Length - 1 - i] = direction;
         }
         mySteps = newSteps;
+    }
+
+    protected override bool Move(Direction aDirection, System.Func<Tile, bool> aMovementFilterCallback = null)
+    {
+        if (myIsLerping)
+        {
+            transform.position = myLerpTarget;
+            myLerpT = 0;
+        }
+
+        Vector3 position = transform.position;
+        myLerpStart = position;
+
+        if (base.Move(aDirection, aMovementFilterCallback))
+        {
+            myIsLerping = true;
+            myLerpTarget = transform.position;
+            transform.position = position;
+            return true;
+        }
+                
+        return false;
     }
 }
