@@ -3,8 +3,7 @@
 public partial class Player : Entity
 {
     public bool myIsInTurn => myTurnEvent != null;
-    public bool myIsAcceptingInput => !myAnimator.myIsInTurnAnimation;
-    public bool myIsGrabbingBox => myGrabbedBox != null;
+    public bool myIsAcceptingInput => !myAnimator.myIsInTurnAnimation && myWasLastActionFullyHandled;
 
     [SerializeField]
     private TouchConfiguration myTouchConfiguration = TouchConfiguration.Default;
@@ -13,8 +12,7 @@ public partial class Player : Entity
 
     private TouchProgress myTouchProgress = new TouchProgress();
 
-    // Grabbable box
-    private MoveableBox myGrabbedBox;
+    private bool myWasLastActionFullyHandled = true;
 
     private Camera myMainCamera;
     private PlayerAnimator myAnimator;
@@ -22,14 +20,6 @@ public partial class Player : Entity
     public override void Action(TurnEvent aTurnEvent)
     {
         myTurnEvent = aTurnEvent;
-    }
-
-    /// <summary>
-    /// Called from ex. <see cref="MoveableBox"/> when the player is forced to release the box.
-    /// </summary>
-    public void ForceReleaseBox()
-    {
-        OnReleaseBox();
     }
 
     protected override void Start()
@@ -49,34 +39,66 @@ public partial class Player : Entity
 
     private void Update()
     {
+        if (IsDead())
+        {
+            return;
+        }
+
         if (myIsInTurn)
         {
             PlayerAction();
         }
     }
 
-    private void OnGrabBox(MoveableBox aBox)
+    private System.Collections.IEnumerator DoPush(Direction aMovementDirection, MoveableBox aMoveableBox)
     {
-        Debug.Assert(!myIsGrabbingBox, "OnGrabBox called when already grabbing box!");
+        GrabAction(aMovementDirection);
 
-        myGrabbedBox = aBox;
-        myGrabbedBox.OnGrabbedByPlayer(this);
+        while (!myAnimator.myIsInGrabbingState)
+            yield return null;
 
-        GrabAction(VecToDirection(
-            StageManager.ourInstance.SubtractEntityGridPositions(
-                aBox,
-                this
-        )));
+        // NOTE: Special cased the HoleTile for now,
+        // if we pushed a box that was on a BreakableTile and it broke and is now a HoleTile
+        // we should not be able to move into that tile and die immediately.
+        bool couldMove = Move(aMovementDirection, tile => !(tile is HoleTile));
+
+        if (IsDead())
+        {
+            SetTurnHandled();
+            yield break;
+        }
+
+        if (!couldMove)
+        {
+            LetGoAction();
+        }
+
+        PushAction(aMovementDirection, !couldMove);
+
+        while (!myAnimator.myIsInGrabbingState && !myAnimator.myIsInIdleState)
+            yield return null;
+
+        if (couldMove)
+        {
+            LetGoAction();
+        }
+
+        if (!myWasLastActionFullyHandled)
+        {
+            SetTurnHandled();
+        }
     }
 
-    private void OnReleaseBox()
+    private void SetTurnHandled()
     {
-        Debug.Assert(myIsGrabbingBox, "OnReleaseBox called when not grabbing box!");
+        Debug.Assert(myTurnEvent != null, "Cannot set turn handled when not in turn!");
 
-        LetGoAction();
+        myWasLastActionFullyHandled = true;
 
-        myGrabbedBox.OnReleasedByPlayer();
-        myGrabbedBox = null;
+        myTouchProgress.Reset();
+
+        myTurnEvent.SignalDone();
+        myTurnEvent = null;
     }
 
     private void PlayerAction()
@@ -88,47 +110,14 @@ public partial class Player : Entity
         
         TurnActionData turnActionData = GetTurnActionFromInput();
 
-        switch (turnActionData.myType)
+        if (turnActionData.myType == TurnActionData.Type.Move)
         {
-            case TurnActionData.Type.Move:
-                if (myIsGrabbingBox)
-                {
-                    HandleGrabbedMovement(turnActionData.myMoveDirection);
-                }
-                else
-                {
-                    HandleNormalMovement(turnActionData.myMoveDirection);
-                }
-                break;
-
-            case TurnActionData.Type.Box:
-                if (myGrabbedBox == turnActionData.myMoveableBox)
-                {
-                    OnReleaseBox();
-                }
-                else
-                {
-                    if (myIsGrabbingBox)
-                    {
-                        OnReleaseBox();
-                    }
-
-                    Debug.Assert(CheckCanGrabBox(turnActionData.myMoveableBox), "Trying to grab box when not in range!");
-                    
-                    OnGrabBox(turnActionData.myMoveableBox);
-                }
-                break;
-
-            default:
-                break;
+            myWasLastActionFullyHandled = HandleNormalMovement(turnActionData.myMoveDirection);
         }
 
-        if (turnActionData.myConsumesTurn)
+        if (turnActionData.myConsumesTurn && myWasLastActionFullyHandled)
         {
-            myTouchProgress.Reset();
-
-            myTurnEvent.SignalDone();
-            myTurnEvent = null;
+            SetTurnHandled();
         }
     }
 
@@ -139,20 +128,10 @@ public partial class Player : Entity
         if (myTouchProgress.myHasCompleteEvent)
         {
             TouchEvent touchEvent = myTouchProgress.myTouchEvent;
+
             if (touchEvent.myType == TouchEvent.Type.Swipe)
             {
                 return TurnActionData.CreateMove(touchEvent.mySwipeDirection);
-            }
-            else if (touchEvent.myType == TouchEvent.Type.Tap)
-            {
-                Entity entity = FindEntityFromScreenClick(touchEvent.myTapPosition);
-                if (entity != null && entity is MoveableBox moveableBox)
-                {
-                    if (CheckCanGrabBox(moveableBox))
-                    {
-                        return TurnActionData.CreateBox(moveableBox);
-                    }
-                }
             }
         }
 
@@ -161,18 +140,6 @@ public partial class Player : Entity
         //Keyboard Input (for convenience)
         Direction moveDirection = Direction.Up;
         bool gotInput = false;
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Entity entity = FindEntityFromScreenClick(Input.mousePosition);
-            if (entity != null && entity is MoveableBox moveableBox)
-            {
-                if (CheckCanGrabBox(moveableBox))
-                {
-                    return TurnActionData.CreateBox(moveableBox);
-                }
-            }
-        }
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -219,56 +186,11 @@ public partial class Player : Entity
         return null;
     }
 
-    private void HandleGrabbedMovement(Direction aMovementDirection)
-    {
-        switch (ComputeGrabbedMovementTypeInDirection(aMovementDirection))
-        {
-            case GrabbedMovementType.Push:
-                if (myGrabbedBox.OnPlayerMoveBox(aMovementDirection))
-                {
-                    if (!Move(aMovementDirection))
-                    {
-                        // Player could not follow box => release box
-                        // Ex. box triggered a breakable tile
-
-                        if (myIsGrabbingBox)
-                        {
-                            OnReleaseBox();
-                        }
-                    }
-
-                    PushAction(aMovementDirection, !myIsGrabbingBox);
-                }
-                break;
-            case GrabbedMovementType.Pull:
-                if (Move(aMovementDirection))
-                {
-                    if (!myGrabbedBox.OnPlayerMoveBox(aMovementDirection))
-                    {
-                        // Box could not follow player => release box
-                        // Ex. we triggered a breakable tile
-
-                        if (myIsGrabbingBox)
-                        {
-                            OnReleaseBox();
-                        }
-                    }
-
-                    PullAction(aMovementDirection, !myIsGrabbingBox);
-                }
-                break;
-            case GrabbedMovementType.Invalid:
-            default:
-                // TODO: Either disallow moving or move and drop the box.
-                // Current behaviour is to ignore movement
-                break;
-        }
-    }
-
-    private void HandleNormalMovement(Direction aMovementDirection)
+    /// <returns>true if the action was fully handled this frame, false otherwise.</returns>
+    private bool HandleNormalMovement(Direction aMovementDirection)
     {
         Entity entityAtNextPosition = GetEntityInDirection(aMovementDirection);
-        InteractResult aInteractResult = InteractResult.Undefined;
+        InteractResult interactResult = InteractResult.Undefined;
 
         if (entityAtNextPosition != null)
         {
@@ -277,24 +199,26 @@ public partial class Player : Entity
                 Kill(DeathReason.Enemy);
             }
 
-            aInteractResult = entityAtNextPosition.Interact(this, aMovementDirection);
+            interactResult = entityAtNextPosition.Interact(this, aMovementDirection);
             
-            if (aInteractResult == InteractResult.BoxMoved
-                || aInteractResult == InteractResult.BoxMoveFailed)
+            switch (interactResult)
             {
-                KickAction(aMovementDirection);
-            }
-            
-            else if (aInteractResult == InteractResult.KeyPickedUp
-                || aInteractResult == InteractResult.Unlocked)
-            {
-                Move(aMovementDirection);
-                MoveAction(aMovementDirection);
-            }
-            
-            else
-            {
-                BlockedAction(aMovementDirection);
+                case InteractResult.BoxMoved:
+                    StartCoroutine(DoPush(aMovementDirection, entityAtNextPosition as MoveableBox));
+                    return false;
+                case InteractResult.BoxMoveFailed:
+                    KickAction(aMovementDirection);
+                    break;
+
+                case InteractResult.KeyPickedUp:
+                case InteractResult.Unlocked:
+                    Move(aMovementDirection);
+                    MoveAction(aMovementDirection);
+                    break;
+
+                default:
+                    BlockedAction(aMovementDirection);
+                    break;
             }
         }
         else if (Move(aMovementDirection))
@@ -305,31 +229,8 @@ public partial class Player : Entity
         {
             BlockedAction(aMovementDirection);
         }
-    }
 
-    private bool CheckCanGrabBox(MoveableBox aMoveableBox)
-    {
-        Vector2Int toEntity = StageManager.ourInstance.GetEntityGridPosition(aMoveableBox) - StageManager.ourInstance.GetEntityGridPosition(this);
-        return toEntity.sqrMagnitude == 1;
-    }
-
-    private GrabbedMovementType ComputeGrabbedMovementTypeInDirection(Direction aDirection)
-    {
-        Debug.Assert(myIsGrabbingBox, "ComputeGrabbedMovementType calle when not grabbing box!");
-
-        Vector2Int toEntity = StageManager.ourInstance.GetEntityGridPosition(myGrabbedBox) - StageManager.ourInstance.GetEntityGridPosition(this);
-        Vector2Int movementDisplacement = DirectionToVec(aDirection);
-
-        if (movementDisplacement == toEntity)
-        {
-            return GrabbedMovementType.Push;
-        }
-        else if (movementDisplacement == -toEntity)
-        {
-            return GrabbedMovementType.Pull;
-        }
-
-        return GrabbedMovementType.Invalid;
+        return true;
     }
 
     private Entity GetEntityInDirection(Direction aDirection)
@@ -359,6 +260,7 @@ public partial class Player : Entity
     private void BlockedAction(Direction aMovementDirection)
     {
         myAnimator.Blocked(aMovementDirection);
+
         if (AudioManager.ourInstance != null)
         {
             AudioManager.ourInstance.PlaySound("MoveIntoWall");
@@ -374,18 +276,6 @@ public partial class Player : Entity
         //{
         //    AudioManager.ourInstance.PlaySound("");
         //}
-    }
-
-    private void PullAction(Direction aMovementDirection, bool aBoxDropped)
-    {
-        if (aBoxDropped)
-        {
-            MoveAction(aMovementDirection);
-        }
-        else
-        {
-            myAnimator.Pull(ReverseDirection(aMovementDirection));
-        }
     }
 
     private void PushAction(Direction aMovementDirection, bool aBoxDropped)
