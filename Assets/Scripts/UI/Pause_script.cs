@@ -10,10 +10,12 @@ public class Pause_script : MonoBehaviour
         if (!SceneManager.GetSceneByName("PausMenu1_scene").isLoaded)
         {
             Time.timeScale = 0;
+            Destroy(SceneManager.GetSceneByName("HUD1_scene").GetRootGameObjects()[0]);
             if (AudioManager.ourInstance != null)
             {
                 AudioManager.ourInstance.PlaySound("Pause");
             }
+            SceneManager.UnloadSceneAsync("HUD1_scene");
             SceneManager.LoadScene("PausMenu1_scene", LoadSceneMode.Additive);
         }
     }
@@ -25,6 +27,7 @@ public class Pause_script : MonoBehaviour
             AudioManager.ourInstance.PlaySound("Unpause");
         }
         SceneManager.UnloadSceneAsync("PausMenu1_scene");
+        SceneManager.LoadScene("HUD1_scene", LoadSceneMode.Additive);
         Time.timeScale = 1;
     }
     public void LoadMainMenu()
