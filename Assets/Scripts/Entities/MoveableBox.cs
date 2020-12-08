@@ -3,11 +3,8 @@
 public class MoveableBox : Entity
 {
     public bool myIsInHole => myHoleTile != null;
-    public bool myIsGrabbedByPlayer => myGrabbedByPlayer != null;
 
     private HoleTile myHoleTile;
-
-    private Player myGrabbedByPlayer;
 
     private Collider myCollider;
 
@@ -25,32 +22,8 @@ public class MoveableBox : Entity
         }
     }
 
-    public bool OnPlayerMoveBox(Direction aDirection)
-    {
-        return Move(aDirection);
-    }
-
-    public void OnGrabbedByPlayer(Player aPlayer)
-    {
-        Debug.Assert(!myIsGrabbedByPlayer, "OnGrabbedByPlayer called when already grabbed!");
-
-        myGrabbedByPlayer = aPlayer;
-    }
-
-    public void OnReleasedByPlayer()
-    {
-        Debug.Assert(myIsGrabbedByPlayer, "OnReleasedByPlayer called when not grabbed!");
-
-        myGrabbedByPlayer = null;
-    }
-
     public void OnFellInHole(HoleTile aHoleTile)
     {
-        if (myIsGrabbedByPlayer)
-        {
-            myGrabbedByPlayer.ForceReleaseBox();
-        }
-
         myHoleTile = aHoleTile;
 
         myCollider.enabled = false;
@@ -60,9 +33,9 @@ public class MoveableBox : Entity
         TriggerFallAnimation();
     }
 
-    protected override bool Move(Direction aDirection)
+    protected override bool Move(Direction aDirection, System.Func<Tile, bool> aMovementFilterCallback = null)
     {
-        bool result = base.Move(aDirection);
+        bool result = base.Move(aDirection, aMovementFilterCallback);
 
         if (myIsInHole)
         {
