@@ -8,15 +8,27 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnStartButtonClicked()
     {
+        if (AudioManager.ourInstance != null)
+        {
+            AudioManager.ourInstance.PlaySound("MenuPositive");
+        }
         GameManager.ourInstance.TransitionToStage(0);
     }
     public void LoadScene(int aScene)
     {
+        if (AudioManager.ourInstance != null)
+        {
+            AudioManager.ourInstance.PlaySound("MenuPositive");
+        }
         GameManager.ourInstance.TransitionToStage(aScene);
     }
 
     public void LoadCanvas(int aCanvas)
     {
+        if (AudioManager.ourInstance != null)
+        {
+            AudioManager.ourInstance.PlaySound("MenuPositive");
+        }
         foreach (var item in Canvases)
         {
             item.SetActive(false);
@@ -26,6 +38,10 @@ public class MainMenuUI : MonoBehaviour
     }
     public void OnReturnButtonPressed()
     {
+        if (AudioManager.ourInstance != null)
+        {
+            AudioManager.ourInstance.PlaySound("MenuNegative");
+        }
         foreach (var item in Canvases)
         {
             item.SetActive(false);
