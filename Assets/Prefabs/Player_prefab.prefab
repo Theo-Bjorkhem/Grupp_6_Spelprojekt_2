@@ -32,7 +32,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myRotationalRoot: {fileID: 9011058466494108751}
-  myMoveSpeedMultiplier: 1
+  myMoveSpeedMultiplier: 3.5
 --- !u!1 &5811035199643741324
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,10 +80,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMoveSound: PlayerMove
   myTouchConfiguration:
-    mySwipeMinDistance: 100
+    mySwipeMinDistance: 30
     mySwipeMaxDuration: 0.5
-    myTapMaxDistance: 50
-    myTapMaxDuration: 0.3
 --- !u!114 &2155950828579772714
 MonoBehaviour:
   m_ObjectHideFlags: 0

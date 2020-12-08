@@ -43,7 +43,8 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3348f16509b4f9b4d9ec2c43d80ad034, type: 2}
+  m_Motion: {fileID: 1827226128182048838, guid: b3a587a8ae0261c4a8ffdef9c885e127,
+    type: 3}
   m_Tag: 
   m_SpeedParameter: Movement Animation Speed Multiplier
   m_MirrorParameter: 
@@ -70,7 +71,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: ab6c3e4419d9aa04197ad8f69d33d204,
+  m_Motion: {fileID: 1827226128182048838, guid: f09418ea8c8ee7d41be2d9d4bc441870,
     type: 3}
   m_Tag: 
   m_SpeedParameter: Movement Animation Speed Multiplier
@@ -169,7 +170,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Grabbing
-  m_Speed: 1
+  m_Speed: 5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1412511483591891912}
@@ -248,7 +249,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Death
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5823081234359864924}
@@ -276,7 +277,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Fall
-  m_Speed: 1
+  m_Speed: 3.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2029435311774012148}
@@ -289,7 +290,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: 0141647f2577adc42a71f838adaafd7f,
+  m_Motion: {fileID: 1827226128182048838, guid: 77610a38660098a47aa25f4a3d3e470c,
     type: 3}
   m_Tag: 
   m_SpeedParameter: Movement Animation Speed Multiplier
@@ -402,7 +403,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Push
-  m_Speed: 1
+  m_Speed: 4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -976864515542081167}
@@ -606,7 +607,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Pull
-  m_Speed: 1
+  m_Speed: 3.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4743752900261250203}

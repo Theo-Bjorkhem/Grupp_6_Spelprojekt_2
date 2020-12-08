@@ -36,7 +36,7 @@ public class TouchProgress
                 myTouchStartPos = touch.position;
                 break;
 
-            case TouchPhase.Ended:
+            case TouchPhase.Moved:
                 if (myTouchStartTime < 0.0f)
                 {
                     break;
@@ -47,9 +47,8 @@ public class TouchProgress
                 Vector2 swipeDelta = touch.position - myTouchStartPos;
                 float swipeDistance = swipeDelta.magnitude;
 
-                if (
-                    duration < myTouchConfiguration.mySwipeMaxDuration &&
-                    swipeDistance >= myTouchConfiguration.mySwipeMinDistance)
+                if (duration < myTouchConfiguration.mySwipeMaxDuration
+                    && swipeDistance >= myTouchConfiguration.mySwipeMinDistance)
                 {
                     // Swipe
                     Direction swipeDirection;
@@ -65,12 +64,9 @@ public class TouchProgress
 
                     myTouchEvent = TouchEvent.CreateSwipe(swipeDirection);
                 }
-                else if (duration < myTouchConfiguration.myTapMaxDuration && swipeDistance < myTouchConfiguration.myTapMaxDistance)
-                {
-                    // Tap
-                    myTouchEvent = TouchEvent.CreateTap(myTouchStartPos);
-                }
+                break;
 
+            case TouchPhase.Ended:
                 ResetTrackingState();
                 break;
 
