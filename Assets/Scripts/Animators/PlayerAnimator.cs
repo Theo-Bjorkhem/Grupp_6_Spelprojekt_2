@@ -22,6 +22,12 @@ public class PlayerAnimator : MonoBehaviour
         }
     }
 
+    public bool myIsInTransition => myAnimator.IsInTransition(0);
+
+    public bool myIsInGrabbingState => myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Grabbing");
+
+    public bool myIsInIdleState => myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+
     private void Awake()
     {
         myAnimator = GetComponent<Animator>();

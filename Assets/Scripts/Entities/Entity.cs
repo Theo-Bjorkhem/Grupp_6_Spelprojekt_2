@@ -53,12 +53,13 @@ public class Entity : MonoBehaviour
     /// Move there if possible. Return true on successful move, otherwise false.
     /// </summary>
     /// <param name="aDirection"></param>
-    protected virtual bool Move(Direction aDirection)
+    protected virtual bool Move(Direction aDirection, System.Func<Tile, bool> aMovementFilterCallback = null)
     {
         Vector2Int gridPosition = StageManager.ourInstance.GetEntityGridPosition(this);
         gridPosition += DirectionToVec(aDirection);
 
-        if (StageManager.ourInstance.CanEntityMoveToPosition(this, gridPosition))
+        Tile nextTile = StageManager.ourInstance.IsPositionInGrid(gridPosition) ? StageManager.ourInstance.GetTile(gridPosition) : null;
+        if (StageManager.ourInstance.CanEntityMoveToPosition(this, gridPosition) && (aMovementFilterCallback == null || aMovementFilterCallback(nextTile)))
         {
             StageManager.ourInstance.MoveEntity(this, gridPosition);
             if (AudioManager.ourInstance != null)
