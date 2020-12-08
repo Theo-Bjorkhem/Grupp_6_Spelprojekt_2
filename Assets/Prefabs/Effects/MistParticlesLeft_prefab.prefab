@@ -43,7 +43,7 @@ PrefabInstance:
     - target: {fileID: 7272516774460199648, guid: 5dcde506e8a992248ac5be542f4c7bdb,
         type: 3}
       propertyPath: m_Name
-      value: MistParticlesLeft
+      value: MistParticlesEmitterRight_prefab
       objectReference: {fileID: 0}
     - target: {fileID: 7272516774460199649, guid: 5dcde506e8a992248ac5be542f4c7bdb,
         type: 3}
@@ -123,7 +123,7 @@ PrefabInstance:
     - target: {fileID: 7272516774460199648, guid: 5dcde506e8a992248ac5be542f4c7bdb,
         type: 3}
       propertyPath: m_Name
-      value: MistParticlesLeft (1)
+      value: MistParticlesEmitterRight_prefab (1)
       objectReference: {fileID: 0}
     - target: {fileID: 7272516774460199649, guid: 5dcde506e8a992248ac5be542f4c7bdb,
         type: 3}
@@ -203,7 +203,7 @@ PrefabInstance:
     - target: {fileID: 7272516774460199648, guid: 5dcde506e8a992248ac5be542f4c7bdb,
         type: 3}
       propertyPath: m_Name
-      value: MistParticlesLeft (2)
+      value: MistParticlesEmitterRight_prefab (2)
       objectReference: {fileID: 0}
     - target: {fileID: 7272516774460199649, guid: 5dcde506e8a992248ac5be542f4c7bdb,
         type: 3}
