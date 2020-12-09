@@ -46,7 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMoveSound: PlayerMove
   myRoot: {fileID: 4125836059069274906}
-  mySteps: 
+  myStartSteps: 
+  myAlternativeSteps: 
   myWillReverse: 1
 --- !u!95 &3682513560789844285
 Animator:
