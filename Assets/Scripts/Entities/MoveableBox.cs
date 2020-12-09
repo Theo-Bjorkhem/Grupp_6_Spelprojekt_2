@@ -8,10 +8,19 @@ public class MoveableBox : Entity
 
     private Collider myCollider;
 
+    private bool myIsInMove = false;
+
+    private MoveableBoxAnimator myAnimator;
+
     public override InteractResult Interact(Entity anEntity, Direction aDirection)
     {
-        base.Interact(anEntity, aDirection);       
-        
+        base.Interact(anEntity, aDirection);
+
+        if (myAnimator.myPlayerAnimator == null && anEntity is Player player)
+        {
+            myAnimator.myPlayerAnimator = player.GetAnimator();
+        }
+
         if (Move(aDirection))
         {
             return InteractResult.BoxMoved;
@@ -30,28 +39,46 @@ public class MoveableBox : Entity
 
         StageManager.ourInstance.UnregisterEntity(this);
 
-        TriggerFallAnimation();
+        if (!myIsInMove)
+        {
+            TriggerFallAnimation();
+        }
     }
 
     protected override bool Move(Direction aDirection, System.Func<Tile, bool> aMovementFilterCallback = null)
     {
+        myIsInMove = true;
+
+        myAnimator.PreparePossibleMove();
+
+        Vector3 preMovePos = transform.position;
+
         bool result = base.Move(aDirection, aMovementFilterCallback);
+
+        if (result)
+        {
+            myAnimator.DoMove(preMovePos, transform.position);
+        }
 
         if (myIsInHole)
         {
             TriggerFallAnimation();
         }
 
+        myIsInMove = false;
+
         return result;
     }
 
     private void TriggerFallAnimation()
     {
-        transform.position += Vector3.down * StageManager.ourInstance.myTileSize * 0.9f;
+        myAnimator.DoFall();
     }
 
     private void Awake()
     {
+        myAnimator = GetComponent<MoveableBoxAnimator>();
+
         myCollider = GetComponent<Collider>();
         myMoveSound = "BoxMove";
     }
