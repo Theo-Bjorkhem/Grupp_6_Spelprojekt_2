@@ -47,11 +47,20 @@ VisualEffect:
   m_ResetSeedOnPlay: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 9.2
+        m_Name: Max Speed
+        m_Overridden: 0
+      - m_Value: 0.33
+        m_Name: Min Speed
+        m_Overridden: 0
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 24.99, y: 0.1, z: 0.1}
+        m_Name: Spawn Box_size
+        m_Overridden: 0
     m_Vector4f:
       m_Array: []
     m_Uint:
@@ -65,7 +74,10 @@ VisualEffect:
     m_Gradient:
       m_Array: []
     m_NamedObject:
-      m_Array: []
+      m_Array:
+      - m_Value: {fileID: 0}
+        m_Name: Mist Textures
+        m_Overridden: 1
     m_Bool:
       m_Array: []
 --- !u!73398921 &7702952038186473511
