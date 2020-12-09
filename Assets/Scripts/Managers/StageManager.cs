@@ -23,6 +23,8 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    public VisualIndicators myVisualIndicators { get; private set; } = new VisualIndicators();
+
     public StageMesssages myStageMessages { get; private set; } = new StageMesssages();
     private StageState myStageState { get; set; } = new StageState();
 
@@ -475,6 +477,8 @@ public class StageManager : MonoBehaviour
         Debug.Assert(ourInstance == null, "Multiple StageManagers loaded!", this);
 
         ourInstance = this;
+
+        myVisualIndicators.Initialize();
 
         AllocateGrid();
     }
