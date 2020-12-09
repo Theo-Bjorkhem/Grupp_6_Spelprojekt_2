@@ -5,15 +5,24 @@ public class EnemyPath : Entity
     [SerializeField]
     private Transform myRoot = null;
     [SerializeField]
-    private Direction[] mySteps;
+    private Direction[] myStartSteps = null;
+    [SerializeField]
+    private Direction[] myAlternativeSteps = null;
     [SerializeField]
     private bool myWillReverse = true;
 
+    private Direction[] myCurrentSteps;
     private int myStepsIndex;
     private Vector3 myLerpStart = Vector3.zero;
     private Vector3 myLerpTarget = Vector3.zero;
     private float myLerpT = 0.0f;
     private bool myIsLerping = false;
+    private bool myHasAlternativeSteps = false;
+
+    private void Awake()
+    {
+        myCurrentSteps = myStartSteps;
+    }
 
     private void Update()
     {
@@ -39,13 +48,13 @@ public class EnemyPath : Entity
 
     public override void Action(TurnEvent aTurnEvent)
     {
-        if (mySteps.Length <= 0)
+        if (myCurrentSteps.Length <= 0)
         {
             aTurnEvent.SignalDone();
             return;
         }
 
-        Vector2Int newPosition = StageManager.ourInstance.GetEntityGridPosition(this) + DirectionToVec(mySteps[myStepsIndex]);
+        Vector2Int newPosition = StageManager.ourInstance.GetEntityGridPosition(this) + DirectionToVec(myCurrentSteps[myStepsIndex]);
         if (!StageManager.ourInstance.IsPositionInGrid(newPosition))
         {
             aTurnEvent.SignalDone();
@@ -70,9 +79,9 @@ public class EnemyPath : Entity
             return;
         }
 
-        if (Move(mySteps[myStepsIndex]))
+        if (Move(myCurrentSteps[myStepsIndex]))
         {
-            switch (mySteps[myStepsIndex])
+            switch (myCurrentSteps[myStepsIndex])
             {
                 case Direction.Up:
                     myRoot.localEulerAngles = new Vector3(0f, 0f, 0f);
@@ -94,7 +103,7 @@ public class EnemyPath : Entity
 
         myStepsIndex++;
 
-        if (myStepsIndex >= mySteps.Length)
+        if (myStepsIndex >= myCurrentSteps.Length)
         {
             myStepsIndex = 0;
             if (myWillReverse)
@@ -108,13 +117,13 @@ public class EnemyPath : Entity
 
     private void ReverseSteps()
     {
-        Direction[] newSteps = new Direction[mySteps.Length];
-        for (int i = mySteps.Length - 1; i >= 0; i--)
+        Direction[] newSteps = new Direction[myCurrentSteps.Length];
+        for (int i = myCurrentSteps.Length - 1; i >= 0; i--)
         {
-            Direction direction = ReverseDirection(mySteps[i]);
-            newSteps[mySteps.Length - 1 - i] = direction;
+            Direction direction = ReverseDirection(myCurrentSteps[i]);
+            newSteps[myCurrentSteps.Length - 1 - i] = direction;
         }
-        mySteps = newSteps;
+        myCurrentSteps = newSteps;
     }
 
     protected override bool Move(Direction aDirection, System.Func<Tile, bool> aMovementFilterCallback = null)
@@ -137,5 +146,20 @@ public class EnemyPath : Entity
         }
                 
         return false;
+    }
+
+    public void SwitchStepsList()
+    {
+        myStepsIndex = 0;
+
+        if (myHasAlternativeSteps)
+        {
+            myHasAlternativeSteps = false;
+            myCurrentSteps = myStartSteps;
+            return;
+        }
+
+        myHasAlternativeSteps = true;
+        myCurrentSteps = myAlternativeSteps;
     }
 }

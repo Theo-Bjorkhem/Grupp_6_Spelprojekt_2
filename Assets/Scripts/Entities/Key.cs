@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(KeyAnimator))]
 public class Key : Entity
 {
+    [SerializeField]
+    UnityEvent myEvent = null;
+
     private KeyAnimator myKeyAnimator;
 
     public override InteractResult Interact(Entity anEntity, Direction aDirection)
@@ -18,6 +22,11 @@ public class Key : Entity
         StageManager.ourInstance.UnregisterEntity(this);
 
         myKeyAnimator.OnPickedUp(() => gameObject.SetActive(false));
+
+        if (myEvent != null)
+        {
+            myEvent.Invoke();
+        }
 		
         return InteractResult.KeyPickedUp;
     }
