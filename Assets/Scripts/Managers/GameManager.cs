@@ -75,12 +75,51 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("uiBase_scene", LoadSceneMode.Additive);
         SceneManager.LoadScene("HUD1_scene", LoadSceneMode.Additive);
 
+        myCurrentStageIndex = aStageIndex;
+
         if (AudioManager.ourInstance != null)
         {
-            AudioManager.ourInstance.PlaySound("StageLoaded");
-        }
-
-        myCurrentStageIndex = aStageIndex;
+            if (myCurrentStageIndex == -1)
+            {
+                AudioManager.ourInstance.PlayLoop("MusicMainMenu");
+                AudioManager.ourInstance.Stop("Music");
+                AudioManager.ourInstance.Stop("Music2");
+                AudioManager.ourInstance.Stop("Music3");
+                AudioManager.ourInstance.Stop("Ambience");
+                AudioManager.ourInstance.Stop("Ambience2");
+                AudioManager.ourInstance.Stop("Ambience3");
+            }
+            else if (myCurrentStageIndex >= 0 && myCurrentStageIndex <= 3)
+            {
+                AudioManager.ourInstance.Stop("MusicMainMenu");
+                AudioManager.ourInstance.PlayLoop("Music");
+                AudioManager.ourInstance.Stop("Music2");
+                AudioManager.ourInstance.Stop("Music3");
+                AudioManager.ourInstance.PlayLoop("Ambience");
+                AudioManager.ourInstance.Stop("Ambience2");
+                AudioManager.ourInstance.Stop("Ambience3");
+            }
+            else if (myCurrentStageIndex >= 4 && myCurrentStageIndex <= 7)
+            {
+                AudioManager.ourInstance.Stop("MusicMainMenu");
+                AudioManager.ourInstance.Stop("Music");
+                AudioManager.ourInstance.PlayLoop("Music2");
+                AudioManager.ourInstance.Stop("Music3");
+                AudioManager.ourInstance.Stop("Ambience");
+                AudioManager.ourInstance.PlayLoop("Ambience2");
+                AudioManager.ourInstance.Stop("Ambience3");
+            }
+            else if (myCurrentStageIndex >= 8 && myCurrentStageIndex <= 11)
+            {
+                AudioManager.ourInstance.Stop("MusicMainMenu");
+                AudioManager.ourInstance.Stop("Music");
+                AudioManager.ourInstance.Stop("Music2");
+                AudioManager.ourInstance.PlayLoop("Music3");
+                AudioManager.ourInstance.Stop("Ambience");
+                AudioManager.ourInstance.Stop("Ambience2");
+                AudioManager.ourInstance.PlayLoop("Ambience3");
+            }
+        }        
 
         Debug.Assert(StageManager.ourInstance != null, "No StageManager in loaded stage!");
     }
