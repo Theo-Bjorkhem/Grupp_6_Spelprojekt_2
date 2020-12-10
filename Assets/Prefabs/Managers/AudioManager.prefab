@@ -44,15 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7d247da9c7e1642abd965654b0c38a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myMute: 0
   mySounds:
   - myName: PlayerMove
     myClip: {fileID: 8300000, guid: 0cff03339ee91ce4fb27c9dc0e980031, type: 3}
-    myVolume: 0.05
+    myVolume: 0.01
     myPitch: 1
     myRandomVolume: 0.1
     myRandomPitch: 0.1
   - myName: Victory
-    myClip: {fileID: 8300000, guid: 9c127d1a5b7782644a79b2ad018e74c0, type: 3}
+    myClip: {fileID: 8300000, guid: 6de012a5fe454bf479a01207be9014eb, type: 3}
     myVolume: 0.4
     myPitch: 1
     myRandomVolume: 0
@@ -70,8 +71,8 @@ MonoBehaviour:
     myRandomVolume: 0
     myRandomPitch: 0
   - myName: Music
-    myClip: {fileID: 8300000, guid: 8a09d899033d85440b04395082e06130, type: 3}
-    myVolume: 0.05
+    myClip: {fileID: 8300000, guid: 99caba68e17b4914684a3c38ed77b430, type: 3}
+    myVolume: 0.1
     myPitch: 1
     myRandomVolume: 0
     myRandomPitch: 0
@@ -107,12 +108,12 @@ MonoBehaviour:
     myRandomPitch: 0
   - myName: KillEntity
     myClip: {fileID: 8300000, guid: 5b97701042ec8d946be08af25d38fbcb, type: 3}
-    myVolume: 0.4
+    myVolume: 0.2
     myPitch: 1
     myRandomVolume: 0
     myRandomPitch: 0
   - myName: StageLoaded
-    myClip: {fileID: 8300000, guid: 762cc55f830d32e4e99637fe1d445b24, type: 3}
+    myClip: {fileID: 8300000, guid: a5e3024c42a51cb47a82cfa6b50d2714, type: 3}
     myVolume: 0.1
     myPitch: 1
     myRandomVolume: 0
@@ -143,6 +144,42 @@ MonoBehaviour:
     myRandomPitch: 0
   - myName: Unpause
     myClip: {fileID: 8300000, guid: cfdfcc508581e544cbd0cb7bfd2df0be, type: 3}
+    myVolume: 0.05
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: Music2
+    myClip: {fileID: 8300000, guid: d318c558ce0427e48a9d5a53fdc554d9, type: 3}
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: Music3
+    myClip: {fileID: 8300000, guid: cf306225f79ca41448ce9475815e8771, type: 3}
+    myVolume: 0.1
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: Ambience2
+    myClip: {fileID: 8300000, guid: c7e2940ab06767743a1962b79af3d4a6, type: 3}
+    myVolume: 0.02
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: Ambience3
+    myClip: {fileID: 8300000, guid: c7e2940ab06767743a1962b79af3d4a6, type: 3}
+    myVolume: 0.02
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: MusicMainMenu
+    myClip: {fileID: 8300000, guid: 60e331284be89d34e94e6a7310c571fa, type: 3}
+    myVolume: 0.05
+    myPitch: 1
+    myRandomVolume: 0
+    myRandomPitch: 0
+  - myName: BoxFalls
+    myClip: {fileID: 8300000, guid: 4413f3768d8345f499de48a920b056d1, type: 3}
     myVolume: 0.05
     myPitch: 1
     myRandomVolume: 0

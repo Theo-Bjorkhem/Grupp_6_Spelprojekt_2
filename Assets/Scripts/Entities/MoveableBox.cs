@@ -63,6 +63,11 @@ public class MoveableBox : Entity
         if (myIsInHole)
         {
             TriggerFallAnimation();
+
+            if (AudioManager.ourInstance != null)
+            {
+                AudioManager.ourInstance.PlaySound("BoxFalls");
+            }
         }
 
         myIsInMove = false;

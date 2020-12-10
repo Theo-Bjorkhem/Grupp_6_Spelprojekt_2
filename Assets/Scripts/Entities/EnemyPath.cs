@@ -15,8 +15,17 @@ public class EnemyPath : Entity
     private float myLerpT = 0.0f;
     private bool myIsLerping = false;
 
+    private VisualIndicators.IndicatorData myIndicatorData;
+
     private void Update()
     {
+        // Do something ugly just to make it work
+        if (myIndicatorData == null && !IsDead())
+        {
+            myIndicatorData = StageManager.ourInstance.myVisualIndicators.CreateNextStepIndicator();
+            UpdateStepIndicator();
+        }
+
         if (!myIsLerping)
         {
             return;
@@ -103,7 +112,59 @@ public class EnemyPath : Entity
             }
         }
 
+        UpdateStepIndicator();
+
         aTurnEvent.SignalDone();
+    }
+
+    public override void Kill(DeathReason aReason)
+    {
+        base.Kill(aReason);
+
+        if (myIndicatorData != null)
+        {
+            StageManager.ourInstance.myVisualIndicators.RemoveIndicator(myIndicatorData);
+            myIndicatorData = null;
+        }
+    }
+
+    private void UpdateStepIndicator()
+    {
+        Vector2Int nextPosition = Vector2Int.zero;
+
+        if (ComputeCurrentStep(ref nextPosition))
+        {
+            myIndicatorData.myIndicator.UpdatePosition(StageManager.ourInstance.GetEntityGridPosition(this), nextPosition);
+            myIndicatorData.myIndicator.Show();
+        }
+        else
+        {
+            myIndicatorData.myIndicator.Hide();
+        }
+    }
+
+    private bool ComputeCurrentStep(ref Vector2Int aNextPosition)
+    {
+        aNextPosition = StageManager.ourInstance.GetEntityGridPosition(this) + DirectionToVec(mySteps[myStepsIndex]);
+
+        if (!StageManager.ourInstance.IsPositionInGrid(aNextPosition))
+            return false;
+
+        if (!StageManager.ourInstance.CanEntityMoveToPosition(this, aNextPosition))
+        {
+            Entity entity = StageManager.ourInstance.GetEntity(aNextPosition);
+
+            // Show next indicator if it is the player
+            return entity is Player;
+        }
+
+        Tile tile = StageManager.ourInstance.GetTile(aNextPosition);
+        if (tile is HoleTile holeTile && !holeTile.myIsFilled)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private void ReverseSteps()
