@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8973547958284570926}
   - component: {fileID: 8973547958284570925}
   m_Layer: 0
-  m_Name: StageManager
+  m_Name: StageManager_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,6 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f874e956bcb3cbf409a0370c4cb13450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myStepIndicatorGameObject: {fileID: 1355435897230218972, guid: 4403f4adbcaf6c24abd7a9988e474e14,
+    type: 3}
   myGridWidth: 7
   myGridHeight: 7
   myTileSize: 1
