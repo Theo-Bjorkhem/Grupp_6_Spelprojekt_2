@@ -10,7 +10,7 @@ Animator:
   m_GameObject: {fileID: 8967108464259098}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9d0b33c06abbd2640bda30c1799bb6f8, type: 2}
+  m_Controller: {fileID: 9100000, guid: d6f48e505350c81448d8911a700c7952, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -19,22 +19,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!111 &9059276665201677783
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8967108464259098}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 1827226128182048838, guid: 3a5bb5bb8b1cb3b498a0e9ee8f975b30,
-    type: 3}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!1 &1804268520042609918
 GameObject:
   m_ObjectHideFlags: 0
@@ -45,6 +29,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1106274027831399570}
   - component: {fileID: 8721854927892713555}
+  - component: {fileID: 2564996710437425022}
   m_Layer: 0
   m_Name: SpikesTile_prefab
   m_TagString: Untagged
@@ -81,6 +66,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myForceDisallowEnter: 0
   myInitialExtended: 0
+--- !u!114 &2564996710437425022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804268520042609918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 442b3094b51740f45b3a9291ac9811ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myMoveSpeedMultiplier: 2
 --- !u!1001 &927374665496759627
 PrefabInstance:
   m_ObjectHideFlags: 0

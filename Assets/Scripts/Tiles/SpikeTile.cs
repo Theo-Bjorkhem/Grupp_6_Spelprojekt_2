@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(SpikesTileAnimator))]
 public class SpikeTile : Tile
 {
     [Tooltip("Should the spikes be extended initially?")]
     [SerializeField]
     private bool myInitialExtended = false;
+
+    private SpikesTileAnimator myAnimator;
 
     private bool myIsExtended = true;
 
@@ -19,6 +22,7 @@ public class SpikeTile : Tile
     {
         base.Start();
 
+        myAnimator = GetComponent<SpikesTileAnimator>();
         StageManager.ourInstance.RegisterTileForTurnEvents(this);
 
         SetExtended(myInitialExtended);
@@ -43,8 +47,7 @@ public class SpikeTile : Tile
 
         myIsExtended = true;
 
-        // TODO: Extend spikes visually when spike model has spikes and main body separate
-        transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z); // Test visuals
+        // transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z); // Test visuals
         if (AudioManager.ourInstance != null)
         {
             AudioManager.ourInstance.PlaySound("ArmsExtend");
@@ -55,7 +58,12 @@ public class SpikeTile : Tile
         
         if (entity != null && entity is Player)
         {
+            myAnimator.Attack();
             entity.Kill(DeathReason.Spike);
+        }
+        else
+        {
+            myAnimator.Emerge();
         }
     }
 
@@ -67,7 +75,8 @@ public class SpikeTile : Tile
         myIsExtended = false;
 
         // TODO: Rectract spikes visually when spike model has spikes and main body separate
-        transform.position = new Vector3(transform.position.x, -0.5f, transform.position.z); // Test visuals
+        //transform.position = new Vector3(transform.position.x, -0.5f, transform.position.z); // Test visuals
+        myAnimator.Burrow();
         if (AudioManager.ourInstance != null)
         {
             AudioManager.ourInstance.PlaySound("ArmsRetract");

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Animator))]
 public class SpikesTileAnimator : MonoBehaviour
 {
     [Tooltip("A multiplier for all moving animations")]
@@ -36,11 +35,29 @@ public class SpikesTileAnimator : MonoBehaviour
 
     private void Awake()
     {
-        myAnimator = GetComponent<Animator>();
+        myAnimator = GetComponentInChildren<Animator>();
+        if (myAnimator == null)
+        {
+            Debug.LogError("SpikesTile does not have animator on model", this);
+            enabled = false;
+        }
         myAnimator.SetFloat("Speed", myMoveSpeedMultiplier);
     }
 
+    public void Emerge()
+    {
+        myAnimator.SetBool("Is Burrowed", false);
+    }
 
+    public void Burrow()
+    {
+        myAnimator.SetBool("Is Burrowed", true);
+    }
+
+    public void Attack()
+    {
+        myAnimator.SetTrigger("Attack");
+    }
 
     /// <summary>
     /// Called from Animation Events when a Turn Animation has ended
