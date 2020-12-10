@@ -48,40 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myMoveSound: PlayerMove
-  myPushAnimationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: Infinity
-      tangentMode: 97
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.35
-      value: 0
-      inSlope: 3.3934135
-      outSlope: 1.0000001
-      tangentMode: 1
-      weightedMode: 0
-      inWeight: 0.10413534
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1.9256461
-      outSlope: 1.9256461
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.058275096
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  myPushDuration: 1
 --- !u!114 &4540405939099314230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,6 +60,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa6bee6a5f98d2b46b8afc62665a2b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myKickAnimationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   myFallAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -118,8 +108,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  myPushDuration: 1
+  myKickDuration: 0.5
   myFallDuration: 0.35
+  myFallDepth: 0.8
 --- !u!65 &1760989196910092607
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -164,7 +155,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0ff0ee67f3c941f44b9523aa1a4e0b71,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0.379
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0ff0ee67f3c941f44b9523aa1a4e0b71,
         type: 3}
@@ -214,17 +205,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0ff0ee67f3c941f44b9523aa1a4e0b71,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.6487167
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0ff0ee67f3c941f44b9523aa1a4e0b71,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.83178455
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0ff0ee67f3c941f44b9523aa1a4e0b71,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0.6487167
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0ff0ee67f3c941f44b9523aa1a4e0b71,
         type: 3}
