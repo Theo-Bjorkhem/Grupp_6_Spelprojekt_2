@@ -18,7 +18,7 @@ public class VisualIndicators
         {
             GameObject indicatorGameObject = new GameObject("VisualIndicator");
             VisualIndicator visualIndicator = indicatorGameObject.AddComponent<VisualIndicator>();
-            visualIndicator.Initialize(myRoot.myStepIndicatorGameObject);
+            visualIndicator.Initialize(StageManager.ourInstance.myStepIndicatorGameObject);
 
             indicatorGameObject.SetActive(false);
 
@@ -45,12 +45,8 @@ public class VisualIndicators
     private List<IndicatorData> myUsedIndicators = new List<IndicatorData>(ourIndicatorBufferLength);
     private PooledIndicatorData myAvailableIndicators;
 
-    private GameObject myStepIndicatorGameObject;
-
     public void Initialize()
     {
-        myStepIndicatorGameObject = Resources.Load<GameObject>("Prefabs/stepIndicator_prefab");
-
         myAvailableIndicators = new PooledIndicatorData(this, ourIndicatorBufferLength);
     }
 

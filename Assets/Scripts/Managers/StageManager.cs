@@ -9,6 +9,7 @@ public class StageManager : MonoBehaviour
         public Vector2Int myGridPosition;
     }
 
+    [System.NonSerialized]
     public int myKeyCount = 0;
 
     public static StageManager ourInstance;
@@ -27,6 +28,9 @@ public class StageManager : MonoBehaviour
 
     public StageMesssages myStageMessages { get; private set; } = new StageMesssages();
     private StageState myStageState { get; set; } = new StageState();
+
+    [Header("VFX Configuration")]
+    public GameObject myStepIndicatorGameObject;
 
     [Header("Grid Configuration")]
 
