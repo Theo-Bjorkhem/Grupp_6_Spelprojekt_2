@@ -8,30 +8,58 @@ public class VisualIndicators
         public VisualIndicator myIndicator;
     }
 
-    private static readonly int ourIndicatorBufferLength = 8;
-
-    private List<IndicatorData> myUsedIndicators = new List<IndicatorData>(ourIndicatorBufferLength);
-    private Queue<IndicatorData> myAvailableIndicators = new Queue<IndicatorData>(ourIndicatorBufferLength);
-
-    private Material myVisualIndicatorMaterial;
-
-    public void Initialize()
+    private class PooledIndicatorData : PooledObject<IndicatorData, VisualIndicators>
     {
-        myVisualIndicatorMaterial = Resources.Load<Material>("Materials/visualIndicator_material");
-        Debug.Assert(myVisualIndicatorMaterial != null, "Could not load visualIndicator_material at runtime!");
-
-        for (int i = 0; i < ourIndicatorBufferLength; ++i)
+        public PooledIndicatorData(VisualIndicators aRoot, int aCapacity) : base(aRoot, aCapacity)
         {
-            myAvailableIndicators.Enqueue(CreateIndicator());
+        }
+
+        protected override IndicatorData PerformCreate()
+        {
+            GameObject indicatorGameObject = new GameObject("VisualIndicator");
+            VisualIndicator visualIndicator = indicatorGameObject.AddComponent<VisualIndicator>();
+            visualIndicator.Initialize(myRoot.myStepIndicatorGameObject);
+
+            indicatorGameObject.SetActive(false);
+
+            return new IndicatorData
+            {
+                myIndicator = visualIndicator,
+            };
+        }
+
+        protected override void PerformDelete(IndicatorData anObject)
+        {
+            Object.Destroy(anObject.myIndicator.gameObject);
+        }
+
+        protected override void PerformRecycle(IndicatorData anObject)
+        {
+            anObject.myIndicator.Reset();
+            anObject.myIndicator.gameObject.SetActive(false);
         }
     }
 
-    public IndicatorData AddNextStepIndicator(Entity aSourceEntity, Vector2Int aCurrentPosition, Vector2Int aNextStepPosition)
+    private static readonly int ourIndicatorBufferLength = 8;
+
+    private List<IndicatorData> myUsedIndicators = new List<IndicatorData>(ourIndicatorBufferLength);
+    private PooledIndicatorData myAvailableIndicators;
+
+    private GameObject myStepIndicatorGameObject;
+
+    public void Initialize()
     {
-        IndicatorData indicatorData = GetNext();
+        myStepIndicatorGameObject = Resources.Load<GameObject>("Prefabs/stepIndicator_prefab");
+
+        myAvailableIndicators = new PooledIndicatorData(this, ourIndicatorBufferLength);
+    }
+
+    public IndicatorData CreateNextStepIndicator()
+    {
+        IndicatorData indicatorData = myAvailableIndicators.GetNext();
 
         indicatorData.myIndicator.gameObject.SetActive(true);
-        indicatorData.myIndicator.Create(aSourceEntity, aCurrentPosition, aNextStepPosition);
+        indicatorData.myIndicator.Build();
 
         myUsedIndicators.Add(indicatorData);
 
@@ -44,48 +72,11 @@ public class VisualIndicators
         if (index >= 0)
         {
             myUsedIndicators.RemoveAt(index);
-            Recycle(anIndicatorData);
+            myAvailableIndicators.Recycle(anIndicatorData);
 
             return true;
         }
 
         return false;
     }
-
-    private void Recycle(IndicatorData anIndicatorData)
-    {
-        anIndicatorData.myIndicator.Reset();
-        myAvailableIndicators.Enqueue(anIndicatorData);
-
-        anIndicatorData.myIndicator.gameObject.SetActive(false);
-    }
-
-    private IndicatorData GetNext()
-    {
-        if (myAvailableIndicators.Count == 0)
-        {
-#if UNITY_EDITOR
-            Debug.LogWarning("Not enough available indicators, need to allocate more (might want to increase amount in VisualIndicators)!");
-#endif
-
-            return CreateIndicator();
-        }
-
-        return myAvailableIndicators.Dequeue();
-    }
-
-    private IndicatorData CreateIndicator()
-    {
-        GameObject indicatorGameObject = new GameObject("VisualIndicator");
-        VisualIndicator visualIndicator = indicatorGameObject.AddComponent<VisualIndicator>();
-        visualIndicator.Initialize(myVisualIndicatorMaterial, false);
-
-        indicatorGameObject.SetActive(false);
-
-        return new IndicatorData
-        {
-            myIndicator = visualIndicator,
-        };
-    }
-
 }
