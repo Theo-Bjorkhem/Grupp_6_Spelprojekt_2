@@ -20,6 +20,16 @@ public class VisualIndicator : MonoBehaviour
         transform.position = StageManager.ourInstance.GetEntityWorldPositionFromTilePosition(myNextPosition);
     }
 
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void Build()
     {
         CreateIndicator();
