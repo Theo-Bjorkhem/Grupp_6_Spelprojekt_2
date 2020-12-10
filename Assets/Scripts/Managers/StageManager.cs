@@ -9,6 +9,7 @@ public class StageManager : MonoBehaviour
         public Vector2Int myGridPosition;
     }
 
+    [System.NonSerialized]
     public int myKeyCount = 0;
 
     public static StageManager ourInstance;
@@ -23,8 +24,13 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    public VisualIndicators myVisualIndicators { get; private set; } = new VisualIndicators();
+
     public StageMesssages myStageMessages { get; private set; } = new StageMesssages();
     private StageState myStageState { get; set; } = new StageState();
+
+    [Header("VFX Configuration")]
+    public GameObject myStepIndicatorGameObject;
 
     [Header("Grid Configuration")]
 
@@ -475,6 +481,8 @@ public class StageManager : MonoBehaviour
         Debug.Assert(ourInstance == null, "Multiple StageManagers loaded!", this);
 
         ourInstance = this;
+
+        myVisualIndicators.Initialize();
 
         AllocateGrid();
     }
