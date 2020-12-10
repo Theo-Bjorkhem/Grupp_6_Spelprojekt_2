@@ -1,16 +1,92 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8570379557806582481
+--- !u!1 &1422549279615029214
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5009505401525546671}
+  - component: {fileID: 7381929682391181331}
+  m_Layer: 0
+  m_Name: Gravestone04_prefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5009505401525546671
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422549279615029214}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 543591752937783179}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7381929682391181331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422549279615029214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77144b13523b7524b9ff9bef4aee40b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myMoveSound: PlayerMove
+--- !u!1 &8348819064298480345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 543591752937783179}
+  m_Layer: 0
+  m_Name: Root rotation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &543591752937783179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8348819064298480345}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 0, z: -0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8930771507681666852}
+  m_Father: {fileID: 5009505401525546671}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &8969692864606290127
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 543591752937783179}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 53df53b925c8b2c4ea1f20e77d636361,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53df53b925c8b2c4ea1f20e77d636361,
         type: 3}
@@ -20,7 +96,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 53df53b925c8b2c4ea1f20e77d636361,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.202
+      value: 0.286
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53df53b925c8b2c4ea1f20e77d636361,
         type: 3}
@@ -65,7 +141,13 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 53df53b925c8b2c4ea1f20e77d636361,
         type: 3}
       propertyPath: m_Name
-      value: Gravestone04_prefab
+      value: propGravestone04_mesh
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53df53b925c8b2c4ea1f20e77d636361, type: 3}
+--- !u!4 &8930771507681666852 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 53df53b925c8b2c4ea1f20e77d636361,
+    type: 3}
+  m_PrefabInstance: {fileID: 8969692864606290127}
+  m_PrefabAsset: {fileID: 0}
