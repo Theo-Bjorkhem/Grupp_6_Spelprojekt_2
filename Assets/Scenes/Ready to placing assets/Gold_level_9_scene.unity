@@ -488,6 +488,31 @@ PrefabInstance:
       propertyPath: mySteps.Array.data[2]
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 6081805260423556335, guid: a272425deb44c624fa5f2197dec91c88,
         type: 3}
       propertyPath: m_Name
@@ -4840,6 +4865,31 @@ PrefabInstance:
       propertyPath: mySteps.Array.data[7]
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 6081805260423556335, guid: a272425deb44c624fa5f2197dec91c88,
         type: 3}
       propertyPath: m_Name
@@ -8139,6 +8189,31 @@ PrefabInstance:
       propertyPath: mySteps.Array.data[7]
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125836059069274906, guid: a272425deb44c624fa5f2197dec91c88,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
     - target: {fileID: 6081805260423556335, guid: a272425deb44c624fa5f2197dec91c88,
         type: 3}
       propertyPath: m_Name
@@ -9361,7 +9436,7 @@ PrefabInstance:
     - target: {fileID: 2166753224144172516, guid: d187678bfcef76841ad77e9d8ce19c19,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.17
+      value: -0.137
       objectReference: {fileID: 0}
     - target: {fileID: 2166753224144172516, guid: d187678bfcef76841ad77e9d8ce19c19,
         type: 3}
