@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.VFX;
 
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimator : MonoBehaviour
@@ -16,13 +17,7 @@ public class PlayerAnimator : MonoBehaviour
     [Header("VFX")]
 
     [SerializeField]
-    private ParticleSystem myDustTrailParticleSystem;
-
-    [SerializeField]
-    private ParticleSystem myDustBurstParticleSystem;
-
-    [SerializeField]
-    private int myDustBurstCount = 30;
+    private VisualEffect myDustBurst;
 
     private Animator myAnimator;
 
@@ -118,10 +113,7 @@ public class PlayerAnimator : MonoBehaviour
     /// </summary>
     private void OnEnableDust()
     {
-        if (myDustBurstCount > 0)
-            myDustBurstParticleSystem.Emit(myDustBurstCount);
-        
-        myDustTrailParticleSystem.Play();
+        myDustBurst.Play();
     }
 
     /// <summary>
@@ -129,7 +121,6 @@ public class PlayerAnimator : MonoBehaviour
     /// </summary>
     private void OnDisableDust()
     {
-        myDustTrailParticleSystem.Stop();
     }
 
     private void RotateTowardsDirection(Direction aDirection)
