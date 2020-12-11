@@ -42,7 +42,26 @@ public class GameManager : MonoBehaviour
         // TODO: Check that the next stage exists.
         if (myIsInStage)
         {
-            TransitionToStage(myCurrentStageIndex + 1);
+            if(myCurrentStageIndex + 1 > 11)
+            {
+                if (!SceneManager.GetSceneByName("Victory_scene").isLoaded)
+                {
+                    Time.timeScale = 0;
+                    //SceneManager.UnloadSceneAsync("HUD1_scene");
+                    //Destroy(SceneManager.GetSceneByName("HUD1_scene").GetRootGameObjects()[0]);
+                    SceneManager.GetSceneByName("HUD1_scene").GetRootGameObjects()[0].SetActive(false);
+
+                    if (AudioManager.ourInstance != null)
+                    {
+                        AudioManager.ourInstance.PlaySound("Pause");
+                    }
+                    SceneManager.LoadScene("Victory_scene", LoadSceneMode.Additive);
+                }
+            }
+            else
+            {
+                TransitionToStage(myCurrentStageIndex + 1);
+            }
         }
         else
         {
