@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
+[CanEditMultipleObjects]
 [CustomEditor(typeof(ParticleSystemParent))]
 public class EditorParticleSystemParent : Editor
 {
