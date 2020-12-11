@@ -13,6 +13,17 @@ public class PlayerAnimator : MonoBehaviour
     [Tooltip("A transform that is used during animations to animate position shifting")]
     [SerializeField] private Transform myAnimationPositionRoot;
 
+    [Header("VFX")]
+
+    [SerializeField]
+    private ParticleSystem myDustTrailParticleSystem;
+
+    [SerializeField]
+    private ParticleSystem myDustBurstParticleSystem;
+
+    [SerializeField]
+    private int myDustBurstCount = 30;
+
     private Animator myAnimator;
 
     public event UnityAction myOnTurnAnimationEnd;
@@ -89,12 +100,36 @@ public class PlayerAnimator : MonoBehaviour
         myAnimator.SetTrigger("Kick");
     }
 
+    public void StopVFX()
+    {
+        OnDisableDust();
+    }
+
     /// <summary>
     /// Called from Animation Events when a Turn Animation has ended
     /// </summary>
     private void OnTurnAnimationEnded()
     {
         myOnTurnAnimationEnd?.Invoke();
+    }
+
+    /// <summary>
+    /// Called from Animation event.
+    /// </summary>
+    private void OnEnableDust()
+    {
+        if (myDustBurstCount > 0)
+            myDustBurstParticleSystem.Emit(myDustBurstCount);
+        
+        myDustTrailParticleSystem.Play();
+    }
+
+    /// <summary>
+    /// Called from Animation event.
+    /// </summary>
+    private void OnDisableDust()
+    {
+        myDustTrailParticleSystem.Stop();
     }
 
     private void RotateTowardsDirection(Direction aDirection)

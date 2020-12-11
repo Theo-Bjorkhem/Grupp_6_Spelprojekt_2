@@ -27,6 +27,13 @@ public partial class Player : Entity
         myTurnEvent = aTurnEvent;
     }
 
+    public override void Kill(DeathReason aReason)
+    {
+        base.Kill(aReason);
+
+        myAnimator.StopVFX();
+    }
+
     protected override void Start()
     {
         base.Start();
