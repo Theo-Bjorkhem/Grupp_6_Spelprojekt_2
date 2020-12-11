@@ -505,8 +505,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 378e3de6226b11941ab466b26b252514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myCreditPanel: {fileID: 0}
-  myButtonPanel: {fileID: 0}
+  myCreditPanel: {fileID: 1108858500}
+  myButtonPanel: {fileID: 1643881925}
 --- !u!1 &1108858500
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,7 +849,7 @@ PrefabInstance:
     - target: {fileID: 653865842971980888, guid: 491baa83362be2f4ab8109e6bb9a1469,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 653865842971980888, guid: 491baa83362be2f4ab8109e6bb9a1469,
         type: 3}
