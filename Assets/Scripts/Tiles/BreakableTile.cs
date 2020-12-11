@@ -82,6 +82,14 @@ public class BreakableTile : Tile
             anEntity is MoveableBox;
     }
 
+    /// <summary>
+    /// Called from animation event
+    /// </summary>
+    private void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
+
     void Awake()
     {
         myAnimator = GetComponent<Animator>();
