@@ -28,21 +28,34 @@ public class Sound
     public void Play()
     {
         mySource.loop = false;
-        mySource.volume = myVolume * (1 + Random.Range(-myRandomVolume / 2f, myRandomVolume / 2f));
-        mySource.pitch = myPitch * (1 + Random.Range(-myRandomPitch / 2f, myRandomPitch / 2f));
-        mySource.Play();
+        StartAudio();
     }
 
     public void Loop()
     {
         mySource.loop = true;
+        StartAudio();
+    }
+
+    private void StartAudio()
+    {
+        if (mySource.isPlaying)
+        {
+            return;
+        }
+
         mySource.volume = myVolume * (1 + Random.Range(-myRandomVolume / 2f, myRandomVolume / 2f));
         mySource.pitch = myPitch * (1 + Random.Range(-myRandomPitch / 2f, myRandomPitch / 2f));
-        mySource.Play();
+        mySource.Play();        
     }
 
     public void Stop()
     {
+        if (!mySource.isPlaying)
+        {
+            return;
+        }
+
         mySource.Stop();
     }
 }
@@ -81,8 +94,7 @@ public class AudioManager : MonoBehaviour
 
         if (!myMute)
         {
-            PlayLoop("Ambience");
-            PlayLoop("Music");
+            PlayLoop("MusicMainMenu");
         }
     }
 
@@ -142,7 +154,7 @@ public class AudioManager : MonoBehaviour
         if (!myMute)
         {
             PlayLoop("Ambience");
-            PlayLoop("Music");
+            PlayLoop("MusicMainMenu");
             return;
         }
 
@@ -156,5 +168,19 @@ public class AudioManager : MonoBehaviour
     public bool IsMuted()
     {
         return myMute;
+    }
+
+    public void Stop(string aName)
+    {
+        for (int i = 0; i < mySounds.Length; i++)
+        {
+            if (mySounds[i].myName == aName)
+            {
+                mySounds[i].Stop();
+                return;
+            }
+        }
+
+        Debug.LogError("AudioManager: No sound with name: " + aName + " exists.");
     }
 }
