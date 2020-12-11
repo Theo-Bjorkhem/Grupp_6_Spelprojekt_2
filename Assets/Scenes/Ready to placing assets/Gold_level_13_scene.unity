@@ -5733,6 +5733,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 953940044188277283, guid: 19c0537c8145c7b4d8dda9aede714688,
+        type: 3}
+      propertyPath: myBreakThreshold
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6619098921051798918, guid: 19c0537c8145c7b4d8dda9aede714688,
         type: 3}
       propertyPath: m_Name
