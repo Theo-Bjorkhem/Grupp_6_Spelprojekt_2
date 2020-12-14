@@ -39,6 +39,18 @@ public class Entity : MonoBehaviour
     /// <param name="aReason">Reason the entity was killed</param>
     public virtual void Kill(DeathReason aReason)
     {
+        PlayerAnimator playerAnimator = GetComponentInChildren<PlayerAnimator>();
+        if (playerAnimator != null)
+        {
+            if (aReason == DeathReason.Fall)
+            {
+                GetComponentInChildren<PlayerAnimator>().Fall();
+            }
+            else
+            {
+                GetComponentInChildren<PlayerAnimator>().Death();
+            }
+        }        
         StageManager.ourInstance.UnregisterEntity(this);
         if (AudioManager.ourInstance != null)
         {

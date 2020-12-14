@@ -6,8 +6,6 @@ public class MoveableBox : Entity
 
     private HoleTile myHoleTile;
 
-    private Collider myCollider;
-
     private bool myIsInMove = false;
 
     private MoveableBoxAnimator myAnimator;
@@ -34,8 +32,6 @@ public class MoveableBox : Entity
     public void OnFellInHole(HoleTile aHoleTile)
     {
         myHoleTile = aHoleTile;
-
-        myCollider.enabled = false;
 
         StageManager.ourInstance.UnregisterEntity(this);
 
@@ -84,7 +80,6 @@ public class MoveableBox : Entity
     {
         myAnimator = GetComponent<MoveableBoxAnimator>();
 
-        myCollider = GetComponent<Collider>();
         myMoveSound = "BoxMove";
     }
 }
