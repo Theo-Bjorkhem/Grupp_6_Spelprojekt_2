@@ -60,6 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa6bee6a5f98d2b46b8afc62665a2b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myCameraShake: {fileID: 4835673307992443110, guid: fe343f4cecbadaf44af3b5afc7e16a9d,
+    type: 3}
   myKickAnimationCurve:
     serializedVersion: 2
     m_Curve:

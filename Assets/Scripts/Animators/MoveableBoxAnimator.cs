@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class MoveableBoxAnimator : MonoBehaviour
 {
+    public CameraShake_script myCameraShake;
+
     private struct ActionData
     {
         public IEnumerator myCoroutine;
@@ -116,6 +118,8 @@ public class MoveableBoxAnimator : MonoBehaviour
         }
 
         transform.position = endPos;
+
+        //StartCoroutine(myCameraShake.ShakeCamera());
     }
 
     private void CompleteAllActions()
