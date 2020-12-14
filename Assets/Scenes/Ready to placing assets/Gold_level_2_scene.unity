@@ -2876,11 +2876,6 @@ PrefabInstance:
       propertyPath: myGridHeight
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 8973547958284570925, guid: ec6086e186ec6e94d8cc92ab1ce6b1ab,
-        type: 3}
-      propertyPath: myStageTurnCount
-      value: 21
-      objectReference: {fileID: 0}
     - target: {fileID: 8973547958284570926, guid: ec6086e186ec6e94d8cc92ab1ce6b1ab,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4264,7 +4259,7 @@ Transform:
   - {fileID: 357292160}
   - {fileID: 1384135872}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1287945636
 =======
