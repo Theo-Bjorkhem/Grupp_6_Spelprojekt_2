@@ -1,27 +1,24 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class WinTile : Tile
+public class UnlockNextLevel : MonoBehaviour
 {
     public int nextSceneLoad;
-    protected override void Start()
+
+    // Start is called before the first frame update
+    void Start()
     {
-        base.Start();
-
         nextSceneLoad = SceneManager.GetActiveScene().buildIndex + 1;
-
-        StageManager.ourInstance.RegisterTileForTurnEvents(this);
     }
 
-    public override void OnEnter(Entity steppedOnMe)
+    public void OnTriggerEnter(Collider other)
     {
-        if (steppedOnMe is Player)
+        if (other.gameObject.tag == "Player")
         {
-            //LevelControlScript.instance.youWin();
-            StageManager.ourInstance.OnPlayerWon();
-            
             Debug.Log("You hit!");
-            if (SceneManager.GetActiveScene().buildIndex == 7)
+            if (SceneManager.GetActiveScene().buildIndex == 7) 
             {
                 Debug.Log("You Completed ALL Levels");
             }
@@ -35,6 +32,5 @@ public class WinTile : Tile
                 }
             }
         }
-        base.OnEnter(steppedOnMe);
     }
 }

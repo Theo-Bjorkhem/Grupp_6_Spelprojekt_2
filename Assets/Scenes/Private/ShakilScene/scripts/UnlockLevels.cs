@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class UnlockLevels : MonoBehaviour
 {
-    public Button lv2, lv3, lv4, lv5, lv6;
+    public Button lv2, lv3;
     int levelPassed;
 
     // Start is called before the first frame update
@@ -16,9 +16,13 @@ public class UnlockLevels : MonoBehaviour
         levelPassed = PlayerPrefs.GetInt("LevelPassed");
         lv2.interactable = false;
         lv3.interactable = false;
-        lv4.interactable = false;
-        lv5.interactable = false;
-        lv6.interactable = false;
+
+        
+
+        //if (levelPassed)
+        //{
+        //    lv2.interactable = true;
+        //}
 
         switch (levelPassed)
         {
@@ -28,24 +32,6 @@ public class UnlockLevels : MonoBehaviour
             case 2:
                 lv2.interactable = true;
                 lv3.interactable = true;
-                break;
-            case 3:
-                lv2.interactable = true;
-                lv3.interactable = true;
-                lv4.interactable = true;
-                break;
-            case 4:
-                lv2.interactable = true;
-                lv3.interactable = true;
-                lv4.interactable = true;
-                lv5.interactable = true;
-                break;
-            case 5:
-                lv2.interactable = true;
-                lv3.interactable = true;
-                lv4.interactable = true;
-                lv5.interactable = true;
-                lv6.interactable = true;
                 break;
         }
     }
