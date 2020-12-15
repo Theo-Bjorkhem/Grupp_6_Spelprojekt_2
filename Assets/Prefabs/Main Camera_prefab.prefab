@@ -87,5 +87,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be1196f0f65d664f883331a46459977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myDuration: 1.5
-  myMagnitude: 50
+  myDuration: 2
+  myMagnitude: 2

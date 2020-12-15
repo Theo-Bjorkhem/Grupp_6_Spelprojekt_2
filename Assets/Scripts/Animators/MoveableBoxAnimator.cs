@@ -119,7 +119,7 @@ public class MoveableBoxAnimator : MonoBehaviour
 
         transform.position = endPos;
 
-        //StartCoroutine(myCameraShake.ShakeCamera());
+        myCameraShake.ShakeCamera();
     }
 
     private void CompleteAllActions()
