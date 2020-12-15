@@ -45,6 +45,8 @@ public class CameraShake_script : MonoBehaviour
             Debug.Log("Pressed P");
         }
     }
+    
+    //
     private void ResetCamera()
     {
         myTimeElapsed = 0.0f;
