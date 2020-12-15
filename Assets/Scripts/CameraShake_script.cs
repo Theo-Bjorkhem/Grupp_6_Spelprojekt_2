@@ -16,16 +16,16 @@ public class CameraShake_script : MonoBehaviour
     public void ShakeCamera()
     {
         Debug.Log("In ShakeCamera Script");
-        Vector3 originalPos = transform.position;
+        originalPos = transform.position;
         myShake = true;
         myTimeElapsed = 0.0f;
         Debug.Log(myShake);
     }
-    private void Update()
+    private void UpdateThisPlease()
     {
         Debug.Log(myShake);
 
-        if (myShake)
+        if (myShake == true)
         {
             float x = myMagnitude * Time.deltaTime;
             float y = myMagnitude * Time.deltaTime;
