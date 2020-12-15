@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2609207351488803488
 Transform:
@@ -93,11 +93,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4780072770720950627, guid: 09ea8df3df5ae104b80e198ff515ffc6,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 64cc3543eacd20f4f9383c0ba1352ee0, type: 2}
+    - target: {fileID: -3091694489911000823, guid: 09ea8df3df5ae104b80e198ff515ffc6,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 09ea8df3df5ae104b80e198ff515ffc6,
         type: 3}
       propertyPath: m_Name
       value: tileBase3_mesh
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 09ea8df3df5ae104b80e198ff515ffc6,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040542448765327740, guid: 09ea8df3df5ae104b80e198ff515ffc6,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310473061859694688, guid: 09ea8df3df5ae104b80e198ff515ffc6,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 64cc3543eacd20f4f9383c0ba1352ee0, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09ea8df3df5ae104b80e198ff515ffc6, type: 3}
 --- !u!4 &9160099907956286845 stripped

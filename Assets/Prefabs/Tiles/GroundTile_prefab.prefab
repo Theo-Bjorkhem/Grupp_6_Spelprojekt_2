@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8154423829439374118
 Transform:
@@ -139,8 +139,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 6271573414225017425, guid: 00f3efc0328b98a4cb7434b470627945,
-        type: 3}
+      objectReference: {fileID: 2100000, guid: 64cc3543eacd20f4f9383c0ba1352ee0, type: 2}
     - target: {fileID: -5754084199372789682, guid: 124028b57f851614aa5f3346678d4264,
         type: 3}
       propertyPath: m_Mesh
@@ -151,6 +150,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlenderCube
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 124028b57f851614aa5f3346678d4264,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 124028b57f851614aa5f3346678d4264, type: 3}

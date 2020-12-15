@@ -62,10 +62,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 003d21a2ff0adec4b9dc3f8b95fa3c5c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: fc79c43261ddb014aae5072d517786c9, type: 2}
     - target: {fileID: 919132149155446097, guid: 003d21a2ff0adec4b9dc3f8b95fa3c5c,
         type: 3}
       propertyPath: m_Name
-      value: tileBreakable2_mesh
+      value: tileBreakable2_mesh Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 003d21a2ff0adec4b9dc3f8b95fa3c5c, type: 3}
