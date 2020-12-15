@@ -10,7 +10,7 @@ public class UnlockNextLevel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        nextSceneLoad = SceneManager.GetActiveScene().buildIndex + 1;
+        nextSceneLoad = SceneManager.GetActiveScene().buildIndex - 3;
     }
 
     public void OnTriggerEnter(Collider other)
@@ -18,7 +18,7 @@ public class UnlockNextLevel : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("You hit!");
-            if (SceneManager.GetActiveScene().buildIndex == 7) 
+            if (SceneManager.GetActiveScene().buildIndex == 12) 
             {
                 Debug.Log("You Completed ALL Levels");
             }

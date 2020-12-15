@@ -8,7 +8,7 @@ public class WinTile : Tile
     {
         base.Start();
 
-        nextSceneLoad = SceneManager.GetActiveScene().buildIndex + 1;
+        nextSceneLoad = SceneManager.GetActiveScene().buildIndex - 3;
 
         StageManager.ourInstance.RegisterTileForTurnEvents(this);
     }
@@ -17,13 +17,11 @@ public class WinTile : Tile
     {
         if (steppedOnMe is Player)
         {
-            //LevelControlScript.instance.youWin();
             StageManager.ourInstance.OnPlayerWon();
             
-            Debug.Log("You hit!");
-            if (SceneManager.GetActiveScene().buildIndex == 7)
+            if (SceneManager.GetActiveScene().buildIndex == 11)
             {
-                Debug.Log("You Completed ALL Levels");
+                Debug.Log("Level 11");
             }
             else
             {

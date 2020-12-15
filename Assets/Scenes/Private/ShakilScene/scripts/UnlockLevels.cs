@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
+/// <summary>
+/// Not useable
+/// </summary>
 public class UnlockLevels : MonoBehaviour
 {
     public Button lv2, lv3;

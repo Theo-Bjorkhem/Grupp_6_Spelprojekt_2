@@ -20,11 +20,9 @@ public class LevelSelection : MonoBehaviour
         }
     }
 
-    //public void resetPlayerPrefs()
-    //{
-    //    //lvlButtons.interactable = false;
-    //    PlayerPrefs.DeleteAll();
-    //}
-
-   
+    public void resetPlayerPrefs()
+    {
+        //lvlButtons.interactable = false;
+        PlayerPrefs.DeleteAll();
+    }
 }

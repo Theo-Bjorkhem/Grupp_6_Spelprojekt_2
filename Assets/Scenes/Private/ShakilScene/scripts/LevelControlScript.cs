@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// Not useable
+/// </summary>
 public class LevelControlScript : MonoBehaviour
 {
     public static LevelControlScript instance = null;
