@@ -62,10 +62,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1cae4aa9dc4a13f40aa3d2d500e26302,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 64cc3543eacd20f4f9383c0ba1352ee0, type: 2}
     - target: {fileID: 919132149155446097, guid: 1cae4aa9dc4a13f40aa3d2d500e26302,
         type: 3}
       propertyPath: m_Name
-      value: propTorch1_mesh
+      value: propTorch1_prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1cae4aa9dc4a13f40aa3d2d500e26302,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cae4aa9dc4a13f40aa3d2d500e26302, type: 3}

@@ -16,40 +16,40 @@ EditorBuildSettings:
     guid: 802735bb488fc684ba4d369fd9ad4d59
   - enabled: 1
     path: Assets/Scenes/Official/Stage1_scene.unity
-    guid: edb7296a460b68a44b9a288384189195
+    guid: b63095808205b444e97f27df85f4ec82
   - enabled: 1
     path: Assets/Scenes/Official/Stage2_scene.unity
-    guid: d43b50ea2702af944a1e5dd93946a91f
+    guid: 78ac9c024717ee14ba7bfdc1384e8dae
   - enabled: 1
     path: Assets/Scenes/Official/Stage3_scene.unity
-    guid: e3eff74a00e137446b770be6b82d08b5
+    guid: 53af50f4b7e92ae4096573a7be3c5757
   - enabled: 1
     path: Assets/Scenes/Official/Stage4_scene.unity
-    guid: 673719801c69b6740b330c7eb5ba701f
+    guid: e8e56ec96822b064d92ab745153874f4
   - enabled: 1
     path: Assets/Scenes/Official/Stage5_scene.unity
-    guid: a22a43dfa6ee4a04591441b3335c04ba
+    guid: 5c3cad87e6cb2254bb3b4ae1f6db9c87
   - enabled: 1
     path: Assets/Scenes/Official/Stage6_scene.unity
-    guid: b9bb65cfb83650d4b9146825ed2a6fac
+    guid: f7ca8f072c2a9164f9543f7d6da91888
   - enabled: 1
     path: Assets/Scenes/Official/Stage7_scene.unity
-    guid: be4a24eaa70b9b64b867bdffc62b1f40
+    guid: e3f78461f44e1204fa436652a30f4464
   - enabled: 1
     path: Assets/Scenes/Official/Stage8_scene.unity
-    guid: b20916c6775831749985af66a8251f65
+    guid: 64a4147718cf9ed4f9266791796bf013
   - enabled: 1
     path: Assets/Scenes/Official/Stage9_scene.unity
-    guid: 7e9f208c70242124fbdaee93dfe3ea5f
+    guid: d67687e2c4b015347a041fc6c38462db
   - enabled: 1
     path: Assets/Scenes/Official/Stage10_scene.unity
-    guid: 14557f4966b08d3499f0d0f3ee275070
+    guid: d00a49c504cee8d48b4516ad2cd25ea7
   - enabled: 1
     path: Assets/Scenes/Official/Stage11_scene.unity
-    guid: 0fb6b27c4e0744347b31a58fe43e85d2
+    guid: 1d1609d1d74e4c4469545cf0437cd38e
   - enabled: 1
     path: Assets/Scenes/Official/Stage12_scene.unity
-    guid: 3f3811b84f1df8e43853ef08b20a2860
+    guid: c65cee0b98b1c3747addad03a50a0908
   - enabled: 1
     path: Assets/Scenes/UI/HUD1_scene.unity
     guid: 4d7e05df3df7f2640bc1841da85b934d
@@ -62,4 +62,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI/Tutorial_scene.unity
     guid: e19a9d209204bb542a6b1dbd619bdbac
+  - enabled: 1
+    path: Assets/Scenes/UI/Victory_scene.unity
+    guid: be11e3d536357dd478a8753522c6a65f
   m_configObjects: {}

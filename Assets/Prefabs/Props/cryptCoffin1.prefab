@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 3007842728945171009}
   - component: {fileID: 1034409885696282251}
   m_Layer: 0
-  m_Name: cryptCoffin1_mesh
+  m_Name: cryptCoffin1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2166753224144172516
 Transform:
@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 6271573414225017425, guid: 3d9db103a0c487347b49f178e2df8b9f, type: 3}
+  - {fileID: 2100000, guid: 64cc3543eacd20f4f9383c0ba1352ee0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
