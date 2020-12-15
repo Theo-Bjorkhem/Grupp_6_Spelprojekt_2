@@ -47,5 +47,6 @@ public class MainMenuUI : MonoBehaviour
             item.SetActive(false);
         }
         Canvases[0].SetActive(true);
+        Canvases[3].SetActive(true);
     }
 }
