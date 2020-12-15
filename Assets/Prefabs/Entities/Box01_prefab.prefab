@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myMoveSound: PlayerMove
-  myFallDust: {fileID: 4501328049260727761}
 --- !u!114 &4540405939099314230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +112,7 @@ MonoBehaviour:
   myKickDuration: 0.5
   myFallDuration: 0.35
   myFallDepth: 0.8
+  myFallDust: {fileID: 4501328049260727761}
 --- !u!1 &8584385155602533016
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8584385155602533016}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.8, z: -0.5}
+  m_LocalPosition: {x: -0.5, y: 0, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2241130927400768047}
