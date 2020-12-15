@@ -40,13 +40,24 @@ public class GameManager : MonoBehaviour
     public void TransitionToNextStage()
     {
         // TODO: Check that the next stage exists.
-        if (myIsInStage)
+        if (myCurrentStageIndex + 1 < 12)
         {
             TransitionToStage(myCurrentStageIndex + 1);
         }
         else
         {
-            TransitionToMainMenu();
+            print("dsd");
+            if (!SceneManager.GetSceneByName("Victory_scene").isLoaded)
+            {
+                Time.timeScale = 0;
+                SceneManager.GetSceneByName("HUD1_scene").GetRootGameObjects()[0].SetActive(false);
+                if (AudioManager.ourInstance != null)
+                {
+                    AudioManager.ourInstance.PlaySound("Pause");
+                }
+                SceneManager.LoadScene("Victory_scene", LoadSceneMode.Additive);
+            }
+
         }
     }
 
@@ -70,7 +81,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError($"Failed to load scene {stageSceneName}!");
             yield break;
         }
-        
+
         // TODO: Add UI scenes that need to be loaded on stage load here!
         SceneManager.LoadScene("uiBase_scene", LoadSceneMode.Additive);
         SceneManager.LoadScene("HUD1_scene", LoadSceneMode.Additive);
@@ -119,7 +130,7 @@ public class GameManager : MonoBehaviour
                 AudioManager.ourInstance.Stop("Ambience2");
                 AudioManager.ourInstance.PlayLoop("Ambience3");
             }
-        }        
+        }
 
         Debug.Assert(StageManager.ourInstance != null, "No StageManager in loaded stage!");
     }
