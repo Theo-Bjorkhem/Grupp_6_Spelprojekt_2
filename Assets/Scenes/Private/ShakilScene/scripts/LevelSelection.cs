@@ -13,7 +13,7 @@ public class LevelSelection : MonoBehaviour
 
         for (int i = 0; i < lvlButtons.Length; i++)
         {
-            if (i + 0 > levelAt)
+            if (i - 0 > levelAt)
             {
                 lvlButtons[i].interactable = false;
             }
