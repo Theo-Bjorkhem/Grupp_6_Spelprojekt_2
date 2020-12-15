@@ -19,8 +19,6 @@ public class UnlockLevels : MonoBehaviour
         lv2.interactable = false;
         lv3.interactable = false;
 
-        
-
         //if (levelPassed)
         //{
         //    lv2.interactable = true;

@@ -17,9 +17,15 @@ public class WinTile : Tile
     {
         if (steppedOnMe is Player)
         {
+            //if (SceneManager.GetActiveScene().buildIndex)
+            //{
+            //    Debug.Log("Hello");
+            //    //SceneManager.GetActiveScene().buildIndex = 0
+            //    //SceneManager.LoadScene("mainMenu_scene");
+            //}
             StageManager.ourInstance.OnPlayerWon();
-            
-            if (SceneManager.GetActiveScene().buildIndex == 11)
+
+            if (SceneManager.GetActiveScene().buildIndex == 7)
             {
                 Debug.Log("Level 11");
             }

@@ -1,18 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DeletePlayerPrefs : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void resetPlayerPrefs()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //lvlButtons.interactable = false;
+        PlayerPrefs.DeleteAll();
     }
 }
