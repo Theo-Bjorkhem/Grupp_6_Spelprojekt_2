@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class MoveableBoxAnimator : MonoBehaviour
 {
@@ -28,6 +29,9 @@ public class MoveableBoxAnimator : MonoBehaviour
     [SerializeField]
     [Range(0.0f, 1.0f)]
     private float myFallDepth = 0.8f;
+
+    [SerializeField]
+    private VisualEffect myFallDust;
 
     private System.Collections.Generic.Queue<ActionData> myActionQueue = new System.Collections.Generic.Queue<ActionData>(2);
     
@@ -101,6 +105,12 @@ public class MoveableBoxAnimator : MonoBehaviour
     {
         yield return null; // Don't do anything immediately when queued
 
+        if (myFallDust != null)
+        {
+            myFallDust.transform.SetParent(null, true);
+            myFallDust.Play();
+        }
+
         Vector3 startPos = transform.position;
         Vector3 endPos = new Vector3(startPos.x, StageManager.ourInstance.myTileSize * -myFallDepth, startPos.z);
 
@@ -119,7 +129,7 @@ public class MoveableBoxAnimator : MonoBehaviour
 
         transform.position = endPos;
 
-        //StartCoroutine(myCameraShake.ShakeCamera());
+        //myCameraShake.ShakeCamera();
     }
 
     private void CompleteAllActions()

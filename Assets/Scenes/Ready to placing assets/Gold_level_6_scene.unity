@@ -10583,8 +10583,8 @@ Transform:
   - {fileID: 297226872}
   - {fileID: 1653185815}
   - {fileID: 2084566165}
-  - {fileID: 505372860}
   - {fileID: 1335545345}
+  - {fileID: 505372860}
   m_Father: {fileID: 1342241170}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
