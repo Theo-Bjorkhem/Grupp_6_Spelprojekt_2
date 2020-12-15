@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.VFX;
 
 public class MoveableBox : Entity
 {
@@ -9,6 +10,9 @@ public class MoveableBox : Entity
     private bool myIsInMove = false;
 
     private MoveableBoxAnimator myAnimator;
+
+    [SerializeField]
+    private VisualEffect myFallDust;
 
     public override InteractResult Interact(Entity anEntity, Direction aDirection)
     {
@@ -73,6 +77,7 @@ public class MoveableBox : Entity
 
     private void TriggerFallAnimation()
     {
+        myFallDust.Play();
         myAnimator.DoFall();
     }
 
