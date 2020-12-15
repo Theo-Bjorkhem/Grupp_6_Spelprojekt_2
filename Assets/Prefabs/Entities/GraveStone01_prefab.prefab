@@ -148,6 +148,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: propGravestone01_mesh
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3b19543a1ec01e74b9fe641881ba34c5,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b19543a1ec01e74b9fe641881ba34c5, type: 3}
 --- !u!4 &880894675716080310 stripped

@@ -148,6 +148,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: propStone02_mesh
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 01ce3da3cdfb900408e3c07fe72207ff,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01ce3da3cdfb900408e3c07fe72207ff, type: 3}
 --- !u!4 &5912204007529670029 stripped
