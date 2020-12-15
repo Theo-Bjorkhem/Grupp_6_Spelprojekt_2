@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.VFX;
 
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimator : MonoBehaviour
@@ -12,6 +13,11 @@ public class PlayerAnimator : MonoBehaviour
 
     [Tooltip("A transform that is used during animations to animate position shifting")]
     [SerializeField] private Transform myAnimationPositionRoot;
+
+    [Header("VFX")]
+
+    [SerializeField]
+    private VisualEffect myDustBurst;
 
     private Animator myAnimator;
 
@@ -89,12 +95,32 @@ public class PlayerAnimator : MonoBehaviour
         myAnimator.SetTrigger("Kick");
     }
 
+    public void StopVFX()
+    {
+        OnDisableDust();
+    }
+
     /// <summary>
     /// Called from Animation Events when a Turn Animation has ended
     /// </summary>
     private void OnTurnAnimationEnded()
     {
         myOnTurnAnimationEnd?.Invoke();
+    }
+
+    /// <summary>
+    /// Called from Animation event.
+    /// </summary>
+    private void OnEnableDust()
+    {
+        myDustBurst.Play();
+    }
+
+    /// <summary>
+    /// Called from Animation event.
+    /// </summary>
+    private void OnDisableDust()
+    {
     }
 
     private void RotateTowardsDirection(Direction aDirection)
