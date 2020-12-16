@@ -179,7 +179,7 @@ MonoBehaviour:
     myRandomVolume: 0
     myRandomPitch: 0
   - myName: BoxFalls
-    myClip: {fileID: 8300000, guid: 4413f3768d8345f499de48a920b056d1, type: 3}
+    myClip: {fileID: 8300000, guid: 442e70284bae26f4f96f021f71b2c8a9, type: 3}
     myVolume: 0.05
     myPitch: 1
     myRandomVolume: 0
