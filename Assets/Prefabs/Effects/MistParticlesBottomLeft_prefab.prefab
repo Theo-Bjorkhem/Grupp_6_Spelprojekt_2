@@ -27,8 +27,6 @@ Transform:
   m_LocalPosition: {x: -3, y: 0.25, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6032792307175999364}
-  - {fileID: 1307893628366816507}
   - {fileID: 8518180340137674866}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -48,7 +46,7 @@ PrefabInstance:
     - target: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
         type: 3}
@@ -72,84 +70,4 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
     type: 3}
   m_PrefabInstance: {fileID: 1358834309097216659}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &3987343572631967077
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 7052175989406151751}
-    m_Modifications:
-    - target: {fileID: 7272516774460199648, guid: af246912264d6d04d9a9a3477b9ad46b,
-        type: 3}
-      propertyPath: m_Name
-      value: MistLongParticlesEmitter_prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: af246912264d6d04d9a9a3477b9ad46b, type: 3}
---- !u!4 &6032792307175999364 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
-    type: 3}
-  m_PrefabInstance: {fileID: 3987343572631967077}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &8560139110109943322
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 7052175989406151751}
-    m_Modifications:
-    - target: {fileID: 7272516774460199648, guid: af246912264d6d04d9a9a3477b9ad46b,
-        type: 3}
-      propertyPath: m_Name
-      value: MistLongParticlesEmitter_prefab (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: af246912264d6d04d9a9a3477b9ad46b, type: 3}
---- !u!4 &1307893628366816507 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7272516774460199649, guid: af246912264d6d04d9a9a3477b9ad46b,
-    type: 3}
-  m_PrefabInstance: {fileID: 8560139110109943322}
   m_PrefabAsset: {fileID: 0}
