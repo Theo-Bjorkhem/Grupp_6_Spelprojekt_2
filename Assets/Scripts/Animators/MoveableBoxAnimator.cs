@@ -57,7 +57,7 @@ public class MoveableBoxAnimator : MonoBehaviour
         // Wait until player is in pushing or kicking animation
         while (true)
         {
-            if (myPlayerAnimator.IsInState("Push"))
+            if (myPlayerAnimator.IsInState("Push") || myPlayerAnimator.IsInState("Fall") || myPlayerAnimator.IsInState("Death"))
             {
                 Transform positionRoot = myPlayerAnimator.GetAnimationPositionRoot();
 
