@@ -31,6 +31,11 @@ public partial class Player : Entity
     {
         base.Kill(aReason);
 
+        if (aReason == DeathReason.Fall)
+        {
+            myAnimator.Fall();
+        }
+
         myAnimator.StopVFX();
     }
 
