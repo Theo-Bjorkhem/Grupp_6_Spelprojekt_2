@@ -9,47 +9,22 @@ public class CameraShake_script : MonoBehaviour
     [SerializeField] float myDuration;
     [Tooltip("Maximum length the Camera can move from its original position (in pixels).")]
     [SerializeField] float myMagnitude;
-    private float myTimeElapsed = 0.0f;
-    private bool myShake;
-    private Vector3 originalPos;
 
-    public void ShakeCamera()
+    public IEnumerator CameraShake()
     {
-        Debug.Log("In ShakeCamera Script");
-        originalPos = transform.position;
-        myShake = true;
-        myTimeElapsed = 0.0f;
-        Debug.Log(myShake);
-    }
-    private void UpdateThisPlease()
-    {
-        Debug.Log(myShake);
+        Vector3 originalPos = transform.localPosition;
+        float timeElapsed = 0.0f;
 
-        if (myShake == true)
+        while(timeElapsed < myDuration)
         {
-            float x = myMagnitude * Time.deltaTime;
-            float y = myMagnitude * Time.deltaTime;
-            transform.position = new Vector3(Random.insideUnitSphere.x + x, Random.insideUnitSphere.x + y, transform.position.z);
-            myTimeElapsed += Time.deltaTime;
-            transform.localPosition = originalPos;
-            if (myTimeElapsed >= myDuration)
-            {
-                ResetCamera();
-            }
-            Debug.Log("Camera Should Shake");
-        }
+            float x = Random.Range(-1f, 1f) * myMagnitude;
+            float y = Random.Range(-1f, 1f) * myMagnitude;
 
-        if (Input.GetKeyDown("p"))
-        {
-            transform.position = new Vector3(Random.insideUnitSphere.x, Random.insideUnitSphere.x, transform.position.z);
-            Debug.Log("Pressed P");
+            transform.localPosition = new Vector3(x, y, originalPos.z);
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
         }
-    }
-    
-    //
-    private void ResetCamera()
-    {
-        myTimeElapsed = 0.0f;
-        myShake = false;
+        transform.localPosition = originalPos;
     }
 }
