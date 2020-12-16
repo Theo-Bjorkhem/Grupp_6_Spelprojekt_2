@@ -21,12 +21,14 @@ public class CameraShake_script : MonoBehaviour
         myTimeElapsed = 0.0f;
         Debug.Log(myShake);
     }
-    private void UpdateThisPlease()
+    private void Update()
     {
         Debug.Log(myShake);
 
         if (myShake == true)
         {
+            Debug.Log(myTimeElapsed);
+
             float x = myMagnitude * Time.deltaTime;
             float y = myMagnitude * Time.deltaTime;
             transform.position = new Vector3(Random.insideUnitSphere.x + x, Random.insideUnitSphere.x + y, transform.position.z);
@@ -34,6 +36,7 @@ public class CameraShake_script : MonoBehaviour
             transform.localPosition = originalPos;
             if (myTimeElapsed >= myDuration)
             {
+                Debug.Log("In if-state.");
                 ResetCamera();
             }
             Debug.Log("Camera Should Shake");
@@ -46,7 +49,6 @@ public class CameraShake_script : MonoBehaviour
         }
     }
     
-    //
     private void ResetCamera()
     {
         myTimeElapsed = 0.0f;
