@@ -157,6 +157,11 @@ public class Entity : MonoBehaviour
             }
         }
 
+        if (!enabled)
+        {
+            return;
+        }
+
         Vector2Int gridPosition = myStageManagerUE.GetTilePositionFromWorldTile(transform.position);
 
         Vector3 center = myStageManagerUE.GetEntityWorldPositionFromTilePosition(gridPosition) - new Vector3(myStageManagerUE.myTileSize, 0.0f, myStageManagerUE.myTileSize) * 0.5f;

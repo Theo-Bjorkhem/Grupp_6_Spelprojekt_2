@@ -89,7 +89,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5734227869409726635}
   - component: {fileID: 6478212980888302661}
-  - component: {fileID: 4247327407620696744}
   m_Layer: 0
   m_Name: WinTile_prefab
   m_TagString: Untagged
@@ -125,15 +124,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myForceDisallowEnter: 0
---- !u!114 &4247327407620696744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4962898006199208465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beb854e1b48052a4f9a0f9073914ca5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
