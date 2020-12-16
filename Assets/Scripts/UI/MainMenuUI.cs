@@ -49,4 +49,9 @@ public class MainMenuUI : MonoBehaviour
         Canvases[0].SetActive(true);
         Canvases[3].SetActive(true);
     }
+
+    public void OnQuitPressed()
+    {
+        GameManager.ourInstance.Quit();
+    }
 }
