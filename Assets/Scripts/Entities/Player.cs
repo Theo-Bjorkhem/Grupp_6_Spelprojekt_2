@@ -93,6 +93,13 @@ public partial class Player : Entity
         // Wait a frame for animator to start transition
         yield return null;
 
+        // QUICK FIX
+        if (IsDead())
+        {
+            SetTurnHandled();
+            yield break;
+        }
+
         while (myAnimator.myIsInTransition || !myAnimator.myIsInIdleState)
             yield return null;
 
