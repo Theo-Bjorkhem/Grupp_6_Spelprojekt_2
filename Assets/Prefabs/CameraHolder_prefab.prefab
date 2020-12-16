@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be1196f0f65d664f883331a46459977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myDuration: 0.05
+  myDuration: 0.35
   myMagnitude: 0.04
 --- !u!1001 &4178313411968084456
 PrefabInstance:

@@ -114,6 +114,9 @@ public class MoveableBoxAnimator : MonoBehaviour
 
         float elapsed = 0.0f;
 
+        CameraShake_script myCameraShake = Camera.main.GetComponent<CameraShake_script>();
+        StartCoroutine(myCameraShake.CameraShake());
+
         while (elapsed <= myFallDuration)
         {
             elapsed += Time.deltaTime;
@@ -122,8 +125,7 @@ public class MoveableBoxAnimator : MonoBehaviour
 
             transform.position = Vector3.Lerp(startPos, endPos, myFallAnimationCurve.Evaluate(time));
 
-            CameraShake_script myCameraShake = Camera.main.GetComponent<CameraShake_script>();
-            StartCoroutine(myCameraShake.CameraShake());
+
 
             yield return null;
         }
