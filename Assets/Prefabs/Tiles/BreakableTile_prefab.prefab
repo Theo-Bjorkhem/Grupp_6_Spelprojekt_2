@@ -198,6 +198,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlenderCube
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 124028b57f851614aa5f3346678d4264,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 124028b57f851614aa5f3346678d4264, type: 3}
 --- !u!4 &850376599898755849 stripped
