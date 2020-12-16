@@ -1039,45 +1039,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2095626982904366675, guid: 0ae99e23e503d4087983d5bd67cc99b5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 8.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 2293999195673693479, guid: 0ae99e23e503d4087983d5bd67cc99b5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.17
-      objectReference: {fileID: 0}
-    - target: {fileID: 2812299209645381880, guid: 0ae99e23e503d4087983d5bd67cc99b5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6.65
-      objectReference: {fileID: 0}
-    - target: {fileID: 4831170758526627766, guid: 0ae99e23e503d4087983d5bd67cc99b5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -4.14
-      objectReference: {fileID: 0}
     - target: {fileID: 7136966183674572483, guid: 0ae99e23e503d4087983d5bd67cc99b5,
         type: 3}
       propertyPath: m_Name
       value: MistParticles_prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 7759104347686027385, guid: 0ae99e23e503d4087983d5bd67cc99b5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5.73
-      objectReference: {fileID: 0}
-    - target: {fileID: 7759104347686027385, guid: 0ae99e23e503d4087983d5bd67cc99b5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.81
-      objectReference: {fileID: 0}
-    - target: {fileID: 8834192537836476804, guid: 0ae99e23e503d4087983d5bd67cc99b5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.29
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ae99e23e503d4087983d5bd67cc99b5, type: 3}
