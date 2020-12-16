@@ -4,8 +4,6 @@ using UnityEngine.VFX;
 
 public class MoveableBoxAnimator : MonoBehaviour
 {
-    public CameraShake_script myCameraShake;
-
     private struct ActionData
     {
         public IEnumerator myCoroutine;
@@ -34,7 +32,7 @@ public class MoveableBoxAnimator : MonoBehaviour
     private VisualEffect myFallDust;
 
     private System.Collections.Generic.Queue<ActionData> myActionQueue = new System.Collections.Generic.Queue<ActionData>(2);
-    
+
     public void PreparePossibleMove()
     {
         CompleteAllActions();
@@ -57,7 +55,7 @@ public class MoveableBoxAnimator : MonoBehaviour
         transform.position = aFrom;
 
         // Wait until player is in pushing or kicking animation
-        while(true)
+        while (true)
         {
             if (myPlayerAnimator.IsInState("Push"))
             {
@@ -124,12 +122,13 @@ public class MoveableBoxAnimator : MonoBehaviour
 
             transform.position = Vector3.Lerp(startPos, endPos, myFallAnimationCurve.Evaluate(time));
 
+            CameraShake_script myCameraShake = Camera.main.GetComponent<CameraShake_script>();
+            StartCoroutine(myCameraShake.CameraShake());
+
             yield return null;
         }
 
         transform.position = endPos;
-
-        myCameraShake.ShakeCamera();
     }
 
     private void CompleteAllActions()
