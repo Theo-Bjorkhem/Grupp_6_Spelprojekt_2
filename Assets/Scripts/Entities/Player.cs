@@ -67,7 +67,15 @@ public partial class Player : Entity
         // NOTE: Special cased the HoleTile for now,
         // if we pushed a box that was on a BreakableTile and it broke and is now a HoleTile
         // we should not be able to move into that tile and die immediately.
-        bool couldMove = Move(aMovementDirection, tile => !(tile is HoleTile));
+        bool couldMove = Move(aMovementDirection, tile =>
+        {
+            if (tile is HoleTile holeTile)
+            {
+                return holeTile.myIsFilled;
+            }
+
+            return true;
+        });
 
         if (IsDead())
         {
